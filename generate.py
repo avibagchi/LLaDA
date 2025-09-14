@@ -68,12 +68,12 @@ def apply_watermark_to_logits(logits, green_mask, amplification, mask_positions)
     # Only apply watermark to masked positions
     mask_positions_expanded = mask_positions.unsqueeze(-1).expand_as(logits)  # [batch_size, seq_len, vocab_size]
     
-    # Apply amplification: logits = logits * (1 + green_mask * (amplification - 1))
+    # Apply amplification: add amplification value to green token logits
     # Only for masked positions
-    amplification_factor = 1 + green_mask_expanded * (amplification - 1)
+    amplification_addition = green_mask_expanded * amplification
     watermarked_logits = torch.where(
         mask_positions_expanded,
-        logits * amplification_factor,
+        logits + amplification_addition,
         logits
     )
     
@@ -276,51 +276,3 @@ def generate(model, prompt, steps=128, gen_length=128, block_length=128, tempera
             x[transfer_index] = x0[transfer_index]
 
     return x
-
-
-def main():
-    """Simple test without parameter sweep."""
-    device = 'cuda'
-
-    model = AutoModel.from_pretrained('GSAI-ML/LLaDA-8B-Instruct', trust_remote_code=True, torch_dtype=torch.bfloat16).to(device).eval()
-    tokenizer = AutoTokenizer.from_pretrained('GSAI-ML/LLaDA-8B-Instruct', trust_remote_code=True)
-
-    prompt = "Lily can run 12 kilometers per hour for 4 hours. After that, she runs 6 kilometers per hour. How many kilometers can she run in 8 hours?"
-
-    # Add special tokens for the Instruct model. The Base model does not require the following two lines.
-    m = [{"role": "user", "content": prompt}, ]
-    prompt_text = tokenizer.apply_chat_template(m, add_generation_prompt=True, tokenize=False)
-
-    input_ids = tokenizer(prompt_text)['input_ids']
-    input_ids = torch.tensor(input_ids).to(device).unsqueeze(0)
-
-    # Test with watermarking
-    print("Testing with watermarking (gamma=0.5, amplification=2.0)...")
-    out = generate(model, input_ids, steps=128, gen_length=128, block_length=32, 
-                  temperature=0., cfg_scale=0., remasking='low_confidence',
-                  gamma=0.5, amplification=2.0)
-    
-    generated_text = tokenizer.batch_decode(out[:, input_ids.shape[1]:], skip_special_tokens=True)[0]
-    print(f"Generated text: {generated_text}")
-    
-    # Calculate watermark detection
-    max_match_percent, actual_length, max_num_matches, best_start, match_arr = calculate_green_matches(
-        out[:, input_ids.shape[1]:], gamma=0.5
-    )
-    
-    true_num_green = 0.5 * actual_length
-    if math.sqrt(true_num_green * 0.5) == 0:
-        z_score = 0
-    else:
-        z_score = (max_num_matches - true_num_green) / math.sqrt(true_num_green * 0.5)
-    
-    print(f"\nWatermark Detection Results:")
-    print(f"  Z-score: {z_score:.4f}")
-    print(f"  Max match percent: {max_match_percent:.4f}")
-    print(f"  Actual length: {actual_length}")
-    print(f"  Max matches: {max_num_matches}")
-    print(f"  Best start: {best_start}")
-
-
-if __name__ == '__main__':
-    main()
