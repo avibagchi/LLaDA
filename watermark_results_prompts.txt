@@ -1,0 +1,11 @@
+prompt_idx,prompt,model_seed,gamma,amplification,step_to_watermark,match_percent,perplexity,z_score,source_file
+1,Write a short story about a cat.,1,0.025,0,50,0.03937007874015748,7.740628242492676,1.0372625452240196,prompts.txt
+2,Write a short story about a prince who saves a princess from a dragon.,1,0.025,0,50,0.047244094488188976,7.373198509216309,1.6056255837029345,prompts.txt
+3,Explain the concept of photosynthesis in simple terms.,1,0.025,0,50,0.041666666666666664,10.386934280395508,0.9058216273156766,prompts.txt
+4,What are the benefits of renewable energy?,1,0.025,0,50,0.013513513513513514,13.182084083557129,-0.6328936723924491,prompts.txt
+5,Describe the process of making bread from scratch.,1,0.025,0,50,0.03937007874015748,7.92529296875,1.0372625452240196,prompts.txt
+6,Write a poem about the ocean.,1,0.025,0,50,0.0234375,24.05300521850586,-0.11322770341445967,prompts.txt
+7,Explain how a computer processor works.,1,0.025,0,50,0.039603960396039604,8.55474853515625,0.9400674625907882,prompts.txt
+8,What are the main causes of climate change?,1,0.025,0,50,0.06,4.809901714324951,1.585187847802434,prompts.txt
+9,Describe your ideal vacation destination.,1,0.025,0,50,0.0390625,13.578557968139648,1.019049330730136,prompts.txt
+10,Write a creative story about a robot learning to feel emotions.,1,0.025,0,50,0.03937007874015748,9.570998191833496,1.0372625452240196,prompts.txt

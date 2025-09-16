@@ -6,6 +6,45 @@ import math
 from transformers import AutoTokenizer, AutoModel
 
 
+def get_special_token_ids(tokenizer):
+    """
+    Get a list of special token IDs from the tokenizer to exclude from watermarking amplification.
+    
+    Args:
+        tokenizer: The tokenizer object
+        
+    Returns:
+        list: List of special token IDs
+    """
+    special_tokens = []
+    
+    # Add common special token IDs
+    if hasattr(tokenizer, 'bos_token_id') and tokenizer.bos_token_id is not None:
+        special_tokens.append(tokenizer.bos_token_id)
+    if hasattr(tokenizer, 'eos_token_id') and tokenizer.eos_token_id is not None:
+        special_tokens.append(tokenizer.eos_token_id)
+    if hasattr(tokenizer, 'pad_token_id') and tokenizer.pad_token_id is not None:
+        special_tokens.append(tokenizer.pad_token_id)
+    if hasattr(tokenizer, 'unk_token_id') and tokenizer.unk_token_id is not None:
+        special_tokens.append(tokenizer.unk_token_id)
+    if hasattr(tokenizer, 'sep_token_id') and tokenizer.sep_token_id is not None:
+        special_tokens.append(tokenizer.sep_token_id)
+    if hasattr(tokenizer, 'cls_token_id') and tokenizer.cls_token_id is not None:
+        special_tokens.append(tokenizer.cls_token_id)
+    if hasattr(tokenizer, 'mask_token_id') and tokenizer.mask_token_id is not None:
+        special_tokens.append(tokenizer.mask_token_id)
+    
+    # Add any additional special tokens from special_tokens_map
+    if hasattr(tokenizer, 'special_tokens_map'):
+        for token_name, token_value in tokenizer.special_tokens_map.items():
+            if isinstance(token_value, str):
+                token_id = tokenizer.convert_tokens_to_ids(token_value)
+                if token_id != tokenizer.unk_token_id:  # Avoid duplicates
+                    special_tokens.append(token_id)
+    
+    return list(set(special_tokens))  # Remove duplicates
+
+
 def add_gumbel_noise(logits, temperature):
     '''
     The Gumbel max is a method for sampling categorical distributions.
@@ -49,7 +88,7 @@ def generate_green_mask(sequence_length, vocab_size, gamma, device, n=5):
     return green_mask
 
 
-def apply_watermark_to_logits(logits, green_mask, amplification, mask_positions):
+def apply_watermark_to_logits(logits, green_mask, amplification, mask_positions, special_token_ids=None):
     """
     Apply watermark by biasing logits for green tokens.
     
@@ -58,6 +97,7 @@ def apply_watermark_to_logits(logits, green_mask, amplification, mask_positions)
         green_mask: [seq_len, vocab_size] - binary mask for green tokens
         amplification: float - amplification factor for green tokens
         mask_positions: [batch_size, seq_len] - boolean mask for positions to watermark
+        special_token_ids: list of token IDs to exclude from amplification (optional)
     """
     if amplification <= 0:
         return logits
@@ -68,9 +108,17 @@ def apply_watermark_to_logits(logits, green_mask, amplification, mask_positions)
     # Only apply watermark to masked positions
     mask_positions_expanded = mask_positions.unsqueeze(-1).expand_as(logits)  # [batch_size, seq_len, vocab_size]
     
+    # Create special token mask to exclude special tokens from amplification
+    special_token_mask = torch.ones_like(green_mask_expanded, dtype=torch.bool)
+    if special_token_ids is not None:
+        for token_id in special_token_ids:
+            if token_id < logits.shape[-1]:  # Make sure token_id is within vocab size
+                special_token_mask[:, :, token_id] = False
+    
     # Apply amplification: add amplification value to green token logits
-    # Only for masked positions
+    # Only for masked positions and exclude special tokens
     amplification_addition = green_mask_expanded * amplification
+    amplification_addition = amplification_addition * special_token_mask  # Zero out special tokens
     watermarked_logits = torch.where(
         mask_positions_expanded,
         logits + amplification_addition,
@@ -168,7 +216,8 @@ def get_num_transfer_tokens(mask_index, steps):
 @ torch.no_grad()
 def generate(model, prompt, steps=128, gen_length=128, block_length=128, temperature=0.,
              cfg_scale=0., remasking='low_confidence', mask_id=126336, 
-             gamma=0.5, amplification=0.0, vocab_size=126464, watermark_steps=None):
+             gamma=0.5, amplification=0.0, vocab_size=126464, watermark_steps=None, 
+             special_token_ids=None):
     '''
     Args:
         model: Mask predictor.
@@ -187,6 +236,7 @@ def generate(model, prompt, steps=128, gen_length=128, block_length=128, tempera
                         If int, watermarks at steps 1 to watermark_steps.
                         If list, watermarks at the specified step indices.
                         If None, watermarks at all steps.
+        special_token_ids: List of token IDs to exclude from amplification (optional).
     '''
     # breakpoint()
     x = torch.full((1, prompt.shape[1] + gen_length), mask_id, dtype=torch.long).to(model.device)
@@ -250,7 +300,7 @@ def generate(model, prompt, steps=128, gen_length=128, block_length=128, tempera
                     current_block_mask[:, current_block_start:current_block_end] = True
                     current_block_mask = current_block_mask & mask_index
                     # breakpoint()
-                    logits = apply_watermark_to_logits(logits, full_green_mask, amplification, current_block_mask)
+                    logits = apply_watermark_to_logits(logits, full_green_mask, amplification, current_block_mask, special_token_ids)
 
             logits_with_noise = add_gumbel_noise(logits, temperature=temperature)
             x0 = torch.argmax(logits_with_noise, dim=-1) # b, l
