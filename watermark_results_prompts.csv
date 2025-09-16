@@ -1,0 +1,2 @@
+prompt_idx,prompt,model_seed,gamma,amplification,step_to_watermark,match_percent,perplexity,z_score,source_file
+1,What are the key principles of good leadership?,1,0.025,4,50,0.0,0.0,0.0,prompts.txt
