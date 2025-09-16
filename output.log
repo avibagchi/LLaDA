@@ -1,0 +1,299 @@
+/work/nvme/bemc/python_envs/sedd_env_3/lib/python3.10/site-packages/huggingface_hub/file_download.py:945: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+  warnings.warn(
+Using device: cuda
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]Loading checkpoint shards:  17%|█▋        | 1/6 [00:05<00:27,  5.43s/it]Loading checkpoint shards:  33%|███▎      | 2/6 [00:12<00:26,  6.58s/it]Loading checkpoint shards:  50%|█████     | 3/6 [00:19<00:20,  6.84s/it]Loading checkpoint shards:  67%|██████▋   | 4/6 [00:27<00:14,  7.09s/it]Loading checkpoint shards:  83%|████████▎ | 5/6 [00:34<00:06,  6.99s/it]Loading checkpoint shards: 100%|██████████| 6/6 [00:38<00:00,  6.22s/it]Loading checkpoint shards: 100%|██████████| 6/6 [00:38<00:00,  6.49s/it]
+/work/nvme/bemc/python_envs/sedd_env_3/lib/python3.10/site-packages/huggingface_hub/file_download.py:945: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+  warnings.warn(
+Special tokens have been added in the vocabulary, make sure the associated word embeddings are fine-tuned or trained.
+Found 1 CSV files in prompts folder
+================================================================================
+LLaDA WATERMARKING METRICS TEST
+================================================================================
+Processing file: prompts/humaneval_prompts_full.csv
+Loaded 164 prompts from prompts/humaneval_prompts_full.csv
+Total prompts: 164
+Testing 1 gamma × 1 amplification × 1 step patterns × 1 seeds
+Parameters: gamma=[0.025], amplification=[5], step_to_watermark=[50], seeds=[1]
+================================================================================
+
+--- Testing Prompt 1/10 ---
+Prompt: from typing import List
+
+
+def has_close_elements(numbers: List[float], threshold: float) -> bool:
+    """ Check if in given list of numbers, are any two numbers closer to each other than
+    given threshold.
+    >>> has_close_elements([1.0, 2.0, 3.0], 0.5)
+    False
+    >>> has_close_elements([1.0, 2.8, 3.0, 4.0, 5.0, 2.0], 0.3)
+    True
+    """
+Testing seed=1, gamma=0.025, amplification=5, steps=50
+  Full output: 
+  Generated text: def has_close_elements(numbers: List[float], threshold: float) -> bool:
+    numbers.sort()
+    numbers_2x = len(numbers) // 2
+    if numbers_2x == numbers_2x - 1:
+        numbers_2x = numbers_2x - 1
+    if numbers_2x == numbers_2x + 1:
+        numbers_2x = numbers_2x + 1
+    return abs(numbers[ - numbers_2x + numbers_2x]) < threshold
+  Match %: 0.2627, Z-score: 16.5394, Perplexity: 9.10
+
+--- Testing Prompt 2/10 ---
+Prompt: from typing import List
+
+
+def separate_paren_groups(paren_string: str) -> List[str]:
+    """ Input to this function is a string containing multiple groups of nested parentheses. Your goal is to
+    separate those group into separate strings and return the list of those.
+    Separate groups are balanced (each open brace is properly closed) and not nested within each other
+    Ignore any spaces in the input string.
+    >>> separate_paren_groups('( ) (( )) (( )( ))')
+    ['()', '(())', '(()())']
+    """
+Testing seed=1, gamma=0.025, amplification=5, steps=50
+  Full output: 
+  Generated text: from typing import List
+
+
+def separate_paren_groups(paren_string: str) -> List[str]:
+    """ Input to this function is a string containing multiple groups of nested parentheses. Your goal is to
+    separate those group into separate strings and return the list of those.
+    Separate groups are balanced (each open brace is properly closed) and not nested within each other
+    Ignore any spaces in the input string.
+    >>> separate_paren_groups('( ) (( )) (( )( ))')
+    ['()', '(())', '(()())']
+    """
+    return paren_string.split()
+  Match %: 0.0394, Z-score: 1.0373, Perplexity: 51.73
+
+--- Testing Prompt 3/10 ---
+Prompt: def truncate_number(number: float) -> float:
+    """ Given a positive floating point number, it can be decomposed into
+    and integer part (largest integer smaller than given number) and decimals
+    (leftover part always smaller than 1).
+
+    Return the decimal part of the number.
+    >>> truncate_number(3.5)
+    0.5
+    """
+Testing seed=1, gamma=0.025, amplification=5, steps=50
+  Full output: 
+  Generated text: ```python
+def truncate_number(number: float) -> float:
+    """ Given a positive floating point number, it can be decomposed into
+    and integer part (largest integer smaller than given number) and decimals
+    (leftover part always smaller than 1).
+
+    Return the decimal part of the number.
+    >>> truncate_number(3.5)
+    0.5
+    """
+    return float(number) % 1
+```
+  Match %: 0.0306, Z-score: 0.3559, Perplexity: 30.60
+
+--- Testing Prompt 4/10 ---
+Prompt: from typing import List
+
+
+def below_zero(operations: List[int]) -> bool:
+    """ You're given a list of deposit and withdrawal operations on a bank account that starts with
+    zero balance. Your task is to detect if at any point the balance of account fallls below zero, and
+    at that point function should return True. Otherwise it should return False.
+    >>> below_zero([1, 2, 3])
+    False
+    >>> below_zero([1, 2, -4, 5])
+    True
+    """
+Testing seed=1, gamma=0.025, amplification=5, steps=50
+  Full output: 
+  Generated text: ​
+  Match %: 0.0000, Z-score: 0.0000, Perplexity: 0.00
+
+--- Testing Prompt 5/10 ---
+Prompt: from typing import List
+
+
+def mean_absolute_deviation(numbers: List[float]) -> float:
+    """ For a given list of input numbers, calculate Mean Absolute Deviation
+    around the mean of this dataset.
+    Mean Absolute Deviation is the average absolute difference between each
+    element and a centerpoint (mean in this case):
+    MAD = average | x - x_mean |
+    >>> mean_absolute_deviation([1.0, 2.0, 3.0, 4.0])
+    1.0
+    """
+Testing seed=1, gamma=0.025, amplification=5, steps=50
+  Full output: 
+  Generated text: from statistics import mean
+from statistics import mean
+from statistics import mean
+from statistics import mean
+from statistics import mean
+from statistics import mean
+import numpy import mean
+import numpy import mean
+import numpy import mean
+import numpy import mean
+import numpy import mean
+import numpy import mean
+import numpy import mean
+import numpy import mean
+import numpy import mean
+import numpy import mean
+import numpy import mean
+import numpy import mean
+import numpy import mean
+import numpy import mean
+import numpy import mean
+import numpy import mean
+import numpy import mean
+import numpy import mean
+import numpy import mean
+import
+  Match %: 0.5512, Z-score: 37.9809, Perplexity: 2.19
+
+--- Testing Prompt 6/10 ---
+Prompt: from typing import List
+
+
+def intersperse(numbers: List[int], delimeter: int) -> List[int]:
+    """ Insert a number 'delimeter' between every two consecutive elements of input list `numbers'
+    >>> intersperse([], 4)
+    []
+    >>> intersperse([1, 2, 3], 4)
+    [1, 4, 2, 4, 3]
+    """
+Testing seed=1, gamma=0.025, amplification=5, steps=50
+  Full output: 
+  Generated text: def intersperse(numbers: List[int], delimiter: int) -> List[int]:
+    """ Insert a number 'delimiter' between every two consecutive elements of input list `numbers'.
+    >>> intersperse([], 4)
+    []
+    >>> intersperse([1, 2, 3], 4)
+    [1, 4, 2, 4, 3]
+    """
+    if numbers == []:
+        return []
+    return [delimiter + numbers[i + 1] for i in range(len(numbers) - 1)]
+  Match %: 0.0551, Z-score: 2.1740, Perplexity: 13.94
+
+--- Testing Prompt 7/10 ---
+Prompt: from typing import List
+
+
+def parse_nested_parens(paren_string: str) -> List[int]:
+    """ Input to this function is a string represented multiple groups for nested parentheses separated by spaces.
+    For each of the group, output the deepest level of nesting of parentheses.
+    E.g. (()()) has maximum two levels of nesting while ((())) has three.
+
+    >>> parse_nested_parens('(()()) ((())) () ((())()())')
+    [2, 3, 1, 3]
+    """
+Testing seed=1, gamma=0.025, amplification=5, steps=50
+  Full output: 
+  Generated text:     stack = []
+    stack  []
+    stack  []
+    stack  []
+    stack  []
+    stack  []
+    stack  []
+    stack  []
+    stack  []
+    stack  []
+    stack  []
+    stack  []
+    stack  []
+    stack  []
+    stack  []
+    stack  []
+    stack  []
+    stack  []
+    stack  []
+    stack  []
+    stack  []
+    stack  []
+    stack  []
+    stack  []
+    stack  []
+  Match %: 0.3920, Z-score: 26.2814, Perplexity: 1.96
+
+--- Testing Prompt 8/10 ---
+Prompt: from typing import List
+
+
+def filter_by_substring(strings: List[str], substring: str) -> List[str]:
+    """ Filter an input list of strings only for ones that contain given substring
+    >>> filter_by_substring([], 'a')
+    []
+    >>> filter_by_substring(['abc', 'bacd', 'cde', 'array'], 'a')
+    ['abc', 'bacd', 'array']
+    """
+Testing seed=1, gamma=0.025, amplification=5, steps=50
+  Full output: 
+  Generated text: from typing import List
+import doctest
+
+def filter_by_substring(strings:  substring: str) -> List[str]:
+    """ Filter an input list of strings only for ones that contain given substring
+    >>> filter_by_substring([], 'a')
+    []
+    >>> filter_by_substring(['abc', 'bacd', 'cde', 'array'], 'a')
+    ['abc', 'bacd', 'array']
+    """
+  Match %: 0.0500, Z-score: 1.6013, Perplexity: 30.92
+
+--- Testing Prompt 9/10 ---
+Prompt: from typing import List, Tuple
+
+
+def sum_product(numbers: List[int]) -> Tuple[int, int]:
+    """ For a given list of integers, return a tuple consisting of a sum and a product of all the integers in a list.
+    Empty sum should be equal to 0 and empty product should be equal to 1.
+    >>> sum_product([])
+    (0, 1)
+    >>> sum_product([1, 2, 3, 4])
+    (10, 24)
+    """
+Testing seed=1, gamma=0.025, amplification=5, steps=50
+  Full output: 
+  Generated text: ​
+  Match %: 0.0000, Z-score: 0.0000, Perplexity: 0.00
+
+--- Testing Prompt 10/10 ---
+Prompt: from typing import List, Tuple
+
+
+def rolling_max(numbers: List[int]) -> List[int]:
+    """ From a given list of integers, generate a list of rolling maximum element found until given moment
+    in the sequence.
+    >>> rolling_max([1, 2, 3, 2, 3, 4, 2])
+    [1, 2, 3, 3, 3, 4, 4]
+    """
+Testing seed=1, gamma=0.025, amplification=5, steps=50
+  Full output: 
+  Generated text: def rolling_max(numbers: List[int]) -> List[int]:
+    """ From a given list of integers, generate a list of rolling maximum element found until given moment
+    in the sequence.
+    >>> rolling_max([1, 2, 3, 2, 3, 4, 2])
+    [1, 2, 3, 3, 3, 4, 4]
+    """
+    if numbers==[]:
+        res=[]
+        res+=[x in numbers.pop()]
+        res.append(max(res, numbers))
+    return res
+  Match %: 0.1181, Z-score: 6.7209, Perplexity: 18.02
+
+Results for prompts/humaneval_prompts_full.csv saved to watermark_results_humaneval_prompts_full.csv
+
+====================================================================================================
+SUMMARY STATISTICS
+====================================================================================================
+Amplification 5: Avg Z-score: 9.2691, Avg Match %: 0.1499, Avg Perplexity: 15.85
+
+By Gamma:
+Gamma 0.025: Avg Z-score: 9.2691, Avg Match %: 0.1499
