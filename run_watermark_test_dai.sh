@@ -2,9 +2,9 @@
 #SBATCH --job-name=testing_nowatermark_job      # Job name
 #SBATCH --output=output_nowatermark.log            # Output log file
 #SBATCH --error=error_nowatermark.log             # Error log file
-#SBATCH --partition=gpuA100x4         
-#SBATCH --account=bemc-delta-gpu         # Your valid Slurm account
-#SBATCH --gres=gpu:1                   # Request 2 GPUs
+#SBATCH --partition=ghx4         
+#SBATCH --account=bemc-dtai-gh         # Your valid Slurm account
+#SBATCH --gres=gpu:h100:1                   # Request 2 GPUs
 #SBATCH --nodes=1                      # Request 1 node
 #SBATCH --ntasks=1                     # One task (you can adjust for multi-GPU)
 #SBATCH --cpus-per-task=16             # 16 cores per GPU is safe
@@ -13,11 +13,10 @@
 
 # Load correct CUDA for H200
 # module purge
-module load python/3.10.13
-module load cuda/12.3.0
+module load cuda/12.2.0 
 
 # Activate your Python environment
-source /work/nvme/bemc/python_envs/sedd_env_3/bin/activate
+source /work/nvme/bemc/python_envs/sedd_env/bin/activate
 
 
 python test_watermark_metrics.py

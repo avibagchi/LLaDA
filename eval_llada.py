@@ -14,9 +14,12 @@ from lm_eval.api.instance import Instance
 from lm_eval.api.model import LM
 from lm_eval.api.registry import register_model
 from tqdm import tqdm
+import json
 
 from transformers import AutoTokenizer, AutoModel
-from generate import generate
+from generate import generate, calculate_green_matches
+import math
+from accelerate import Accelerator
 
 
 def set_seed(seed):
@@ -48,6 +51,8 @@ class LLaDAEvalHarness(LM):
         gamma=0.5,
         amplification=0.0,
         watermark_steps=None,
+        # Testing parameters
+        max_prompts=None,  # Set to limit number of prompts for testing
         **kwargs,
     ):
         '''
@@ -69,7 +74,10 @@ class LLaDAEvalHarness(LM):
         '''
         super().__init__()
 
-        accelerator = accelerate.Accelerator()
+        # Store max_prompts for testing
+        self.max_prompts = max_prompts
+
+        accelerator = Accelerator()
         if accelerator.num_processes > 1:
             self.accelerator = accelerator
         else:
@@ -217,6 +225,14 @@ class LLaDAEvalHarness(LM):
         return context_enc, continuation_enc
 
     def loglikelihood(self, requests):
+        # Store original number of requests for proper result handling
+        original_num_requests = len(requests)
+        
+        # Limit prompts for testing if max_prompts is set
+        if self.max_prompts is not None:
+            requests = requests[:self.max_prompts]
+            print(f"Testing with first {len(requests)} prompts only")
+
         def _tokenize(e):
             prefix, target = self._encode_pair(e["prefix"], e["target"])
             return {
@@ -237,7 +253,7 @@ class LLaDAEvalHarness(LM):
 
         out = []
         with torch.no_grad():
-            for elem in tqdm(ds, desc="Computing likelihood..."):
+            for i, elem in enumerate(tqdm(ds, desc="Computing likelihood...")):
                 prefix = elem["prefix"]
                 target = elem["target"]
 
@@ -246,6 +262,22 @@ class LLaDAEvalHarness(LM):
                 is_target_greedy_dec = self.suffix_greedy_prediction(prefix, target)
 
                 out.append((ll, 1.0 if is_target_greedy_dec else 0.0))
+                
+                # Print detailed information for each prompt (only for non-dummy prompts)
+                if self.max_prompts is None or i < self.max_prompts:
+                    print(f"\n=== PROMPT {i+1} ===")
+                    print(f"Question: {elem['prefix_text']}")
+                    print(f"Target Answer: {elem['target_text']}")
+                    print(f"Loglikelihood: {ll:.4f}")
+                    print(f"Greedy Prediction: {is_target_greedy_dec}")
+                    print("=" * 50)
+        
+        # If we limited prompts, pad the results with dummy values to match original request count
+        if self.max_prompts is not None and len(out) < original_num_requests:
+            dummy_result = (0.0, 0.0)  # Dummy loglikelihood and greedy prediction
+            out.extend([dummy_result] * (original_num_requests - len(out)))
+            print(f"Padded results with {original_num_requests - len(requests)} dummy values to match original request count")
+        
         torch.cuda.empty_cache()
         return out
 
@@ -260,13 +292,20 @@ class LLaDAEvalHarness(LM):
                 "until": e["until"],
             }
 
+        # Limit prompts for testing if max_prompts is set BEFORE tokenization
+        if self.max_prompts is not None:
+            requests = requests[:self.max_prompts]
+            print(f"Testing with first {len(requests)} prompts only")
+
         ds = [{"question": req.args[0], "until": req.args[1]['until']} for req in requests]
         ds = Dataset.from_list(ds)
         ds = ds.map(_tokenize)
         ds = ds.with_format("torch")
 
         out = []
-        for elem in tqdm(ds, desc="Generating..."):
+        all_qa_pairs = []  # Store all question-answer pairs
+        
+        for i, elem in enumerate(tqdm(ds, desc="Generating...")):
             prompt = elem["question"].unsqueeze(0).to(self.device)
             stop_tokens = elem["until"]
  
@@ -274,17 +313,117 @@ class LLaDAEvalHarness(LM):
                                         temperature=0, cfg_scale=self.cfg, remasking=self.remasking, mask_id=self.mask_id,
                                         gamma=self.gamma, amplification=self.amplification, watermark_steps=self.watermark_steps)
             
-            generated_answer = self.tokenizer.decode(generated_answer[0][prompt.shape[1]:], skip_special_tokens=False)
+            # Extract generated tokens for green token analysis
+            generated_tokens = generated_answer[0][prompt.shape[1]:]
+            
+            # Decode generated text first
+            generated_answer_text = self.tokenizer.decode(generated_tokens, skip_special_tokens=False)
             for stop_seq in stop_tokens:
-                    if stop_seq in generated_answer:
-                        generated_answer = generated_answer.split(stop_seq)[0]
+                    if stop_seq in generated_answer_text:
+                        generated_answer_text = generated_answer_text.split(stop_seq)[0]
+
+            # Extract ALL answer portions (after "A:") for green token analysis
+            if "A:" in generated_answer_text:
+                # Split by "A:" to get all answers
+                parts = generated_answer_text.split("A:")
+                all_answers = []
+                
+                for i, part in enumerate(parts):
+                    if i == 0:
+                        continue  # Skip the first part (before first "A:")
+                    
+                    # Extract the answer text (up to next "Q:" or end)
+                    if "Q:" in part:
+                        answer_text = part.split("Q:")[0].strip()
+                    else:
+                        answer_text = part.strip()
+                    
+                    if answer_text:  # Only add non-empty answers
+                        all_answers.append(answer_text)
+                
+                print(f"Found {len(all_answers)} answers:")
+                for j, answer in enumerate(all_answers):
+                    print(f"  Answer {j+1}: {answer}")
+                
+                # Combine all answers into one text for analysis
+                combined_answers = " ".join(all_answers)
+                
+                # Tokenize all answers combined
+                answer_tokens = self.tokenizer(combined_answers)["input_ids"]
+                answer_tokens_tensor = torch.tensor(answer_tokens).unsqueeze(0)
+                
+                # Calculate green token matches for all answers
+                max_match_percent, actual_length, max_num_matches, best_start, match_arr = calculate_green_matches(
+                    answer_tokens_tensor, gamma=self.gamma
+                )
+            else:
+                # Fallback: use full generated text if no "A:" found
+                max_match_percent, actual_length, max_num_matches, best_start, match_arr = calculate_green_matches(
+                    generated_tokens.unsqueeze(0), gamma=self.gamma
+                )
+            
+            # Calculate Z-score
+            true_num_green = self.gamma * actual_length
+            if math.sqrt(true_num_green * (1-self.gamma)) == 0:
+                z_score = 0
+            else:
+                z_score = (max_num_matches - true_num_green) / math.sqrt(true_num_green * (1-self.gamma))
 
             # remove special tokens
-            generated_answer_ids = self.tokenizer(generated_answer)["input_ids"]
-            generated_answer = self.tokenizer.decode(generated_answer_ids, skip_special_tokens=True)
-            out.append(generated_answer)
+            generated_answer_ids = self.tokenizer(generated_answer_text)["input_ids"]
+            generated_answer_text = self.tokenizer.decode(generated_answer_ids, skip_special_tokens=True)
+            
+            # Print detailed information for each prompt
+            full_prompt_text = self.tokenizer.decode(prompt[0], skip_special_tokens=True)
+            
+            # Extract only the last question from the full prompt
+            # Split by "Question:" and take the last one
+            question_parts = full_prompt_text.split("Question:")
+            if len(question_parts) > 1:
+                last_question_text = "Question:" + question_parts[-1].split("Answer:")[0].strip()
+            else:
+                last_question_text = full_prompt_text
+            
+            print(f"\n=== PROMPT {i+1} ===")
+            print(f"Question: {last_question_text}")
+            print(f"Generated: {generated_answer_text}")
+            print(f"Green token matches: {max_num_matches}/{actual_length} ({max_match_percent:.2%})")
+            print(f"Z-score: {z_score:.2f}")
+            print("=" * 50)
+            
+            # Store this question and answer pair for JSON output
+            all_qa_pairs.append({
+                "prompt_number": i + 1,
+                "question": last_question_text,
+                "answer": generated_answer_text,
+                "green_token_matches": f"{max_num_matches}/{actual_length} ({max_match_percent:.2%})",
+                "z_score": z_score
+            })
+            
+            out.append(generated_answer_text)
 
-            self.accelerator.wait_for_everyone()
+            if self.accelerator is not None:
+                self.accelerator.wait_for_everyone()
+
+        # Save JSON results to file (all question and answer pairs)
+        import datetime
+        timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+        json_filename = f"llada_results_{timestamp}.json"
+        
+        # Create JSON with all question and answer pairs
+        json_results = {
+            "timestamp": timestamp,
+            "total_prompts": len(all_qa_pairs),
+            "results": all_qa_pairs
+        }
+        
+        with open(json_filename, 'w', encoding='utf-8') as f:
+            json.dump(json_results, f, indent=2, ensure_ascii=False)
+        
+        print(f"\n=== JSON OUTPUT SAVED ===")
+        print(f"Results saved to: {json_filename}")
+        print(f"Contains: {len(all_qa_pairs)} question-answer pairs")
+        print("=" * 50)
 
         return out
 

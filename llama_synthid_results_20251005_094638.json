@@ -1,0 +1,40 @@
+{
+  "timestamp": "20251005_094638",
+  "total_prompts": 3,
+  "watermarking_enabled": true,
+  "watermark_params": {
+    "bias": 2,
+    "seeding_scheme": "selfhash",
+    "hashing_key": 0,
+    "greenlist_ratio": 0.25
+  },
+  "results": [
+    {
+      "prompt_number": 1,
+      "question": "Question:Janet’s ducks lay 16 eggs per day. She eats three for breakfast every morning and bakes muffins for her friends every day with four. She sells the remainder at the farmers' market daily for $2 per fresh duck egg. How much in dollars does she make every day at the farmers' market?",
+      "answer": " She eats 3 eggs for breakfast, so 16 - 3 = <<16-3=13>>13 eggs are left for baking muffins.\nShe bakes 4 eggs for muffins, so 13 - 4 = <<13-4=9>>9 eggs are left for the market.\nShe sells 9 eggs for $2 each, so 9 * 2 = <<9*2=18>>18 dollars.\n#### 18\n\n",
+      "watermark_detected": true,
+      "detection_score": 0.0,
+      "z_score": 7.495152097492019,
+      "green_token_matches": "64/256 (25.00%)"
+    },
+    {
+      "prompt_number": 2,
+      "question": "Question:A robe takes 2 bolts of blue fiber and half that much white fiber.  How many bolts in total does it take?",
+      "answer": " 2 bolts of blue fiber + 1 bolts of white fiber = <<2+1=3>>3 bolts in total.\n#### 3\n\n",
+      "watermark_detected": true,
+      "detection_score": 0.0,
+      "z_score": 9.577222112439674,
+      "green_token_matches": "64/256 (25.00%)"
+    },
+    {
+      "prompt_number": 3,
+      "question": "Question:Josh decides to try flipping a house.  He buys a house for $80,000 and then puts in $50,000 in repairs.  This increased the value of the house by 150%.  How much profit did he make?",
+      "answer": " $50,000 is 150% of $<<50,000 is 150% of $33,333>>33,333\nSo $33,333 is 50% of $<<33,333 is 50% of $66,666>>66,666\nSo $66,666 is 200% of $<<66,666 is 200% of $33,333>>33,333\nSo $33,333 is 50% of $<<33,333 is 50% of $66,666>>66,666\nSo $33,333 is 50% of $<<33,333 is 50% of $66,666>>66,666\nSo $33,333 is 50% of $<<33,333 is 50% of $66,666>>66,666\nSo $33,333 is 50% of $<<33,333 is 50% of $66,666>>66,666\nSo $33,333 is 50% of $<<33,333 is 50% of $66,666>>66,666\nSo $33,333 is 50% of $<<33,333 is 50% of $66,666>>",
+      "watermark_detected": true,
+      "detection_score": 0.0,
+      "z_score": 5.0440630756512705,
+      "green_token_matches": "64/256 (25.00%)"
+    }
+  ]
+}

@@ -38,6 +38,68 @@ def load_prompts_from_file(filename):
 
 
 
+def identify_green_tokens_with_best_start(generated_tokens, gamma, vocab_size, best_start, n=5):
+    """
+    Identify green tokens using the same logic as calculate_green_matches.
+    
+    Args:
+        generated_tokens: [batch_size, seq_len] tensor of generated token IDs
+        gamma: Fraction of tokens that are green
+        vocab_size: Size of vocabulary
+        best_start: Best starting offset from calculate_green_matches
+        n: Modulo parameter for seeding (should match generation)
+    
+    Returns:
+        green_positions: [seq_len] boolean tensor indicating green tokens
+    """
+    seq_len = generated_tokens.shape[1]
+    green_positions = torch.zeros(seq_len, dtype=torch.bool, device=generated_tokens.device)
+    
+    for pos in range(seq_len):
+        # Stop when we reach the EOS token (if any) - same logic as calculate_green_matches
+        if generated_tokens[0, pos] in [50256, 2, 126081]:  # EOS tokens
+            break
+            
+        torch.manual_seed((pos + best_start) % n)  # Use best_start offset
+        # Create exactly gamma*|V| green tokens and (1-gamma)*|V| red tokens
+        num_green = int(gamma * vocab_size)
+        pos_green_mask = torch.zeros(vocab_size, device=generated_tokens.device)
+        pos_green_mask[:num_green] = 1
+        pos_green_mask = pos_green_mask[torch.randperm(vocab_size, device=generated_tokens.device)]
+        
+        token_id = generated_tokens[0, pos]
+        # Add bounds checking to prevent out-of-bounds errors
+        if token_id < vocab_size and pos_green_mask[token_id] == 1:
+            green_positions[pos] = True
+    
+    return green_positions
+
+
+def format_text_with_bolded_green_tokens(tokenizer, generated_tokens, green_positions):
+    """
+    Format generated text with green tokens marked with ** on both sides.
+    
+    Args:
+        tokenizer: Tokenizer to decode tokens
+        generated_tokens: [seq_len] tensor of token IDs
+        green_positions: [seq_len] boolean tensor indicating green tokens
+    
+    Returns:
+        formatted_text: String with green tokens marked with **
+    """
+    # Decode each token individually
+    tokens_text = []
+    for i, token_id in enumerate(generated_tokens[0]):
+        token_text = tokenizer.decode([token_id], skip_special_tokens=True)
+        
+        if green_positions[i]:
+            tokens_text.append(f"**{token_text}**")
+        else:
+            tokens_text.append(token_text)
+    
+    return ''.join(tokens_text)
+
+
 def calculate_perplexity(model, tokenizer, generated_tokens, device):
     """Calculate perplexity of generated text using GPT-2."""
     try:
@@ -89,8 +151,8 @@ def test_watermarking_metrics():
     
     # Test parameters
     gamma_list = [0.025] # [0.1, 0.25, 0.5, 0.75, 0.9]
-    amp_list = [4] # [0.0, 1.5, 2.0, 3.0, 5.0]
-    step_to_watermark_list = [50] # [None, 2, 5, 10]  # None=all steps, 2=steps 1-2, 5=steps 1-5, 10=steps 1-10
+    amp_list = [100]
+    step_to_watermark_list = [1] # [None, 2, 5, 10]  # None=all steps, 2=steps 1-2, 5=steps 1-5, 10=steps 1-10
     model_seed_list = [1] # [1, 2, 3]  # Different random seeds
     
     all_results = []
@@ -105,7 +167,8 @@ def test_watermarking_metrics():
     results = []
     
     # Loop through each prompt
-    prompts_list = prompts_list[:30] # random.sample(prompts_list, 30)
+    # # prompts_list = random.sample(prompts_list, 1)
+    # prompts_list = ["What are the benefits of physical fitness?"]
     for prompt_idx, prompt in enumerate(prompts_list):
         print(f"\n--- Testing Prompt {prompt_idx + 1}/{len(prompts_list)}: {prompt[:50]}... ---")
         
@@ -140,6 +203,19 @@ def test_watermarking_metrics():
                             max_match_percent, actual_length, max_num_matches, best_start, match_arr = calculate_green_matches(
                                 generated_tokens, gamma=gamma
                             )
+                            
+                            # Identify green tokens using the same logic as calculate_green_matches
+                            # Use the same vocab_size as calculate_green_matches (126464)
+                            green_positions = identify_green_tokens_with_best_start(
+                                generated_tokens, gamma, 126464, best_start
+                            )
+                            
+                            # Format text with green tokens marked with **
+                            formatted_text = format_text_with_bolded_green_tokens(
+                                tokenizer, generated_tokens, green_positions
+                            )
+                            
+                            print(f"  Generated text with green tokens marked: {formatted_text}")
                             
                             # Calculate Z-score
                             true_num_green = gamma * actual_length
@@ -186,7 +262,7 @@ def test_watermarking_metrics():
                             results.append(result)
         
     # Save results to CSV
-    filename = 'watermark_results_prompts.csv'
+    filename = 'watermark_results_step_param_sweep_single_step.csv'
     with open(filename, 'w', newline='') as csvfile:
         fieldnames = ["prompt_idx", "prompt", "model_seed", "gamma", "amplification", "step_to_watermark", "match_percent", "perplexity", "z_score", "source_file"]
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)

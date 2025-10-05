@@ -1,0 +1,22 @@
+{
+  "timestamp": "20251005_093937",
+  "total_prompts": 1,
+  "watermarking_enabled": true,
+  "watermark_params": {
+    "bias": 2,
+    "seeding_scheme": "selfhash",
+    "hashing_key": 0,
+    "greenlist_ratio": 0.25
+  },
+  "results": [
+    {
+      "prompt_number": 1,
+      "question": "Question:Janet’s ducks lay 16 eggs per day. She eats three for breakfast every morning and bakes muffins for her friends every day with four. She sells the remainder at the farmers' market daily for $2 per fresh duck egg. How much in dollars does she make every day at the farmers' market?",
+      "answer": " She eats 3 eggs for breakfast, so 16 - 3 = <<16-3=13>>13 eggs are left for baking muffins.\nShe bakes 4 eggs for muffins, so 13 - 4 = <<13-4=9>>9 eggs are left for the market.\nShe sells 9 eggs for $2 each, so 9 * 2 = <<9*2=18>>18 dollars.\n#### 18\n\n",
+      "watermark_detected": true,
+      "detection_score": 0.0,
+      "z_score": 7.495152097492019,
+      "green_token_matches": "64/256 (25.00%)"
+    }
+  ]
+}

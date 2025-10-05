@@ -1,2 +1,31 @@
 prompt_idx,prompt,model_seed,gamma,amplification,step_to_watermark,match_percent,perplexity,z_score,source_file
-1,What are the key principles of good leadership?,1,0.025,4,50,0.0,0.0,0.0,prompts.txt
+1,Explain the laws of motion in everyday language.,1,0.025,4.5,50,0.46875,1.9287110567092896,32.156667769706516,prompts.txt
+2,Explain the causes and effects of air pollution.,1,0.025,4.5,50,0.16521739130434782,8.003032684326172,9.631157631583791,prompts.txt
+3,Write a poem about the forest at night.,1,0.025,4.5,50,0.4375,5.270746231079102,29.892113701417326,prompts.txt
+4,Explain how the human brain processes information.,1,0.025,4.5,50,0.23622047244094488,8.040157318115234,15.246338507196892,prompts.txt
+5,What are the benefits and drawbacks of remote work?,1,0.025,4.5,50,0.5703125,2.08428955078125,39.51646849164639,prompts.txt
+6,Explain how sound travels.,1,0.025,4.5,50,0.25,5.048688888549805,16.30478929168218,prompts.txt
+7,Describe the process of evolution by natural selection.,1,0.025,4.5,50,0.19327731092436976,8.912139892578125,11.757817957794552,prompts.txt
+8,Explain how blockchain technology works.,1,0.025,4.5,50,0.22522522522522523,8.74875545501709,13.511636968344494,prompts.txt
+9,Write a story about a child raised by wolves.,1,0.025,4.5,50,0.3228346456692913,3.4003288745880127,21.498331930464957,prompts.txt
+10,Write a poem about nature.,1,0.025,4.5,50,0.39669421487603307,2.0115113258361816,26.188231699577432,prompts.txt
+11,Describe the process of protein synthesis.,1,0.025,4.5,50,0.24,10.533939361572266,13.771021227237494,prompts.txt
+12,Write a poem about journeys.,1,0.025,4.5,50,0.390625,1.8139609098434448,26.49528259898354,prompts.txt
+13,Explain the concept of sustainability.,1,0.025,4.5,50,0.21153846153846154,11.70091438293457,12.184641284613756,prompts.txt
+14,Write a creative story about a detective solving a mystery.,1,0.025,4.5,50,0.6771653543307087,2.9840610027313232,47.07466866201613,prompts.txt
+15,Explain how thunderstorms form.,1,0.025,4.5,50,0.25196850393700787,11.733255386352539,16.38306458415472,prompts.txt
+16,Write a poem about loneliness.,1,0.025,4.5,50,0.5950413223140496,2.053499937057495,40.16305239529412,prompts.txt
+17,Write a story about a door that only opens at midnight.,1,0.025,4.5,50,0.43333333333333335,3.9884345531463623,28.65056196402962,prompts.txt
+18,Write a poem about courage.,1,0.025,4.5,50,0.21875,25.4006404876709,14.040235223392989,prompts.txt
+19,Write a creative story about a cursed object.,1,0.025,4.5,50,0.5354330708661418,2.6728286743164062,36.844133969395656,prompts.txt
+20,Explain how vaccines are developed.,1,0.025,4.5,50,0.25196850393700787,3.456202745437622,16.38306458415472,prompts.txt
+21,Write a story about a soldier who refuses to fight.,1,0.025,4.5,50,0.5275590551181102,2.9079182147979736,36.27577093091674,prompts.txt
+22,Write a story about a pirate searching for a cursed treasure.,1,0.025,4.5,50,0.36363636363636365,14.009079933166504,21.58136336646146,prompts.txt
+23,Write a story about a character lost in a dream world.,1,0.025,4.5,50,0.6141732283464567,2.4176549911499023,42.52776435418481,prompts.txt
+24,Describe the life cycle of a butterfly.,1,0.025,4.5,50,0.11811023622047244,11.464754104614258,6.720892930013168,prompts.txt
+25,Explain the role of bees in pollination.,1,0.025,4.5,50,0.16535433070866143,13.90251350402832,10.131071160886657,prompts.txt
+26,Explain the importance of critical thinking.,1,0.025,4.5,50,0.26732673267326734,11.411693572998047,15.598746540277661,prompts.txt
+27,Explain how medical imaging works.,1,0.025,4.5,50,0.31496062992125984,11.411015510559082,20.929968891986043,prompts.txt
+28,Write a story about a painter who can see the future.,1,0.025,4.5,50,0.3018867924528302,10.493241310119629,18.25924688366383,prompts.txt
+29,Explain how the human genome project changed science.,1,0.025,4.5,50,0.11811023622047244,9.12142562866211,6.720892930013168,prompts.txt
+30,Explain how digital currencies work.,1,0.025,4.5,50,0.3828125,3.451977491378784,25.92914408191124,prompts.txt

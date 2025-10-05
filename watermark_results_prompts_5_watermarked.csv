@@ -1,0 +1,501 @@
+prompt_idx,prompt,model_seed,gamma,amplification,step_to_watermark,match_percent,perplexity,z_score,source_file
+1,Write a short story about a cat.,1,0.025,5,50,0.4094488188976378,11.869154930114746,27.75032535373302,prompts.txt
+2,Write a short story about a prince who saves a princess from a dragon.,1,0.025,5,50,0.23622047244094488,11.342935562133789,15.246338507196892,prompts.txt
+3,Explain the concept of photosynthesis in simple terms.,1,0.025,5,50,0.14545454545454545,9.778101921081543,8.091838819320085,prompts.txt
+4,What are the benefits of renewable energy?,1,0.025,5,50,0.40625,2.726489305496216,27.627559633128136,prompts.txt
+5,Describe the process of making bread from scratch.,1,0.025,5,50,0.2421875,9.193511962890625,15.738650774609882,prompts.txt
+6,Write a poem about the ocean.,1,0.025,5,50,0.3543307086614173,10.619150161743164,23.771784084380617,prompts.txt
+7,Explain how a computer processor works.,1,0.025,5,50,0.373015873015873,3.559936761856079,25.021423462138042,prompts.txt
+8,What are the main causes of climate change?,1,0.025,5,50,0.18947368421052632,7.080475330352783,10.268001210211338,prompts.txt
+9,Describe your ideal vacation destination.,1,0.025,5,50,0.38095238095238093,9.088132858276367,25.592037452152592,prompts.txt
+10,Write a creative story about a robot learning to feel emotions.,1,0.025,5,50,0.3671875,4.877750396728516,24.796867047766646,prompts.txt
+11,Explain the theory of relativity in layman's terms.,1,0.025,5,50,0.6484375,3.019869089126587,45.177853662369365,prompts.txt
+12,What are the key principles of good leadership?,1,0.025,5,50,0.20930232558139536,17.359167098999023,7.7409227045122435,prompts.txt
+13,Describe the life cycle of a butterfly.,1,0.025,5,50,0.16326530612244897,13.646651268005371,8.767059321519586,prompts.txt
+14,Write a dialogue between two characters meeting for the first time.,1,0.025,5,50,0.390625,2.0246949195861816,26.49528259898354,prompts.txt
+15,Explain the importance of biodiversity.,1,0.025,5,50,0.171875,11.872729301452637,10.6434041209592,prompts.txt
+16,What are the pros and cons of social media?,1,0.025,5,50,0.38016528925619836,6.13474702835083,25.023663308267707,prompts.txt
+17,Describe the process of evolution by natural selection.,1,0.025,5,50,0.421875,4.356561660766602,28.75983666727273,prompts.txt
+18,Write a story about time travel.,1,0.025,5,50,0.4921875,5.377265930175781,33.85508332092341,prompts.txt
+19,Explain how vaccines work to protect us from diseases.,1,0.025,5,50,0.5859375,2.4487826824188232,40.648745525790986,prompts.txt
+20,What are the characteristics of a healthy diet?,1,0.025,5,50,0.29411764705882354,3.798192024230957,18.803701378195782,prompts.txt
+21,Describe the water cycle.,1,0.025,5,50,0.16535433070866143,9.695113182067871,10.131071160886657,prompts.txt
+22,Write a creative story about a magical library.,1,0.025,5,50,0.5275590551181102,2.584872007369995,36.27577093091674,prompts.txt
+23,Explain the concept of artificial intelligence.,1,0.025,5,50,0.13385826771653545,9.307452201843262,7.857619006970998,prompts.txt
+24,What are the main causes of economic inequality?,1,0.025,5,50,0.28846153846153844,9.345337867736816,17.209235628784377,prompts.txt
+25,Describe the structure and function of DNA.,1,0.025,5,50,0.2992125984251969,12.83012580871582,19.79324281502821,prompts.txt
+26,Write a poem about friendship.,1,0.025,5,50,0.609375,1.815948724746704,42.34716107700788,prompts.txt
+27,Explain how the internet works.,1,0.025,5,50,0.4330708661417323,3.5369229316711426,29.455414469169767,prompts.txt
+28,What are the benefits and drawbacks of remote work?,1,0.025,5,50,0.5748031496062992,2.066220283508301,39.685949161790234,prompts.txt
+29,Describe the process of metamorphosis.,1,0.025,5,50,0.2734375,7.424505233764648,18.003204842899073,prompts.txt
+30,Write a story about an alien visiting Earth.,1,0.025,5,50,0.6484375,3.629072904586792,45.177853662369365,prompts.txt
+31,Explain the concept of sustainable development.,1,0.025,5,50,0.24,14.72367000579834,13.771021227237494,prompts.txt
+32,What are the key elements of effective communication?,1,0.025,5,50,0.1796875,2.545147180557251,11.209542638031499,prompts.txt
+33,Describe the formation of mountains.,1,0.025,5,50,0.3217391304347826,9.678179740905762,20.382217313351745,prompts.txt
+34,Write a creative story about a detective solving a mystery.,1,0.025,5,50,0.6771653543307087,3.0450186729431152,47.07466866201613,prompts.txt
+35,Explain how solar panels convert sunlight to electricity.,1,0.025,5,50,0.59375,4.33090353012085,41.21488404286328,prompts.txt
+36,What are the main factors that influence climate?,1,0.025,5,50,0.1968503937007874,2.987593173980713,12.404523314802317,prompts.txt
+37,Describe the human digestive system.,1,0.025,5,50,0.15789473684210525,7.557706832885742,9.08840966745012,prompts.txt
+38,Write a story about a character overcoming their fears.,1,0.025,5,50,0.5039370078740157,3.707115888595581,34.57068181548,prompts.txt
+39,Explain the concept of supply and demand in economics.,1,0.025,5,50,0.5,4.812685966491699,34.42122183799571,prompts.txt
+40,What are the benefits of exercise for mental health?,1,0.025,5,50,0.2112676056338028,7.53408145904541,10.052965546915416,prompts.txt
+41,Describe the process of photosynthesis in detail.,1,0.025,5,50,0.171875,10.442935943603516,10.6434041209592,prompts.txt
+42,Write a poem about the changing seasons.,1,0.025,5,50,0.47244094488188976,2.227292776107788,32.29722966156434,prompts.txt
+43,Explain how the human brain processes information.,1,0.025,5,50,0.4251968503937008,8.89299488067627,28.88705143069085,prompts.txt
+44,What are the main challenges facing renewable energy adoption?,1,0.025,5,50,0.3046875,1.851460337638855,20.267758911188263,prompts.txt
+45,Describe the life cycle of a star.,1,0.025,5,50,0.7890625,1.5089635848999023,55.36834696967073,prompts.txt
+46,Write a story about a character discovering a hidden talent.,1,0.025,5,50,0.2755905511811024,13.796446800231934,18.088153699591466,prompts.txt
+47,Explain the concept of democracy and its principles.,1,0.025,5,50,0.21568627450980393,9.09007453918457,12.335228748406546,prompts.txt
+48,What are the environmental impacts of plastic pollution?,1,0.025,5,50,0.2421875,9.404473304748535,15.738650774609882,prompts.txt
+49,Describe the process of cellular respiration.,1,0.025,5,50,0.1875,7.0566935539245605,11.775681155103797,prompts.txt
+50,Write a creative story about a parallel universe.,1,0.025,5,50,0.7421875,2.1834394931793213,51.971515867236945,prompts.txt
+51,Explain how antibiotics work to fight bacterial infections.,1,0.025,5,50,0.4140625,6.5670084953308105,28.193698150200433,prompts.txt
+52,What are the key factors that contribute to happiness?,1,0.025,5,50,0.41732283464566927,3.0723652839660645,28.318688392211936,prompts.txt
+53,Describe the structure of an atom.,1,0.025,5,50,0.3359375,4.4105658531188965,22.532312979477453,prompts.txt
+54,Write a story about a character learning a valuable life lesson.,1,0.025,5,50,0.5590551181102362,4.452086925506592,38.549223084832406,prompts.txt
+55,Explain the concept of renewable vs non-renewable resources.,1,0.025,5,50,0.21495327102803738,7.706732273101807,12.585380584520477,prompts.txt
+56,What are the main causes of deforestation?,1,0.025,5,50,0.3828125,3.0998075008392334,25.92914408191124,prompts.txt
+57,Describe the process of protein synthesis.,1,0.025,5,50,0.375,2.923745632171631,25.363005564838943,prompts.txt
+58,Write a poem about hope and resilience.,1,0.025,5,50,0.3442622950819672,7.40873908996582,22.586827469027046,prompts.txt
+59,Explain how the immune system protects the body.,1,0.025,5,50,0.28440366972477066,10.074529647827148,17.346707378656443,prompts.txt
+60,What are the benefits of learning a second language?,1,0.025,5,50,0.2265625,6.5940446853637695,14.606373740465285,prompts.txt
+61,Describe the formation of clouds and precipitation.,1,0.025,5,50,0.225,6.225438594818115,14.032928308912467,prompts.txt
+62,Write a story about a character finding their true purpose.,1,0.025,5,50,0.3333333333333333,16.720199584960938,19.65014516812039,prompts.txt
+63,Explain the concept of quantum mechanics in simple terms.,1,0.025,5,50,0.578125,5.38176155090332,40.08260700871869,prompts.txt
+64,What are the benefits of meditation for health?,1,0.025,5,50,0.375,2.1130497455596924,25.363005564838943,prompts.txt
+65,Describe the process of photosynthesis using light and chlorophyll.,1,0.025,5,50,0.46875,7.190890789031982,32.156667769706516,prompts.txt
+66,Write a poem about the night sky.,1,0.025,5,50,0.2440944881889764,37.22578048706055,15.814701545675806,prompts.txt
+67,Explain how the circulatory system works.,1,0.025,5,50,0.40625,11.274127006530762,27.627559633128136,prompts.txt
+68,What are the effects of global warming on ecosystems?,1,0.025,5,50,0.4094488188976378,5.18703556060791,27.75032535373302,prompts.txt
+69,Describe the rock cycle.,1,0.025,5,50,0.2992125984251969,5.369557857513428,19.79324281502821,prompts.txt
+70,Write a creative story about a talking tree.,1,0.025,5,50,0.35714285714285715,2.9199957847595215,23.880195482108938,prompts.txt
+71,Explain how blockchain technology works.,1,0.025,5,50,0.2524271844660194,8.838632583618164,14.783888383578693,prompts.txt
+72,What are the advantages of teamwork?,1,0.025,5,50,0.59375,1.498299479484558,41.21488404286328,prompts.txt
+73,Describe the process of fossil formation.,1,0.025,5,50,0.2727272727272727,18.402206420898438,14.884794575576432,prompts.txt
+74,Write a story about a character lost in a dream world.,1,0.025,5,50,0.578125,2.158101797103882,40.08260700871869,prompts.txt
+75,Explain the concept of probability in everyday life.,1,0.025,5,50,0.20202020202020202,10.189586639404297,11.281532975309085,prompts.txt
+76,What are the benefits of eating fruits and vegetables?,1,0.025,5,50,0.2975206611570248,3.0069401264190674,19.200821351719085,prompts.txt
+77,Describe how thunderstorms form.,1,0.025,5,50,0.39,22.650583267211914,23.37871045554272,prompts.txt
+78,Write a poem about love.,1,0.025,5,50,0.40625,1.7454044818878174,27.627559633128136,prompts.txt
+79,Explain how the nervous system controls the body.,1,0.025,5,50,0.2828282828282828,13.261180877685547,16.43144817088527,prompts.txt
+80,What are the consequences of overfishing?,1,0.025,5,50,0.22549019607843138,10.832942962646484,12.96943074061254,prompts.txt
+81,Describe the process of germination.,1,0.025,5,50,0.4609375,5.442770004272461,31.59052925263422,prompts.txt
+82,Write a story about a secret door to another world.,1,0.025,5,50,0.6771653543307087,3.1627938747406006,47.07466866201613,prompts.txt
+83,Explain the concept of machine learning.,1,0.025,5,50,0.21875,10.897263526916504,14.040235223392989,prompts.txt
+84,What are the causes and effects of air pollution?,1,0.025,5,50,0.14285714285714285,8.503151893615723,7.473028425354333,prompts.txt
+85,Describe how earthquakes occur.,1,0.025,5,50,0.1826086956521739,12.8566312789917,10.825719818446897,prompts.txt
+86,Write a creative story about a forgotten city.,1,0.025,5,50,0.53125,2.121856927871704,36.6857759062849,prompts.txt
+87,Explain how recycling helps the environment.,1,0.025,5,50,0.2358490566037736,11.903871536254883,13.904400948888812,prompts.txt
+88,What are the benefits of physical fitness?,1,0.025,5,50,0.275,4.754480361938477,17.541160386140586,prompts.txt
+89,Describe the water filtration process.,1,0.025,5,50,0.6875,2.5263054370880127,48.008546247730855,prompts.txt
+90,Write a poem about courage.,1,0.025,5,50,0.2975206611570248,3.1927759647369385,19.200821351719085,prompts.txt
+91,Explain the concept of gravity in simple terms.,1,0.025,5,50,0.6171875,2.923217535018921,42.91329959408018,prompts.txt
+92,What are the effects of desertification?,1,0.025,5,50,0.359375,2.6839945316314697,24.230728530694346,prompts.txt
+93,Describe the process of volcanic eruption.,1,0.025,5,50,0.25984251968503935,11.249791145324707,16.951427622633638,prompts.txt
+94,Write a story about an unlikely friendship.,1,0.025,5,50,0.5669291338582677,1.6693968772888184,39.11758612331132,prompts.txt
+95,Explain how renewable energy reduces carbon emissions.,1,0.025,5,50,0.14545454545454545,5.536177635192871,8.091838819320085,prompts.txt
+96,What are the impacts of urbanization?,1,0.025,5,50,0.35772357723577236,5.653955459594727,23.635446998207723,prompts.txt
+97,Describe the function of the respiratory system.,1,0.025,5,50,0.20588235294117646,10.661100387573242,11.701026756200555,prompts.txt
+98,Write a creative story about a cursed object.,1,0.025,5,50,0.5,23.4544677734375,30.11856910824625,prompts.txt
+99,Explain the importance of critical thinking.,1,0.025,5,50,0.297029702970297,12.618773460388184,17.510748159106384,prompts.txt
+100,What are the pros and cons of space exploration?,1,0.025,5,50,0.23880597014925373,11.986572265625,11.209465821144537,prompts.txt
+101,Write a story about a cat who discovers a secret passage in the house.,1,0.025,5,50,0.4921875,11.426746368408203,33.85508332092341,prompts.txt
+102,Write a story about a child who finds a magical key.,1,0.025,5,50,0.626984126984127,3.761359930038452,43.28107114260365,prompts.txt
+103,Write a story about a prince who saves a princess from a dragon.,1,0.025,5,50,0.3211009174311927,8.965442657470703,19.80070665415161,prompts.txt
+104,Write a story about a girl who can talk to animals.,1,0.025,5,50,0.3838383838383838,14.023221969604492,22.868842165355506,prompts.txt
+105,Write a story about a robot learning to feel emotions.,1,0.025,5,50,0.5,4.6179304122924805,34.42122183799571,prompts.txt
+106,Write a story about a boy who travels to the center of the Earth.,1,0.025,5,50,0.3700787401574803,13.934552192687988,24.908510161338448,prompts.txt
+107,Write a story about a character who wakes up in a parallel universe.,1,0.025,5,50,0.2578125,3.711514711380005,16.870927808754477,prompts.txt
+108,Write a story about a detective solving a mystery in a futuristic city.,1,0.025,5,50,0.36893203883495146,18.323455810546875,22.35727837730097,prompts.txt
+109,Write a story about an alien visiting Earth for the first time.,1,0.025,5,50,0.4881889763779528,12.522336959838867,33.43395573852217,prompts.txt
+110,Write a story about a magical library that grants wishes.,1,0.025,5,50,0.3700787401574803,8.776997566223145,24.908510161338448,prompts.txt
+111,Write a story about a secret door to another world.,1,0.025,5,50,0.6771653543307087,3.1627938747406006,47.07466866201613,prompts.txt
+112,Write a story about a character discovering a hidden talent.,1,0.025,5,50,0.2755905511811024,13.796446800231934,18.088153699591466,prompts.txt
+113,Write a story about a character overcoming their fears.,1,0.025,5,50,0.5039370078740157,3.707115888595581,34.57068181548,prompts.txt
+114,Write a story about a character finding their true purpose.,1,0.025,5,50,0.3333333333333333,16.720199584960938,19.65014516812039,prompts.txt
+115,Write a story about a cursed object that changes lives.,1,0.025,5,50,0.578125,1.6361823081970215,40.08260700871869,prompts.txt
+116,Write a story about an unlikely friendship between two very different beings.,1,0.025,5,50,0.3828125,1.4537878036499023,25.92914408191124,prompts.txt
+117,Write a story about a talking tree in an enchanted forest.,1,0.025,5,50,0.47244094488188976,4.814994812011719,32.29722966156434,prompts.txt
+118,Write a story about a forgotten city lost under the ocean.,1,0.025,5,50,0.5433070866141733,2.2403295040130615,37.41249700787458,prompts.txt
+119,Write a story about a time traveler who accidentally changes history.,1,0.025,5,50,0.5511811023622047,3.0568366050720215,37.98086004635349,prompts.txt
+120,Write a story about a dream that becomes reality.,1,0.025,5,50,0.5390625,3.7304067611694336,37.2519144233572,prompts.txt
+121,Write a story about two characters meeting for the first time.,1,0.025,5,50,0.41732283464566927,3.259324312210083,28.318688392211936,prompts.txt
+122,Write a story about a character learning a valuable life lesson.,1,0.025,5,50,0.5590551181102362,4.452086925506592,38.549223084832406,prompts.txt
+123,Write a story about a hero who doesn’t want to be a hero.,1,0.025,5,50,0.29133858267716534,8.889179229736328,19.224879776549297,prompts.txt
+124,Write a story about a thief who steals something magical.,1,0.025,5,50,0.36633663366336633,10.547163963317871,21.972085269706735,prompts.txt
+125,Write a story about a kingdom where everyone can fly.,1,0.025,5,50,0.272,4.636146545410156,17.688037388773992,prompts.txt
+126,Write a story about a witch who wants to be good.,1,0.025,5,50,0.6015625,1.6211148500442505,41.78102255993558,prompts.txt
+127,Write a story about a knight who befriends a dragon.,1,0.025,5,50,0.6640625,3.7725391387939453,46.310130696513966,prompts.txt
+128,Write a story about a musician whose songs control the weather.,1,0.025,5,50,0.34615384615384615,16.5555419921875,20.977681386912344,prompts.txt
+129,Write a story about a painter whose art comes to life.,1,0.025,5,50,0.5078125,4.404513359069824,34.987360355068006,prompts.txt
+130,Write a story about a scientist who accidentally creates life.,1,0.025,5,50,0.7109375,3.2344019412994385,49.70696179894775,prompts.txt
+131,Write a story about a secret society hidden in plain sight.,1,0.025,5,50,0.5590551181102362,2.710233449935913,38.549223084832406,prompts.txt
+132,Write a story about a city that only appears at night.,1,0.025,5,50,0.484375,3.539163827896118,33.288944803851116,prompts.txt
+133,Write a story about a shapeshifter who loses control.,1,0.025,5,50,0.3838383838383838,12.112628936767578,22.868842165355506,prompts.txt
+134,Write a story about a character who can stop time.,1,0.025,5,50,0.3469387755102041,15.385498046875,20.413337387006855,prompts.txt
+135,Write a story about a person who wakes up with no memory.,1,0.025,5,50,0.5859375,3.1597776412963867,40.648745525790986,prompts.txt
+136,Write a story about a magical carnival that appears once a century.,1,0.025,5,50,0.5634920634920635,3.1402664184570312,38.71615922248725,prompts.txt
+137,Write a story about a lonely ghost searching for a friend.,1,0.025,5,50,0.7165354330708661,2.327557325363159,49.9164838544107,prompts.txt
+138,Write a story about a mountain that moves once every hundred years.,1,0.025,5,50,0.5806451612903226,4.50846529006958,39.6310945586162,prompts.txt
+139,Write a story about a ship that sails through the sky.,1,0.025,5,50,0.3700787401574803,2.327359437942505,24.908510161338448,prompts.txt
+140,Write a story about a cursed mirror.,1,0.025,5,50,0.5511811023622047,1.9125995635986328,37.98086004635349,prompts.txt
+141,Write a story about a prince who doesn’t want the throne.,1,0.025,5,50,0.75,1.8596091270446777,52.53765438430924,prompts.txt
+142,Write a story about a magical garden hidden beneath the city.,1,0.025,5,50,0.5433070866141733,3.1427462100982666,37.41249700787458,prompts.txt
+143,Write a story about a child who grows up with mythical creatures.,1,0.025,5,50,0.30708661417322836,8.029378890991211,20.36160585350713,prompts.txt
+144,Write a story about a mysterious traveler who knows everyone’s secrets.,1,0.025,5,50,0.35185185185185186,10.481939315795898,21.756574363056206,prompts.txt
+145,Write a story about a lighthouse keeper who guards more than ships.,1,0.025,5,50,0.5634920634920635,1.6679933071136475,38.71615922248725,prompts.txt
+146,Write a story about a girl who inherits a haunted house.,1,0.025,5,50,0.30708661417322836,2.7809150218963623,20.36160585350713,prompts.txt
+147,Write a story about a boy who becomes friends with the moon.,1,0.025,5,50,0.2677165354330709,10.762762069702148,17.519790661112552,prompts.txt
+148,Write a story about a magical festival that grants one wish per person.,1,0.025,5,50,0.48031496062992124,4.43910551071167,32.86559270004326,prompts.txt
+149,Write a story about a secret hidden in an ancient book.,1,0.025,5,50,0.3984375,2.7532403469085693,27.061421116055836,prompts.txt
+150,Explain the concept of photosynthesis in simple terms.,1,0.025,5,50,0.14545454545454545,9.778101921081543,8.091838819320085,prompts.txt
+151,Describe the process of photosynthesis in detail.,1,0.025,5,50,0.171875,10.442935943603516,10.6434041209592,prompts.txt
+152,Describe the process of photosynthesis using light and chlorophyll.,1,0.025,5,50,0.46875,7.190890789031982,32.156667769706516,prompts.txt
+153,Explain how the water cycle works.,1,0.025,5,50,0.16535433070866143,9.497904777526855,10.131071160886657,prompts.txt
+154,Describe the formation of mountains.,1,0.025,5,50,0.3217391304347826,9.678179740905762,20.382217313351745,prompts.txt
+155,Describe how earthquakes occur.,1,0.025,5,50,0.1826086956521739,12.8566312789917,10.825719818446897,prompts.txt
+156,Describe the process of volcanic eruption.,1,0.025,5,50,0.25984251968503935,11.249791145324707,16.951427622633638,prompts.txt
+157,Explain the rock cycle.,1,0.025,5,50,0.2440944881889764,13.197848320007324,15.814701545675806,prompts.txt
+158,Describe the formation of clouds and precipitation.,1,0.025,5,50,0.225,6.225438594818115,14.032928308912467,prompts.txt
+159,Explain the life cycle of a butterfly.,1,0.025,5,50,0.2047244094488189,13.947126388549805,12.972886353281233,prompts.txt
+160,Describe the process of metamorphosis.,1,0.025,5,50,0.2734375,7.424505233764648,18.003204842899073,prompts.txt
+161,Describe the process of germination.,1,0.025,5,50,0.4609375,5.442770004272461,31.59052925263422,prompts.txt
+162,Explain how thunderstorms form.,1,0.025,5,50,0.3515625,9.23160457611084,23.66459001362205,prompts.txt
+163,Explain the process of fossil formation.,1,0.025,5,50,0.3464566929133858,6.850327968597412,23.203421045901703,prompts.txt
+164,Describe the process of cellular respiration.,1,0.025,5,50,0.1875,7.0566935539245605,11.775681155103797,prompts.txt
+165,Describe the process of protein synthesis.,1,0.025,5,50,0.375,2.923745632171631,25.363005564838943,prompts.txt
+166,Explain how DNA stores genetic information.,1,0.025,5,50,0.4921875,5.631086826324463,33.85508332092341,prompts.txt
+167,Describe the structure and function of DNA.,1,0.025,5,50,0.2992125984251969,12.83012580871582,19.79324281502821,prompts.txt
+168,Explain how the circulatory system works.,1,0.025,5,50,0.40625,11.274127006530762,27.627559633128136,prompts.txt
+169,Describe the function of the respiratory system.,1,0.025,5,50,0.20588235294117646,10.661100387573242,11.701026756200555,prompts.txt
+170,Explain how the nervous system controls the body.,1,0.025,5,50,0.2828282828282828,13.261180877685547,16.43144817088527,prompts.txt
+171,Explain how the immune system protects the body.,1,0.025,5,50,0.28440366972477066,10.074529647827148,17.346707378656443,prompts.txt
+172,Explain the process of digestion.,1,0.025,5,50,0.16161616161616163,7.81520938873291,8.706575377520993,prompts.txt
+173,Describe the human digestive system.,1,0.025,5,50,0.15789473684210525,7.557706832885742,9.08840966745012,prompts.txt
+174,Explain the process of water filtration.,1,0.025,5,50,0.7265625,2.673959732055664,50.839238833092345,prompts.txt
+175,Describe how renewable energy reduces carbon emissions.,1,0.025,5,50,0.15151515151515152,6.603892803192139,8.062835978073968,prompts.txt
+176,Explain how solar panels convert sunlight into electricity.,1,0.025,5,50,0.2463768115942029,9.166348457336426,11.778347447712425,prompts.txt
+177,Explain how antibiotics fight bacterial infections.,1,0.025,5,50,0.2734375,5.762518882751465,18.003204842899073,prompts.txt
+178,Explain how vaccines protect us from diseases.,1,0.025,5,50,0.2992125984251969,2.0327084064483643,19.79324281502821,prompts.txt
+179,Explain how the human brain processes information.,1,0.025,5,50,0.4251968503937008,8.89299488067627,28.88705143069085,prompts.txt
+180,Describe the life cycle of a star.,1,0.025,5,50,0.7890625,1.5089635848999023,55.36834696967073,prompts.txt
+181,Explain the concept of quantum mechanics in simple terms.,1,0.025,5,50,0.578125,5.38176155090332,40.08260700871869,prompts.txt
+182,Explain the concept of gravity in simple terms.,1,0.025,5,50,0.6171875,2.923217535018921,42.91329959408018,prompts.txt
+183,Explain the concept of probability in everyday life.,1,0.025,5,50,0.20202020202020202,10.189586639404297,11.281532975309085,prompts.txt
+184,Explain how blockchain technology works.,1,0.025,5,50,0.2524271844660194,8.838632583618164,14.783888383578693,prompts.txt
+185,Explain the concept of artificial intelligence.,1,0.025,5,50,0.13385826771653545,9.307452201843262,7.857619006970998,prompts.txt
+186,Explain the concept of machine learning.,1,0.025,5,50,0.21875,10.897263526916504,14.040235223392989,prompts.txt
+187,Explain the theory of relativity in simple terms.,1,0.025,5,50,0.140625,8.522032737731934,8.378850052670009,prompts.txt
+188,Explain how a computer processor works.,1,0.025,5,50,0.373015873015873,3.559936761856079,25.021423462138042,prompts.txt
+189,Explain how the internet works.,1,0.025,5,50,0.4330708661417323,3.5369229316711426,29.455414469169767,prompts.txt
+190,Explain how recycling helps the environment.,1,0.025,5,50,0.2358490566037736,11.903871536254883,13.904400948888812,prompts.txt
+191,Explain the importance of biodiversity.,1,0.025,5,50,0.171875,11.872729301452637,10.6434041209592,prompts.txt
+192,Explain how climate change affects ecosystems.,1,0.025,5,50,0.4375,4.496463775634766,29.892113701417326,prompts.txt
+193,Explain the concept of renewable vs non-renewable resources.,1,0.025,5,50,0.21495327102803738,7.706732273101807,12.585380584520477,prompts.txt
+194,Explain the concept of sustainable development.,1,0.025,5,50,0.24,14.72367000579834,13.771021227237494,prompts.txt
+195,Explain the causes and effects of deforestation.,1,0.025,5,50,0.2079207920792079,9.081809997558594,11.774743302620216,prompts.txt
+196,Explain the environmental impacts of plastic pollution.,1,0.025,5,50,0.22727272727272727,17.822071075439453,12.153639607580757,prompts.txt
+197,Explain the effects of desertification.,1,0.025,5,50,0.21904761904761905,10.662386894226074,12.735929773829126,prompts.txt
+198,Explain the effects of urbanization on the environment.,1,0.025,5,50,0.1796875,9.050209045410156,11.209542638031499,prompts.txt
+199,Explain the causes and effects of air pollution.,1,0.025,5,50,0.22772277227722773,8.432538986206055,13.04941104850603,prompts.txt
+200,What are the key principles of good leadership?,1,0.025,5,50,0.20930232558139536,17.359167098999023,7.7409227045122435,prompts.txt
+201,What are the key elements of effective communication?,1,0.025,5,50,0.1796875,2.545147180557251,11.209542638031499,prompts.txt
+202,What are the pros and cons of social media?,1,0.025,5,50,0.38016528925619836,6.13474702835083,25.023663308267707,prompts.txt
+203,What are the pros and cons of space exploration?,1,0.025,5,50,0.23880597014925373,11.986572265625,11.209465821144537,prompts.txt
+204,What are the benefits of teamwork?,1,0.025,5,50,0.7578125,1.9497663974761963,53.10379290138154,prompts.txt
+205,What are the benefits and drawbacks of remote work?,1,0.025,5,50,0.5748031496062992,2.066220283508301,39.685949161790234,prompts.txt
+206,What are the benefits of renewable energy?,1,0.025,5,50,0.40625,2.726489305496216,27.627559633128136,prompts.txt
+207,What are the challenges facing renewable energy adoption?,1,0.025,5,50,0.28225806451612906,7.20576286315918,18.348794142523317,prompts.txt
+208,What are the benefits of learning a second language?,1,0.025,5,50,0.2265625,6.5940446853637695,14.606373740465285,prompts.txt
+209,What are the benefits of meditation?,1,0.025,5,50,0.1746031746031746,9.839028358459473,7.605692660537951,prompts.txt
+210,What are the benefits of exercise for mental health?,1,0.025,5,50,0.2112676056338028,7.53408145904541,10.052965546915416,prompts.txt
+211,What are the benefits of eating fruits and vegetables?,1,0.025,5,50,0.2975206611570248,3.0069401264190674,19.200821351719085,prompts.txt
+212,What are the benefits of physical fitness?,1,0.025,5,50,0.275,4.754480361938477,17.541160386140586,prompts.txt
+213,What are the key factors that contribute to happiness?,1,0.025,5,50,0.41732283464566927,3.0723652839660645,28.318688392211936,prompts.txt
+214,What are the main causes of climate change?,1,0.025,5,50,0.18947368421052632,7.080475330352783,10.268001210211338,prompts.txt
+215,What are the main causes of deforestation?,1,0.025,5,50,0.3828125,3.0998075008392334,25.92914408191124,prompts.txt
+216,What are the main causes of economic inequality?,1,0.025,5,50,0.28846153846153844,9.345337867736816,17.209235628784377,prompts.txt
+217,What are the main causes of global warming?,1,0.025,5,50,0.19402985074626866,8.159017562866211,8.86193371200432,prompts.txt
+218,What are the impacts of plastic pollution?,1,0.025,5,50,0.2524271844660194,12.514836311340332,14.783888383578693,prompts.txt
+219,What are the impacts of overfishing?,1,0.025,5,50,0.26804123711340205,9.458151817321777,15.3318133002854,prompts.txt
+220,What are the impacts of urbanization?,1,0.025,5,50,0.35772357723577236,5.653955459594727,23.635446998207723,prompts.txt
+221,What are the impacts of renewable energy adoption?,1,0.025,5,50,0.19444444444444445,11.212661743164062,6.51187825474021,prompts.txt
+222,What are the consequences of misinformation?,1,0.025,5,50,0.22857142857142856,9.507201194763184,13.361006081747119,prompts.txt
+223,What are the consequences of overpopulation?,1,0.025,5,50,0.3046875,2.1440722942352295,20.267758911188263,prompts.txt
+224,What are the consequences of automation?,1,0.025,5,50,0.4921875,4.466317176818848,33.85508332092341,prompts.txt
+225,What are the consequences of artificial intelligence misuse?,1,0.025,5,50,0.2833333333333333,2.4328453540802,18.12586573234527,prompts.txt
+226,What are the consequences of inequality?,1,0.025,5,50,0.859375,2.926614999771118,60.46359362332141,prompts.txt
+227,Explain the importance of critical thinking.,1,0.025,5,50,0.297029702970297,12.618773460388184,17.510748159106384,prompts.txt
+228,Explain the concept of democracy.,1,0.025,5,50,0.26804123711340205,8.732449531555176,15.3318133002854,prompts.txt
+229,Explain the concept of supply and demand in economics.,1,0.025,5,50,0.5,4.812685966491699,34.42122183799571,prompts.txt
+230,Explain the concept of human rights.,1,0.025,5,50,0.2796610169491525,10.938362121582031,17.71867166326662,prompts.txt
+231,Explain the concept of justice.,1,0.025,5,50,0.3984375,1.7894665002822876,27.061421116055836,prompts.txt
+232,Explain the concept of freedom.,1,0.025,5,50,0.2283464566929134,8.605914115905762,14.677975468717976,prompts.txt
+233,Explain the concept of sustainability.,1,0.025,5,50,0.2283464566929134,11.030644416809082,14.677975468717976,prompts.txt
+234,Explain the importance of education.,1,0.025,5,50,0.24193548387096775,3.6065874099731445,15.472807599808064,prompts.txt
+235,Explain the importance of history.,1,0.025,5,50,0.23622047244094488,11.62181282043457,15.246338507196892,prompts.txt
+236,Explain the importance of ethics in science.,1,0.025,5,50,0.32967032967032966,8.073474884033203,18.615664636285814,prompts.txt
+237,Explain the importance of cultural diversity.,1,0.025,5,50,0.234375,11.468059539794922,15.172512257537583,prompts.txt
+238,Explain the importance of empathy.,1,0.025,5,50,0.23684210526315788,11.303936958312988,14.48746491544029,prompts.txt
+239,Write a poem about the ocean.,1,0.025,5,50,0.3543307086614173,10.619150161743164,23.771784084380617,prompts.txt
+240,Write a poem about the night sky.,1,0.025,5,50,0.2440944881889764,37.22578048706055,15.814701545675806,prompts.txt
+241,Write a poem about love.,1,0.025,5,50,0.40625,1.7454044818878174,27.627559633128136,prompts.txt
+242,Write a poem about friendship.,1,0.025,5,50,0.609375,1.815948724746704,42.34716107700788,prompts.txt
+243,Write a poem about courage.,1,0.025,5,50,0.2975206611570248,3.1927759647369385,19.200821351719085,prompts.txt
+244,Write a poem about the changing seasons.,1,0.025,5,50,0.47244094488188976,2.227292776107788,32.29722966156434,prompts.txt
+245,Write a poem about hope and resilience.,1,0.025,5,50,0.3442622950819672,7.40873908996582,22.586827469027046,prompts.txt
+246,Write a poem about the future.,1,0.025,5,50,0.5166666666666667,9.810593605041504,34.497615426076486,prompts.txt
+247,Write a poem about the stars.,1,0.025,5,50,0.408,13.962560653686523,27.42719967571028,prompts.txt
+248,Write a poem about peace.,1,0.025,5,50,0.5859375,2.1475625038146973,40.648745525790986,prompts.txt
+249,Write a poem about home.,1,0.025,5,50,0.390625,1.7273260354995728,26.49528259898354,prompts.txt
+250,Write a poem about dreams.,1,0.025,5,50,0.5703125,2.75512433052063,39.51646849164639,prompts.txt
+251,Write a poem about silence.,1,0.025,5,50,0.46875,4.685761451721191,32.156667769706516,prompts.txt
+252,Write a poem about music.,1,0.025,5,50,0.59375,2.03875994682312,41.21488404286328,prompts.txt
+253,Write a poem about nature.,1,0.025,5,50,0.6015625,1.6859163045883179,41.78102255993558,prompts.txt
+254,Write a poem about time.,1,0.025,5,50,0.375,2.281560182571411,25.363005564838943,prompts.txt
+255,Write a poem about childhood.,1,0.025,5,50,0.7890625,1.6205341815948486,55.36834696967073,prompts.txt
+256,Write a poem about journeys.,1,0.025,5,50,0.390625,1.8139609098434448,26.49528259898354,prompts.txt
+257,Write a poem about freedom.,1,0.025,5,50,0.5905511811023622,1.7730433940887451,40.82267523874806,prompts.txt
+258,Write a poem about memory.,1,0.025,5,50,0.5078125,1.7745180130004883,34.987360355068006,prompts.txt
+259,Write a story about a boy who discovers an ancient map.,1,0.025,5,50,0.4645669291338583,7.756582260131836,31.728866623085427,prompts.txt
+260,Write a story about a girl who can talk to the stars.,1,0.025,5,50,0.2549019607843137,14.148037910461426,14.872036717230515,prompts.txt
+261,Write a story about a soldier who refuses to fight.,1,0.025,5,50,0.59375,1.981818437576294,41.21488404286328,prompts.txt
+262,Write a story about a kingdom under an eternal eclipse.,1,0.025,5,50,0.2755905511811024,16.15622329711914,18.088153699591466,prompts.txt
+263,Write a story about a scientist who travels into their own experiment.,1,0.025,5,50,0.7480314960629921,2.0123467445373535,52.18993600832636,prompts.txt
+264,Write a story about a train that never stops.,1,0.025,5,50,0.4921875,3.4047558307647705,33.85508332092341,prompts.txt
+265,Write a story about a magical instrument that controls people’s emotions.,1,0.025,5,50,0.2777777777777778,4.234874725341797,18.174055581963433,prompts.txt
+266,Write a story about a lonely vampire searching for a friend.,1,0.025,5,50,0.6328125,4.031613826751709,44.04557662822477,prompts.txt
+267,Write a story about a character who wakes up as someone else.,1,0.025,5,50,0.296875,3.3286821842193604,19.701620394115963,prompts.txt
+268,Write a story about a town where no one can lie.,1,0.025,5,50,0.390625,1.5195096731185913,26.49528259898354,prompts.txt
+269,Write a story about a pirate searching for a cursed treasure.,1,0.025,5,50,0.3838383838383838,19.365629196166992,22.868842165355506,prompts.txt
+270,Write a story about a magical clock that can turn back time.,1,0.025,5,50,0.44881889763779526,3.1699721813201904,30.592140546127595,prompts.txt
+271,Write a story about an inventor who builds a machine that predicts the future.,1,0.025,5,50,0.3203125,14.009657859802246,21.400035945332856,prompts.txt
+272,Write a story about a painter who can capture souls on canvas.,1,0.025,5,50,0.3228346456692913,7.298992156982422,21.498331930464957,prompts.txt
+273,Write a story about a library where books whisper secrets.,1,0.025,5,50,0.5590551181102362,1.8835270404815674,38.549223084832406,prompts.txt
+274,Write a story about a detective who solves crimes in people’s dreams.,1,0.025,5,50,0.3888888888888889,5.213106155395508,26.162651442167142,prompts.txt
+275,Write a story about a cat who saves its owner from danger.,1,0.025,5,50,0.390625,4.700318813323975,26.49528259898354,prompts.txt
+276,Write a story about a prince who wants to escape royalty.,1,0.025,5,50,0.5859375,1.7073335647583008,40.648745525790986,prompts.txt
+277,Write a story about a child who discovers they can breathe underwater.,1,0.025,5,50,0.3779527559055118,21.787113189697266,25.476873199817362,prompts.txt
+278,Write a story about a hidden island that no one remembers after leaving.,1,0.025,5,50,0.2992125984251969,3.5417158603668213,19.79324281502821,prompts.txt
+279,Write a story about a magical ring with unpredictable powers.,1,0.025,5,50,0.48031496062992124,7.801145076751709,32.86559270004326,prompts.txt
+280,Write a story about two enemies who must work together.,1,0.025,5,50,0.41237113402061853,20.063703536987305,24.43660168645701,prompts.txt
+281,Write a story about a dragon who wants peace with humans.,1,0.025,5,50,0.2992125984251969,7.388868808746338,19.79324281502821,prompts.txt
+282,Write a story about a character lost in a desert of illusions.,1,0.025,5,50,0.49606299212598426,1.7796483039855957,34.002318777001086,prompts.txt
+283,Write a story about a haunted carnival.,1,0.025,5,50,0.7890625,1.4065337181091309,55.36834696967073,prompts.txt
+284,Write a story about a world where everyone wears masks.,1,0.025,5,50,0.384,1.8292020559310913,25.70852397801564,prompts.txt
+285,Write a story about a character who can speak every language.,1,0.025,5,50,0.3464566929133858,5.983208656311035,23.203421045901703,prompts.txt
+286,Write a story about a farmer who grows impossible crops.,1,0.025,5,50,0.3984375,5.322409629821777,27.061421116055836,prompts.txt
+287,Write a story about a hero who is secretly the villain.,1,0.025,5,50,0.5669291338582677,1.998726487159729,39.11758612331132,prompts.txt
+288,Write a story about a character trapped in a painting.,1,0.025,5,50,0.30708661417322836,6.791552543640137,20.36160585350713,prompts.txt
+289,Write a story about a giant who dreams of being small.,1,0.025,5,50,0.3828125,1.6789138317108154,25.92914408191124,prompts.txt
+290,Write a story about a child who can see the future.,1,0.025,5,50,0.515625,3.839370012283325,35.5534988721403,prompts.txt
+291,Write a story about a princess who saves herself.,1,0.025,5,50,0.27450980392156865,11.877904891967773,16.1404407016425,prompts.txt
+292,Write a story about a knight searching for forgiveness.,1,0.025,5,50,0.2992125984251969,12.619248390197754,19.79324281502821,prompts.txt
+293,Write a story about a village where everyone disappears at night.,1,0.025,5,50,0.6015625,7.101366996765137,41.78102255993558,prompts.txt
+294,Write a story about a bridge that leads to another dimension.,1,0.025,5,50,0.575,3.598412275314331,38.59055284950929,prompts.txt
+295,Write a story about a cursed ship.,1,0.025,5,50,0.3858267716535433,4.6064534187316895,26.045236238296276,prompts.txt
+296,Write a story about a scientist who clones themselves.,1,0.025,5,50,0.3917525773195876,7.537352561950684,23.135917631289637,prompts.txt
+297,Write a story about a traveler who never grows old.,1,0.025,5,50,0.7480314960629921,1.5692912340164185,52.18993600832636,prompts.txt
+298,Write a story about a mysterious letter that changes everything.,1,0.025,5,50,0.5354330708661418,3.4516818523406982,36.844133969395656,prompts.txt
+299,Explain how the ozone layer protects life on Earth.,1,0.025,5,50,0.1732283464566929,7.30141544342041,10.699434199365573,prompts.txt
+300,Explain the difference between weather and climate.,1,0.025,5,50,0.2440944881889764,12.082855224609375,15.814701545675806,prompts.txt
+301,Explain the greenhouse effect.,1,0.025,5,50,0.1968503937007874,11.450275421142578,12.404523314802317,prompts.txt
+302,Explain the process of photosynthesis with equations.,1,0.025,5,50,0.21875,11.792120933532715,14.040235223392989,prompts.txt
+303,Explain the role of mitochondria in cells.,1,0.025,5,50,0.1889763779527559,9.16759204864502,11.836160276323403,prompts.txt
+304,Explain the structure of proteins.,1,0.025,5,50,0.5,3.1631217002868652,34.42122183799571,prompts.txt
+305,Explain how enzymes work in digestion.,1,0.025,5,50,0.11224489795918367,11.373353958129883,5.531982081106454,prompts.txt
+306,Explain how plants adapt to deserts.,1,0.025,5,50,0.3137254901960784,29.564104080200195,18.67724867046647,prompts.txt
+307,Explain how fish breathe underwater.,1,0.025,5,50,0.38235294117647056,11.42322063446045,23.116662615908414,prompts.txt
+308,Explain how birds migrate across continents.,1,0.025,5,50,0.453125,7.148538112640381,31.024390735561923,prompts.txt
+309,Explain the difference between renewable and non-renewable resources.,1,0.025,5,50,0.2079207920792079,7.156885623931885,11.774743302620216,prompts.txt
+310,Explain the concept of entropy in simple terms.,1,0.025,5,50,0.2890625,7.166926860809326,19.135481877043667,prompts.txt
+311,Explain the laws of motion in everyday language.,1,0.025,5,50,0.5590551181102362,2.131129026412964,38.549223084832406,prompts.txt
+312,Explain the concept of inertia.,1,0.025,5,50,0.2109375,8.006529808044434,13.47409670632069,prompts.txt
+313,Explain how black holes form.,1,0.025,5,50,0.31746031746031744,12.92436408996582,21.027125532036187,prompts.txt
+314,Explain the concept of the Big Bang.,1,0.025,5,50,0.19230769230769232,13.791131973266602,10.9284926985711,prompts.txt
+315,Explain how telescopes work.,1,0.025,5,50,0.19607843137254902,12.034588813781738,11.066824763994562,prompts.txt
+316,Explain how satellites stay in orbit.,1,0.025,5,50,0.2440944881889764,8.400961875915527,15.814701545675806,prompts.txt
+317,Explain how space shuttles re-enter Earth safely.,1,0.025,5,50,0.5317460317460317,4.486568927764893,36.43370326242905,prompts.txt
+318,Explain how GPS works.,1,0.025,5,50,0.3858267716535433,5.1597137451171875,26.045236238296276,prompts.txt
+319,Explain how sound travels.,1,0.025,5,50,0.22549019607843138,10.452244758605957,12.96943074061254,prompts.txt
+320,Explain how light refracts.,1,0.025,5,50,0.46875,4.152232646942139,32.156667769706516,prompts.txt
+321,Explain how rainbows form.,1,0.025,5,50,0.5703125,6.524169445037842,39.51646849164639,prompts.txt
+322,Explain how electricity flows in a circuit.,1,0.025,5,50,0.484375,3.2231459617614746,33.288944803851116,prompts.txt
+323,Explain how batteries store energy.,1,0.025,5,50,0.5433070866141733,2.691915273666382,37.41249700787458,prompts.txt
+324,Explain how magnets work.,1,0.025,5,50,0.59375,5.404331684112549,41.21488404286328,prompts.txt
+325,Explain how nuclear energy is produced.,1,0.025,5,50,0.22727272727272727,10.129400253295898,13.588182168292219,prompts.txt
+326,Explain the difference between fission and fusion.,1,0.025,5,50,0.25396825396825395,3.3279528617858887,16.462213611919783,prompts.txt
+327,Explain how wind turbines generate electricity.,1,0.025,5,50,0.5390625,4.23956298828125,37.2519144233572,prompts.txt
+328,Explain how hydroelectric dams work.,1,0.025,5,50,0.49606299212598426,3.104010820388794,34.002318777001086,prompts.txt
+329,Explain how geothermal energy is harnessed.,1,0.025,5,50,0.4330708661417323,5.785451889038086,29.455414469169767,prompts.txt
+330,Explain how tidal energy is used.,1,0.025,5,50,0.25961538461538464,13.494601249694824,15.325012749720393,prompts.txt
+331,Explain how machine learning improves over time.,1,0.025,5,50,0.2734375,3.4885053634643555,18.003204842899073,prompts.txt
+332,Explain the difference between supervised and unsupervised learning.,1,0.025,5,50,0.21875,6.867465972900391,14.040235223392989,prompts.txt
+333,Explain how neural networks mimic the brain.,1,0.025,5,50,0.3779527559055118,11.275008201599121,25.476873199817362,prompts.txt
+334,Explain how self-driving cars work.,1,0.025,5,50,0.28,9.815836906433105,16.33307168811889,prompts.txt
+335,Explain how facial recognition works.,1,0.025,5,50,0.3543307086614173,12.3603515625,23.771784084380617,prompts.txt
+336,Explain the risks of artificial intelligence.,1,0.025,5,50,0.32,16.148324966430664,18.895122149000283,prompts.txt
+337,Explain the benefits of artificial intelligence.,1,0.025,5,50,0.2761904761904762,19.376874923706055,16.48638762133709,prompts.txt
+338,Explain how cybersecurity protects data.,1,0.025,5,50,0.297029702970297,19.5867919921875,17.510748159106384,prompts.txt
+339,Explain how firewalls work.,1,0.025,5,50,0.3515625,8.205772399902344,23.66459001362205,prompts.txt
+340,Explain how computer viruses spread.,1,0.025,5,50,0.5354330708661418,3.986632823944092,36.844133969395656,prompts.txt
+341,Explain how quantum computers differ from classical computers.,1,0.025,5,50,0.171875,9.316448211669922,10.6434041209592,prompts.txt
+342,Explain how blockchain secures transactions.,1,0.025,5,50,0.546875,7.206799507141113,37.818052940429496,prompts.txt
+343,Explain how digital currencies work.,1,0.025,5,50,0.424,5.884704113006592,28.572983474173373,prompts.txt
+344,Explain how 3D printing works.,1,0.025,5,50,0.3543307086614173,3.0425658226013184,23.771784084380617,prompts.txt
+345,Explain how drones are used in different industries.,1,0.025,5,50,0.2413793103448276,6.624856472015381,14.92699593959632,prompts.txt
+346,Explain how medical imaging works.,1,0.025,5,50,0.2734375,11.765671730041504,18.003204842899073,prompts.txt
+347,Explain how CRISPR edits genes.,1,0.025,5,50,0.25,9.412494659423828,16.30478929168218,prompts.txt
+348,Explain how organ transplants save lives.,1,0.025,5,50,0.34375,6.297784805297852,23.098451496549753,prompts.txt
+349,Explain how vaccines are developed.,1,0.025,5,50,0.25196850393700787,3.456202745437622,16.38306458415472,prompts.txt
+350,Explain how pandemics spread.,1,0.025,5,50,0.5703125,3.256234645843506,39.51646849164639,prompts.txt
+351,Explain how antibiotics lose effectiveness.,1,0.025,5,50,0.1968503937007874,8.245988845825195,12.404523314802317,prompts.txt
+352,Explain how the human genome project changed science.,1,0.025,5,50,0.203125,9.658247947692871,12.907958189248392,prompts.txt
+353,Explain how climate models predict the future.,1,0.025,5,50,0.3779527559055118,8.221787452697754,25.476873199817362,prompts.txt
+354,Explain how weather forecasts are made.,1,0.025,5,50,0.21,10.41506576538086,11.849483381576448,prompts.txt
+355,What are the benefits of public transportation?,1,0.025,5,50,0.26495726495726496,11.453836441040039,16.624726982049992,prompts.txt
+356,What are the drawbacks of fossil fuels?,1,0.025,5,50,0.20618556701030927,7.154260635375977,11.429761134783284,prompts.txt
+357,What are the benefits of clean drinking water projects?,1,0.025,5,50,0.2890625,4.214529037475586,19.135481877043667,prompts.txt
+358,What are the challenges of space colonization?,1,0.025,5,50,0.3333333333333333,6.709030628204346,22.168353512065288,prompts.txt
+359,What are the benefits of electric vehicles?,1,0.025,5,50,0.3524590163934426,3.00374174118042,23.166720343713237,prompts.txt
+360,What are the challenges of electric vehicle adoption?,1,0.025,5,50,0.2421875,6.0760040283203125,15.738650774609882,prompts.txt
+361,What are the pros and cons of nuclear energy?,1,0.025,5,50,0.3125,2.15537691116333,20.83389742826056,prompts.txt
+362,What are the effects of social inequality?,1,0.025,5,50,0.5703125,6.01466178894043,39.51646849164639,prompts.txt
+363,What are the effects of poverty on education?,1,0.025,5,50,0.33070866141732286,3.332226037979126,22.06669496894387,prompts.txt
+364,What are the benefits of universal healthcare?,1,0.025,5,50,0.25,11.864580154418945,14.696938456699067,prompts.txt
+365,What are the drawbacks of universal healthcare?,1,0.025,5,50,0.3089430894308943,6.346133708953857,20.17026234361404,prompts.txt
+366,What are the effects of globalization?,1,0.025,5,50,0.20967741935483872,2.9301962852478027,13.17201836563586,prompts.txt
+367,What are the effects of fast fashion on the environment?,1,0.025,5,50,0.2265625,10.495247840881348,14.606373740465285,prompts.txt
+368,What are the benefits of cultural exchange?,1,0.025,5,50,0.6587301587301587,4.274714946746826,45.56352710266186,prompts.txt
+369,What are the challenges of immigration?,1,0.025,5,50,0.248,7.689437389373779,15.969361691079353,prompts.txt
+370,What are the pros and cons of social media influencers?,1,0.025,5,50,0.375,9.81166934967041,25.363005564838943,prompts.txt
+371,What are the benefits of community service?,1,0.025,5,50,0.3125,3.99290132522583,20.83389742826056,prompts.txt
+372,What are the drawbacks of standardized testing?,1,0.025,5,50,0.5703125,1.759980320930481,39.51646849164639,prompts.txt
+373,What are the benefits of creativity in education?,1,0.025,5,50,0.2857142857142857,4.407529354095459,17.111463929255084,prompts.txt
+374,What are the effects of technology on relationships?,1,0.025,5,50,0.3046875,7.119180679321289,20.267758911188263,prompts.txt
+375,What are the effects of overwork on health?,1,0.025,5,50,0.21875,4.627875804901123,14.040235223392989,prompts.txt
+376,What are the benefits of financial literacy?,1,0.025,5,50,0.2890625,4.478231430053711,19.135481877043667,prompts.txt
+377,What are the effects of corruption?,1,0.025,5,50,0.234375,6.626701354980469,15.172512257537583,prompts.txt
+378,What are the challenges of democracy?,1,0.025,5,50,0.48031496062992124,1.664023518562317,32.86559270004326,prompts.txt
+379,What are the pros and cons of capitalism?,1,0.025,5,50,0.265625,1.9748284816741943,17.437066325826773,prompts.txt
+380,What are the pros and cons of socialism?,1,0.025,5,50,0.5390625,5.034364700317383,37.2519144233572,prompts.txt
+381,What are the benefits of renewable energy subsidies?,1,0.025,5,50,0.2265625,8.244805335998535,14.606373740465285,prompts.txt
+382,What are the effects of global trade?,1,0.025,5,50,0.2549019607843137,14.387886047363281,14.872036717230515,prompts.txt
+383,What are the consequences of climate inaction?,1,0.025,5,50,0.3828125,3.971177339553833,25.92914408191124,prompts.txt
+384,What are the consequences of war on civilians?,1,0.025,5,50,0.21875,11.272588729858398,14.040235223392989,prompts.txt
+385,What are the benefits of peace agreements?,1,0.025,5,50,0.4296875,6.786255836486816,29.32597518434503,prompts.txt
+386,What are the challenges of governing the internet?,1,0.025,5,50,0.2047244094488189,1.6108648777008057,12.972886353281233,prompts.txt
+387,What are the pros and cons of universal basic income?,1,0.025,5,50,0.24752475247524752,10.160194396972656,14.324078794391845,prompts.txt
+388,What are the effects of social media on politics?,1,0.025,5,50,0.17647058823529413,8.361550331115723,9.798420779582578,prompts.txt
+389,What are the effects of misinformation?,1,0.025,5,50,0.2440944881889764,12.002918243408203,15.814701545675806,prompts.txt
+390,What are the effects of artificial intelligence on jobs?,1,0.025,5,50,0.16822429906542055,11.420173645019531,9.489346000382598,prompts.txt
+391,What are the pros and cons of remote education?,1,0.025,5,50,0.484375,11.088526725769043,33.288944803851116,prompts.txt
+392,What are the challenges of space exploration?,1,0.025,5,50,0.3968253968253968,3.8523781299591064,26.733265432181692,prompts.txt
+393,What are the benefits of investing in science research?,1,0.025,5,50,0.140625,10.145506858825684,8.378850052670009,prompts.txt
+394,What are the challenges of protecting endangered species?,1,0.025,5,50,0.36220472440944884,3.2208354473114014,24.34014712285953,prompts.txt
+395,Write a poem about mountains.,1,0.025,5,50,0.4765625,2.48034930229187,32.72280628677881,prompts.txt
+396,Write a poem about rivers.,1,0.025,5,50,0.375,5.524839878082275,25.363005564838943,prompts.txt
+397,Write a poem about forests.,1,0.025,5,50,0.5537190082644629,12.59326457977295,37.251631417019816,prompts.txt
+398,Write a poem about deserts.,1,0.025,5,50,0.5859375,2.643009662628174,40.648745525790986,prompts.txt
+399,Write a poem about rain.,1,0.025,5,50,0.375,7.011454105377197,24.55762454059682,prompts.txt
+400,Write a poem about snow.,1,0.025,5,50,0.3984375,1.7029715776443481,27.061421116055836,prompts.txt
+401,Write a poem about the wind.,1,0.025,5,50,0.765625,2.477277994155884,53.669931418453835,prompts.txt
+402,Write a poem about fire.,1,0.025,5,50,0.5,2.020136594772339,34.42122183799571,prompts.txt
+403,Write a poem about childhood memories.,1,0.025,5,50,0.4015748031496063,1.7075374126434326,27.181962315254108,prompts.txt
+404,Write a poem about dreams of the future.,1,0.025,5,50,0.5078125,2.2896056175231934,34.987360355068006,prompts.txt
+405,Write a poem about lost love.,1,0.025,5,50,0.6015625,1.8401424884796143,41.78102255993558,prompts.txt
+406,Write a poem about new beginnings.,1,0.025,5,50,0.2975206611570248,2.5637989044189453,19.200821351719085,prompts.txt
+407,Write a poem about patience.,1,0.025,5,50,0.5625,2.459935426712036,38.95032997457409,prompts.txt
+408,Write a poem about kindness.,1,0.025,5,50,0.3968253968253968,5.530615329742432,26.733265432181692,prompts.txt
+409,Write a poem about strength.,1,0.025,5,50,0.4921875,2.10097599029541,33.85508332092341,prompts.txt
+410,Write a poem about wisdom.,1,0.025,5,50,0.49586776859504134,2.0504729747772217,33.17564204743578,prompts.txt
+411,Write a poem about forgiveness.,1,0.025,5,50,0.578125,2.2649478912353516,40.08260700871869,prompts.txt
+412,Write a poem about beauty.,1,0.025,5,50,0.3858267716535433,1.407839298248291,26.045236238296276,prompts.txt
+413,Write a poem about faith.,1,0.025,5,50,0.578125,2.154785394668579,40.08260700871869,prompts.txt
+414,Write a poem about destiny.,1,0.025,5,50,0.5078125,1.7745180130004883,34.987360355068006,prompts.txt
+415,Write a poem about the stars.,1,0.025,5,50,0.408,13.962560653686523,27.42719967571028,prompts.txt
+416,Write a poem about the sun.,1,0.025,5,50,0.225,5.315971851348877,14.032928308912467,prompts.txt
+417,Write a poem about the moon.,1,0.025,5,50,0.5905511811023622,1.7505747079849243,40.82267523874806,prompts.txt
+418,Write a poem about music.,1,0.025,5,50,0.59375,2.03875994682312,41.21488404286328,prompts.txt
+419,Write a poem about silence.,1,0.025,5,50,0.46875,4.685761451721191,32.156667769706516,prompts.txt
+420,Write a poem about journeys.,1,0.025,5,50,0.390625,1.8139609098434448,26.49528259898354,prompts.txt
+421,Write a poem about discovery.,1,0.025,5,50,0.6953125,2.1059134006500244,48.57468476480316,prompts.txt
+422,Write a poem about peace.,1,0.025,5,50,0.5859375,2.1475625038146973,40.648745525790986,prompts.txt
+423,Write a poem about change.,1,0.025,5,50,0.5078125,1.7745180130004883,34.987360355068006,prompts.txt
+424,Write a poem about unity.,1,0.025,5,50,0.49586776859504134,2.077000856399536,33.17564204743578,prompts.txt
+425,Write a story about a character who wakes up in a city where no one speaks.,1,0.025,5,50,0.6640625,2.1337528228759766,46.310130696513966,prompts.txt
+426,Write a story about a mirror that shows alternate lives.,1,0.025,5,50,0.5669291338582677,1.5535328388214111,39.11758612331132,prompts.txt
+427,Write a story about a girl who befriends a phoenix.,1,0.025,5,50,0.3984375,1.4708458185195923,27.061421116055836,prompts.txt
+428,Write a story about a prince cursed to live as a commoner.,1,0.025,5,50,0.421875,3.075371503829956,28.75983666727273,prompts.txt
+429,Write a story about a character who can enter people’s dreams.,1,0.025,5,50,0.4,5.219024658203125,26.854307776478734,prompts.txt
+430,Write a story about a kingdom built on floating islands.,1,0.025,5,50,0.36220472440944884,2.593355655670166,24.34014712285953,prompts.txt
+431,Write a story about a boy who finds a portal inside his school.,1,0.025,5,50,0.4566929133858268,5.526431560516357,31.16050358460651,prompts.txt
+432,Write a story about a traveler who collects forgotten memories.,1,0.025,5,50,0.6456692913385826,2.999701738357544,44.80121650810047,prompts.txt
+433,Write a story about a queen who rules over shadows.,1,0.025,5,50,0.37815126050420167,6.82697057723999,24.675270895196807,prompts.txt
+434,Write a story about a storm that never ends.,1,0.025,5,50,0.5546875,6.054757595062256,38.38419145750179,prompts.txt
+435,Write a story about a village where people age backwards.,1,0.025,5,50,0.515625,2.677663803100586,35.5534988721403,prompts.txt
+436,Write a story about a machine that can bottle emotions.,1,0.025,5,50,0.4251968503937008,5.784417629241943,28.88705143069085,prompts.txt
+437,Write a story about a warrior who refuses to fight.,1,0.025,5,50,0.578125,1.5634576082229614,40.08260700871869,prompts.txt
+438,Write a story about a painter who can see the future.,1,0.025,5,50,0.33663366336633666,14.440896034240723,20.060083650878013,prompts.txt
+439,Write a story about a cursed crown.,1,0.025,5,50,0.2831858407079646,7.988315105438232,17.57920905155145,prompts.txt
+440,Write a story about a child raised by wolves.,1,0.025,5,50,0.5196850393700787,4.709289073944092,35.70740789243783,prompts.txt
+441,Write a story about a spaceship searching for a new home.,1,0.025,5,50,0.5390625,3.1146960258483887,37.2519144233572,prompts.txt
+442,Write a story about a town where everyone has the same dream.,1,0.025,5,50,0.375,1.6611311435699463,25.363005564838943,prompts.txt
+443,Write a story about a mysterious figure who appears in every photograph.,1,0.025,5,50,0.6953125,4.2724833488464355,48.57468476480316,prompts.txt
+444,Write a story about a door that only opens at midnight.,1,0.025,5,50,0.578125,3.056852340698242,40.08260700871869,prompts.txt
+445,Explain the difference between mass and weight.,1,0.025,5,50,0.25252525252525254,12.16578197479248,14.500229972544203,prompts.txt
+446,Explain how ecosystems maintain balance.,1,0.025,5,50,0.3828125,11.886256217956543,25.92914408191124,prompts.txt
+447,Explain the role of bees in pollination.,1,0.025,5,50,0.2358490566037736,14.373132705688477,13.904400948888812,prompts.txt
+448,Explain how coral reefs support biodiversity.,1,0.025,5,50,0.22549019607843138,6.8666300773620605,12.96943074061254,prompts.txt
+449,Explain how deserts are formed.,1,0.025,5,50,0.75,5.2771220207214355,52.53765438430924,prompts.txt
+450,Explain how glaciers shape landscapes.,1,0.025,5,50,0.30927835051546393,26.665929794311523,17.933181410620147,prompts.txt
+451,Explain how tsunamis occur.,1,0.025,5,50,0.21875,9.031510353088379,14.040235223392989,prompts.txt
+452,Explain how tornadoes form.,1,0.025,5,50,0.39215686274509803,8.27086067199707,23.75086460811441,prompts.txt
+453,Explain how lightning strikes.,1,0.025,5,50,0.578125,6.1767401695251465,40.08260700871869,prompts.txt
+454,Explain how photosynthesis helps the food chain.,1,0.025,5,50,0.24509803921568626,14.192748069763184,14.237834725024523,prompts.txt
+455,Explain the difference between acids and bases.,1,0.025,5,50,0.4067796610169492,4.028743267059326,26.56326650349954,prompts.txt
+456,Explain the periodic table in simple terms.,1,0.025,5,50,0.29133858267716534,7.407464027404785,19.224879776549297,prompts.txt
+457,Explain how chemical reactions work.,1,0.025,5,50,0.43089430894308944,3.4167380332946777,28.833223980098243,prompts.txt
+458,Explain how plants adapt to cold climates.,1,0.025,5,50,0.27184466019417475,16.2208309173584,16.04612004919907,prompts.txt
+459,Explain how whales communicate.,1,0.025,5,50,0.19801980198019803,13.513335227966309,11.137409429677309,prompts.txt
+460,Explain how octopuses use camouflage.,1,0.025,5,50,0.7401574803149606,2.4073326587677,51.62157296984745,prompts.txt
+461,Explain how seeds disperse.,1,0.025,5,50,0.28125,14.185261726379395,18.56934335997137,prompts.txt
+462,Explain how fungi recycle nutrients.,1,0.025,5,50,0.265625,15.938701629638672,17.437066325826773,prompts.txt
+463,Explain how soil is formed.,1,0.025,5,50,0.2,12.90181827545166,11.485777157993137,prompts.txt
+464,Explain how water is purified naturally.,1,0.025,5,50,0.6062992125984252,3.036215305328369,41.9594013157059,prompts.txt
+465,What are the benefits of community gardens?,1,0.025,5,50,0.3968253968253968,1.5954784154891968,26.733265432181692,prompts.txt
+466,What are the drawbacks of over-reliance on technology?,1,0.025,5,50,0.3125,3.9665746688842773,20.83389742826056,prompts.txt
+467,What are the effects of poverty on health?,1,0.025,5,50,0.19718309859154928,9.10508918762207,9.29281692333013,prompts.txt
+468,What are the benefits of renewable agriculture?,1,0.025,5,50,0.2636363636363636,10.180779457092285,16.031001434502056,prompts.txt
+469,What are the drawbacks of genetic engineering?,1,0.025,5,50,0.2871287128712871,11.613297462463379,16.873414286163474,prompts.txt
+470,What are the benefits of space telescopes?,1,0.025,5,50,0.33070866141732286,3.0287957191467285,22.06669496894387,prompts.txt
+471,What are the effects of urban pollution on children?,1,0.025,5,50,0.23770491803278687,3.3905975818634033,15.048220098106594,prompts.txt
+472,What are the benefits of banning single-use plastics?,1,0.025,5,50,0.5078125,3.900463581085205,34.987360355068006,prompts.txt
+473,What are the drawbacks of mass surveillance?,1,0.025,5,50,0.3203125,7.095609664916992,21.400035945332856,prompts.txt
+474,What are the pros and cons of automation in jobs?,1,0.025,5,50,0.26153846153846155,15.25847053527832,12.214793630346469,prompts.txt
+475,What are the benefits of volunteering?,1,0.025,5,50,0.25984251968503935,5.517339706420898,16.951427622633638,prompts.txt
+476,What are the drawbacks of fast food culture?,1,0.025,5,50,0.25773195876288657,11.703902244567871,14.681471272701716,prompts.txt
+477,What are the effects of global migration?,1,0.025,5,50,0.19047619047619047,12.84608268737793,10.860700850075144,prompts.txt
+478,What are the benefits of space exploration for Earth?,1,0.025,5,50,0.2265625,6.161672592163086,14.606373740465285,prompts.txt
+479,What are the challenges of world peace?,1,0.025,5,50,0.2828282828282828,11.235089302062988,16.43144817088527,prompts.txt
+480,What are the pros and cons of privatized healthcare?,1,0.025,5,50,0.265625,10.536136627197266,17.437066325826773,prompts.txt
+481,What are the benefits of equal access to education?,1,0.025,5,50,0.3828125,5.131114959716797,25.92914408191124,prompts.txt
+482,What are the drawbacks of political polarization?,1,0.025,5,50,0.2125984251968504,8.408373832702637,13.541249391760147,prompts.txt
+483,What are the benefits of open-source software?,1,0.025,5,50,0.36363636363636365,11.696459770202637,21.58136336646146,prompts.txt
+484,What are the effects of cultural traditions on identity?,1,0.025,5,50,0.2265625,7.222960472106934,14.606373740465285,prompts.txt
+485,Write a poem about autumn leaves.,1,0.025,5,50,0.5887096774193549,2.0395305156707764,40.20629186715925,prompts.txt
+486,Write a poem about spring flowers.,1,0.025,5,50,0.39669421487603307,1.8819183111190796,26.188231699577432,prompts.txt
+487,Write a poem about summer heat.,1,0.025,5,50,0.49586776859504134,2.23831844329834,33.17564204743578,prompts.txt
+488,Write a poem about winter snow.,1,0.025,5,50,0.4583333333333333,4.1715569496154785,30.404678002643678,prompts.txt
+489,Write a poem about the horizon.,1,0.025,5,50,0.4126984126984127,9.537888526916504,27.874493412210793,prompts.txt
+490,Write a poem about the ocean waves.,1,0.025,5,50,0.2,2.509955406188965,12.27881227029841,prompts.txt
+491,Write a poem about the forest at night.,1,0.025,5,50,0.4396551724137931,9.117490768432617,28.60511970894753,prompts.txt
+492,Write a poem about the desert wind.,1,0.025,5,50,0.40625,2.377216339111328,27.627559633128136,prompts.txt
+493,Write a poem about the sunrise.,1,0.025,5,50,0.35,7.671439170837402,22.80350850198276,prompts.txt
+494,Write a poem about the sunset.,1,0.025,5,50,0.38333333333333336,8.702588081359863,25.142329886801505,prompts.txt
+495,Write a poem about silence in the mountains.,1,0.025,5,50,0.5905511811023622,2.5892486572265625,40.82267523874806,prompts.txt
+496,Write a poem about city lights.,1,0.025,5,50,0.3,4.078056335449219,19.295276424754643,prompts.txt
+497,Write a poem about loneliness.,1,0.025,5,50,0.5950413223140496,2.053499937057495,40.16305239529412,prompts.txt
+498,Write a poem about joy.,1,0.025,5,50,0.2184873949579832,9.004865646362305,13.51928881289486,prompts.txt
+499,Write a poem about sorrow.,1,0.025,5,50,0.5078125,2.118173360824585,34.987360355068006,prompts.txt
+500,Write a poem about patience.,1,0.025,5,50,0.5625,2.459935426712036,38.95032997457409,prompts.txt
