@@ -192,6 +192,158 @@ def calculate_green_matches(generated_tokens, gamma=0.5, vocab_size=126464, n=5)
     return max_match_percent, actual_length_used, max_num_matches, best_start, match_arr
 
 
+def generate_pseudo_random_values(position, vocab_size, seed=42, device="cpu"):
+    """
+    Generate pseudorandom values r_{t,i} for each token i at position t.
+    Uses position-based seeding for deterministic generation with local Generator.
+    
+    Args:
+        position: Position index t
+        vocab_size: Size of the vocabulary
+        seed: Base seed for pseudorandom generation
+        device: Device to generate values on
+        
+    Returns:
+        r_values: [vocab_size] tensor with values in (0, 1)
+    """
+    # Use a local Generator to avoid mutating global RNG state (Fix E)
+    g = torch.Generator(device=device)
+    g.manual_seed(seed + position)
+    
+    # Generate pseudorandom values in (0, 1)
+    r_values = torch.rand(vocab_size, generator=g, device=device)
+    
+    # Ensure values are strictly in (0, 1) to avoid numerical issues
+    r_values = torch.clamp(r_values, min=1e-8, max=1-1e-8)
+    
+    return r_values
+
+
+def apply_aaronson_gumbel_watermark(logits, mask_positions, vocab_size, position_offset=0, seed=42, special_token_ids=None):
+    """
+    Apply Aaronson's watermarking scheme during generation.
+    At each position t, selects the token that maximizes r_{t,i}^{1/p_{t,i}}.
+    
+    Args:
+        logits: [batch_size, seq_len, vocab_size] - model logits
+        mask_positions: [batch_size, seq_len] - boolean mask for positions to watermark
+        vocab_size: Size of the vocabulary
+        position_offset: Offset to add to position indices (for prompt length)
+        seed: Seed for pseudorandom generation
+        special_token_ids: List of token IDs to exclude from watermarking (optional)
+        
+    Returns:
+        watermarked_choices: [batch_size, seq_len] - token choices with watermarking applied
+                            (-1 for positions where watermarking is not applied)
+        watermark_confidences: [batch_size, seq_len] - model probability of watermarked token
+                               (0.0 for positions where watermarking is not applied)
+    """
+    batch_size, seq_len, _ = logits.shape
+    
+    # Initialize with -1 (indicating no watermark applied at this position)
+    watermarked_choices = torch.full((batch_size, seq_len), -1, dtype=torch.long, device=logits.device)
+    watermark_confidences = torch.zeros((batch_size, seq_len), dtype=torch.float32, device=logits.device)
+    
+    # Apply watermarking to each masked position
+    for batch_idx in range(batch_size):
+        for pos in range(seq_len):
+            if mask_positions[batch_idx, pos]:
+                # Compute model probabilities for this position (Fix A)
+                model_probs = F.softmax(logits[batch_idx, pos], dim=-1)  # shape [V]
+                
+                # Generate pseudorandom values for this position (Fix E - using local generator)
+                r_values = generate_pseudo_random_values(
+                    position_offset + pos, vocab_size, seed, device=logits.device
+                )
+                
+                # Compute Aaronson scores: log(r_{t,i}) / p_{t,i} (Fix A)
+                # This is equivalent to maximizing r_{t,i}^{1/p_{t,i}}
+                log_r = torch.log(r_values)
+                watermark_scores = log_r / (model_probs + 1e-8)  # (1/p_i) * log r_i
+                
+                # Exclude special tokens by making them impossible to win (Fix C)
+                if special_token_ids is not None:
+                    for token_id in special_token_ids:
+                        if token_id < vocab_size:
+                            watermark_scores[token_id] = -float("inf")
+                
+                # Select the token with highest Aaronson score (Fix B)
+                i_star = torch.argmax(watermark_scores).item()
+                watermarked_choices[batch_idx, pos] = i_star
+                
+                # Store the model's confidence in this watermarked token
+                watermark_confidences[batch_idx, pos] = model_probs[i_star].item()
+    
+    return watermarked_choices, watermark_confidences
+
+
+def calculate_aaronson_watermark_score(generated_tokens, vocab_size=126464, seed=42, special_token_ids=None, position_offset=0):
+    """
+    Calculate the watermark detection score for generated text.
+    Uses the formula: sum_{t=1}^{n} ln(1 / (1 - r_{t,i(t)}))
+    
+    Args:
+        generated_tokens: [batch_size, seq_len] - generated token IDs
+        vocab_size: Size of the vocabulary
+        seed: Seed for pseudorandom generation (must match generation)
+        special_token_ids: List of token IDs to exclude from detection (optional)
+        position_offset: Position offset to match generation (e.g., prompt length). CRITICAL for correct detection!
+        
+    Returns:
+        watermark_score: Total watermark score
+        actual_length: Number of tokens analyzed (excluding special tokens)
+        per_token_scores: [actual_length] array of per-token scores
+    """
+    batch_size, seq_len = generated_tokens.shape
+    per_token_scores = []
+    
+    # Process only the first batch (assuming batch_size=1 for generation)
+    tokens = generated_tokens[0]
+    
+    # Create set of special token IDs for efficient lookup
+    special_token_set = set()
+    if special_token_ids is not None:
+        special_token_set = set(special_token_ids)
+    
+    # Find actual length (stop at EOS token if present)
+    actual_length = seq_len
+    for i, token in enumerate(tokens):
+        # Check for common EOS tokens: 50256 (GPT-2), 2 (LLaMA), 126081 (LLaDA)
+        if token.item() in [50256, 2, 126081]:
+            actual_length = i
+            break
+    
+    # Calculate per-token scores, skipping special tokens
+    for pos in range(actual_length):
+        token_id = tokens[pos].item()
+        
+        # Skip special tokens
+        if token_id in special_token_set:
+            continue
+        
+        # Generate pseudorandom values for this position (MUST match generation offset!)
+        r_values = generate_pseudo_random_values(position_offset + pos, vocab_size, seed, device=tokens.device)
+        
+        # Get the r value for the selected token
+        r_token = r_values[token_id]
+        
+        # Calculate per-token score: ln(1 / (1 - r_{t,i(t)}))
+        # This grows as r approaches 1, so watermarked text has higher scores
+        per_token_score = torch.log(1.0 / (1.0 - r_token))
+        per_token_scores.append(per_token_score.item())
+    
+    # Convert to tensor for easier handling
+    per_token_scores = torch.tensor(per_token_scores)
+    
+    # Calculate total watermark score
+    watermark_score = per_token_scores.sum().item()
+    
+    # Update actual_length to reflect only non-special tokens
+    actual_length = len(per_token_scores)
+    
+    return watermark_score, actual_length, per_token_scores
+
+
 def get_num_transfer_tokens(mask_index, steps):
     '''
     In the reverse process, the interval [0, 1] is uniformly discretized into steps intervals.
@@ -213,11 +365,34 @@ def get_num_transfer_tokens(mask_index, steps):
     return num_transfer_tokens
 
 
+def _should_watermark(i, watermark_steps):
+    """
+    Helper function to determine if watermarking should be applied at step i.
+    Uses consistent 1-indexed step numbers for user-friendliness.
+    
+    Args:
+        i: 0-indexed step counter (internal loop variable)
+        watermark_steps: None (watermark all steps), int (watermark steps 1 to N), 
+                        or list of step numbers (1-indexed, e.g., [1, 2, 5, 10])
+    
+    Returns:
+        bool: True if watermarking should be applied at this step
+    """
+    if watermark_steps is None:
+        return True
+    if isinstance(watermark_steps, int):
+        return (i + 1) <= watermark_steps  # 1-indexed: step 1 is i=0
+    # For lists, convert 1-indexed user steps to 0-indexed internal steps
+    wanted = {s - 1 for s in watermark_steps}  # e.g., [1, 2, 5] -> {0, 1, 4}
+    return i in wanted
+
+
 @ torch.no_grad()
 def generate(model, prompt, steps=128, gen_length=128, block_length=128, temperature=0.,
              cfg_scale=0., remasking='low_confidence', mask_id=126336, 
              gamma=0.5, amplification=0.0, vocab_size=126464, watermark_steps=None, 
-             special_token_ids=None):
+             special_token_ids=None, watermark_type='green_list', aaronson_seed=42,
+             aaronson_remasking_strategy='original', aaronson_tau_wm=0.2, aaronson_tau_orig=0.01, aaronson_lambda=0.7):
     '''
     Args:
         model: Mask predictor.
@@ -229,14 +404,25 @@ def generate(model, prompt, steps=128, gen_length=128, block_length=128, tempera
         cfg_scale: Unsupervised classifier-free guidance scale.
         remasking: Remasking strategy. 'low_confidence' or 'random'.
         mask_id: The toke id of [MASK] is 126336.
-        gamma: Fraction of tokens that are "green" (watermarked).
-        amplification: Amplification factor for green tokens (0 = no watermarking).
+        gamma: Fraction of tokens that are "green" (watermarked) - only for green_list watermarking.
+        amplification: Amplification factor for green tokens (0 = no watermarking) - only for green_list watermarking.
         vocab_size: Size of the vocabulary.
-        watermark_steps: Maximum step to watermark at (int), list of specific steps, or None for all steps.
-                        If int, watermarks at steps 1 to watermark_steps.
-                        If list, watermarks at the specified step indices.
+        watermark_steps: Maximum step to watermark at (int), list of specific steps (1-indexed), or None for all steps.
+                        If int, watermarks at steps 1 to watermark_steps (e.g., 100 means steps 1-100).
+                        If list, watermarks at the specified 1-indexed steps (e.g., [1, 2, 5, 10]).
                         If None, watermarks at all steps.
-        special_token_ids: List of token IDs to exclude from amplification (optional).
+        special_token_ids: List of token IDs to exclude from amplification (optional) - only for green_list watermarking.
+        watermark_type: Type of watermarking to use ('green_list' or 'aaronson').
+        aaronson_seed: Seed for pseudorandom generation in Aaronson watermarking.
+        aaronson_remasking_strategy: Remasking strategy for Aaronson watermarking.
+                                    'original': Use only original model confidence (default, best quality)
+                                    'dual_gate': Require both wm_conf >= tau_wm AND orig_conf >= tau_orig
+                                    'blend': Combine confidences as lambda*wm_conf + (1-lambda)*orig_conf
+                                    'hard_favor': Give watermarked tokens high sentinel confidence
+        aaronson_tau_wm: Watermark confidence threshold for dual_gate strategy (default: 0.2)
+        aaronson_tau_orig: Original confidence threshold for dual_gate strategy (default: 0.01)
+        aaronson_lambda: Blending weight for blend strategy (default: 0.7, range: 0-1)
+                        Higher = stronger detectability, lower = better quality
     '''
     # breakpoint()
     x = torch.full((1, prompt.shape[1] + gen_length), mask_id, dtype=torch.long).to(model.device)
@@ -250,9 +436,9 @@ def generate(model, prompt, steps=128, gen_length=128, block_length=128, tempera
     assert steps % num_blocks == 0
     steps = steps // num_blocks
 
-    # Generate green mask for watermarking if amplification > 0
+    # Initialize watermarking based on type
     green_mask = None
-    if amplification > 0:
+    if watermark_type == 'green_list' and amplification > 0:
         # Create green mask for the full sequence (prompt + generated)
         full_seq_length = prompt.shape[1] + gen_length
         green_mask = generate_green_mask(full_seq_length, vocab_size, gamma, model.device)
@@ -273,19 +459,12 @@ def generate(model, prompt, steps=128, gen_length=128, block_length=128, tempera
                 logits = model(x).logits
 
             # Apply watermark to logits before adding Gumbel noise
-            if amplification > 0 and green_mask is not None:
-                # Check if we should apply watermarking at this step
-                # If watermark_steps is None, apply to all steps
-                # If watermark_steps is an integer, apply to steps 1 to watermark_steps
-                # If watermark_steps is a list, apply to those specific steps
-                if watermark_steps is None:
-                    should_watermark = True
-                elif isinstance(watermark_steps, int):
-                    should_watermark = (i + 1) <= watermark_steps  # i is 0-indexed, so i+1 is the step number
-                else:
-                    should_watermark = i in watermark_steps
-                
-                if should_watermark:
+            aaronson_choices = None  # Will hold watermarked token choices for Aaronson
+            aaronson_wm_confidences = None  # Will hold watermark confidences for Aaronson
+            
+            if watermark_type == 'green_list' and amplification > 0 and green_mask is not None:
+                # Check if we should apply watermarking at this step (using consistent 1-indexed logic)
+                if _should_watermark(i, watermark_steps):
                     # Only apply to the current block being generated
                     current_block_start = prompt.shape[1] + num_block * block_length
                     current_block_end = prompt.shape[1] + (num_block + 1) * block_length
@@ -301,9 +480,35 @@ def generate(model, prompt, steps=128, gen_length=128, block_length=128, tempera
                     current_block_mask = current_block_mask & mask_index
                     # breakpoint()
                     logits = apply_watermark_to_logits(logits, full_green_mask, amplification, current_block_mask, special_token_ids)
+            
+            elif watermark_type == 'aaronson':
+                # Check if we should apply Aaronson watermarking at this step (using consistent 1-indexed logic)
+                if _should_watermark(i, watermark_steps):
+                    # Only apply to the current block being generated
+                    current_block_start = prompt.shape[1] + num_block * block_length
+                    current_block_end = prompt.shape[1] + (num_block + 1) * block_length
+                    
+                    # Create mask for current block positions
+                    current_block_mask = torch.zeros_like(x, dtype=torch.bool)
+                    current_block_mask[:, current_block_start:current_block_end] = True
+                    current_block_mask = current_block_mask & mask_index
+                    
+                    # Apply Aaronson watermarking - returns token choices and confidences (Fix B)
+                    # NOTE: position_offset=0 because pos in apply_aaronson_gumbel_watermark is already absolute
+                    aaronson_choices, aaronson_wm_confidences = apply_aaronson_gumbel_watermark(
+                        logits, current_block_mask, vocab_size, 
+                        position_offset=0, seed=aaronson_seed,
+                        special_token_ids=special_token_ids
+                    )
 
+            # For non-Aaronson watermarking or non-watermarked positions, use standard sampling
             logits_with_noise = add_gumbel_noise(logits, temperature=temperature)
             x0 = torch.argmax(logits_with_noise, dim=-1) # b, l
+            
+            # Override with Aaronson watermarked choices where applicable (Fix B)
+            if aaronson_choices is not None:
+                watermark_mask = (aaronson_choices != -1)  # Positions where watermarking was applied
+                x0 = torch.where(watermark_mask, aaronson_choices, x0)
 
             if remasking == 'low_confidence':
                 p = F.softmax(logits, dim=-1)
@@ -313,6 +518,32 @@ def generate(model, prompt, steps=128, gen_length=128, block_length=128, tempera
                 x0_p = torch.rand((x0.shape[0], x0.shape[1]), device=x0.device)
             else:
                 raise NotImplementedError(remasking)
+
+            # Apply Aaronson remasking strategy if applicable
+            if aaronson_choices is not None and aaronson_wm_confidences is not None:
+                watermark_mask = (aaronson_choices != -1)
+                
+                if aaronson_remasking_strategy == 'dual_gate':
+                    # Dual-gate: Require both wm_conf >= tau_wm AND orig_conf >= tau_orig
+                    # Set confidence to -inf if either threshold is not met
+                    wm_conf_ok = aaronson_wm_confidences >= aaronson_tau_wm
+                    orig_conf_ok = x0_p >= aaronson_tau_orig
+                    dual_gate_pass = wm_conf_ok & orig_conf_ok
+                    # For watermarked positions, use original confidence if dual-gate passes, else -inf
+                    x0_p = torch.where(watermark_mask & ~dual_gate_pass, 
+                                      torch.full_like(x0_p, -np.inf), x0_p)
+                
+                elif aaronson_remasking_strategy == 'blend':
+                    # Blend: conf = lambda * wm_conf + (1-lambda) * orig_conf
+                    blended_conf = aaronson_lambda * aaronson_wm_confidences + (1 - aaronson_lambda) * x0_p
+                    x0_p = torch.where(watermark_mask, blended_conf, x0_p)
+                
+                elif aaronson_remasking_strategy == 'hard_favor':
+                    # Hard favor: Give watermarked tokens high sentinel confidence (0.99)
+                    # breakpoint()
+                    x0_p = torch.where(watermark_mask, torch.full_like(x0_p, 0.99), x0_p)
+                
+                # else: 'original' strategy - keep x0_p as is (default behavior)
 
             x0_p[:, prompt.shape[1] + (num_block + 1) * block_length:] = -np.inf
 

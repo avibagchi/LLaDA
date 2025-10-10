@@ -17,7 +17,7 @@ from tqdm import tqdm
 import json
 
 from transformers import AutoTokenizer, AutoModel
-from generate import generate, calculate_green_matches
+from generate import generate, calculate_green_matches, calculate_aaronson_watermark_score
 import math
 from accelerate import Accelerator
 
@@ -51,6 +51,8 @@ class LLaDAEvalHarness(LM):
         gamma=0.5,
         amplification=0.0,
         watermark_steps=None,
+        watermark_type='green_list',
+        aaronson_seed=42,
         # Testing parameters
         max_prompts=None,  # Set to limit number of prompts for testing
         **kwargs,
@@ -101,6 +103,10 @@ class LLaDAEvalHarness(LM):
 
         self.mask_id = mask_id
         self.tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)
+        
+        # Get special token IDs for watermarking exclusion
+        from generate import get_special_token_ids
+        self.special_token_ids = get_special_token_ids(self.tokenizer)
 
         self.mc_num = mc_num
         self.batch_size = int(batch_size)
@@ -118,7 +124,9 @@ class LLaDAEvalHarness(LM):
         # Watermarking parameters
         self.gamma = gamma
         self.amplification = amplification
-        self.watermark_steps = watermark_steps    
+        self.watermark_steps = watermark_steps
+        self.watermark_type = watermark_type
+        self.aaronson_seed = aaronson_seed    
     @property
     def rank(self):
         return self._rank
@@ -311,7 +319,9 @@ class LLaDAEvalHarness(LM):
  
             generated_answer = generate(self.model, prompt, steps=self.steps, gen_length=self.gen_length, block_length=self.block_length, 
                                         temperature=0, cfg_scale=self.cfg, remasking=self.remasking, mask_id=self.mask_id,
-                                        gamma=self.gamma, amplification=self.amplification, watermark_steps=self.watermark_steps)
+                                        gamma=self.gamma, amplification=self.amplification, watermark_steps=self.watermark_steps,
+                                        watermark_type=self.watermark_type, aaronson_seed=self.aaronson_seed,
+                                        special_token_ids=self.special_token_ids)
             
             # Extract generated tokens for green token analysis
             generated_tokens = generated_answer[0][prompt.shape[1]:]
@@ -322,14 +332,16 @@ class LLaDAEvalHarness(LM):
                     if stop_seq in generated_answer_text:
                         generated_answer_text = generated_answer_text.split(stop_seq)[0]
 
-            # Extract ALL answer portions (after "A:") for green token analysis
-            if "A:" in generated_answer_text:
-                # Split by "A:" to get all answers
+            # Extract ALL answer portions (after "A:") for watermark analysis
+            # NOTE: For Aaronson watermarking, we MUST use generated_tokens directly to preserve position information
+            # Re-tokenizing breaks the position offset alignment needed for correct detection
+            if "A:" in generated_answer_text and self.watermark_type == 'green_list':
+                # Split by "A:" to get all answers (only for green_list watermarking)
                 parts = generated_answer_text.split("A:")
                 all_answers = []
                 
-                for i, part in enumerate(parts):
-                    if i == 0:
+                for j, part in enumerate(parts):
+                    if j == 0:
                         continue  # Skip the first part (before first "A:")
                     
                     # Extract the answer text (up to next "Q:" or end)
@@ -342,8 +354,8 @@ class LLaDAEvalHarness(LM):
                         all_answers.append(answer_text)
                 
                 print(f"Found {len(all_answers)} answers:")
-                for j, answer in enumerate(all_answers):
-                    print(f"  Answer {j+1}: {answer}")
+                for k, answer in enumerate(all_answers):
+                    print(f"  Answer {k+1}: {answer}")
                 
                 # Combine all answers into one text for analysis
                 combined_answers = " ".join(all_answers)
@@ -352,22 +364,43 @@ class LLaDAEvalHarness(LM):
                 answer_tokens = self.tokenizer(combined_answers)["input_ids"]
                 answer_tokens_tensor = torch.tensor(answer_tokens).unsqueeze(0)
                 
-                # Calculate green token matches for all answers
+                # Green list watermarking detection (position-independent)
                 max_match_percent, actual_length, max_num_matches, best_start, match_arr = calculate_green_matches(
                     answer_tokens_tensor, gamma=self.gamma
                 )
+                # Calculate Z-score for green list
+                true_num_green = self.gamma * actual_length
+                if math.sqrt(true_num_green * (1-self.gamma)) == 0:
+                    z_score = 0
+                else:
+                    z_score = (max_num_matches - true_num_green) / math.sqrt(true_num_green * (1-self.gamma))
             else:
-                # Fallback: use full generated text if no "A:" found
-                max_match_percent, actual_length, max_num_matches, best_start, match_arr = calculate_green_matches(
-                    generated_tokens.unsqueeze(0), gamma=self.gamma
-                )
-            
-            # Calculate Z-score
-            true_num_green = self.gamma * actual_length
-            if math.sqrt(true_num_green * (1-self.gamma)) == 0:
-                z_score = 0
-            else:
-                z_score = (max_num_matches - true_num_green) / math.sqrt(true_num_green * (1-self.gamma))
+                # For Aaronson: always use full generated_tokens to preserve position alignment
+                # For green_list: fallback if no "A:" found, or use full generated text
+                if self.watermark_type == 'green_list':
+                    max_match_percent, actual_length, max_num_matches, best_start, match_arr = calculate_green_matches(
+                        generated_tokens.unsqueeze(0), gamma=self.gamma
+                    )
+                    # Calculate Z-score for green list
+                    true_num_green = self.gamma * actual_length
+                    if math.sqrt(true_num_green * (1-self.gamma)) == 0:
+                        z_score = 0
+                    else:
+                        z_score = (max_num_matches - true_num_green) / math.sqrt(true_num_green * (1-self.gamma))
+                elif self.watermark_type == 'aaronson':
+                    # Use actual generated tokens with correct position offset (prompt length)
+                    aaronson_score, actual_length, per_token_scores = calculate_aaronson_watermark_score(
+                        generated_tokens.unsqueeze(0), vocab_size=126464, seed=self.aaronson_seed,
+                        special_token_ids=self.special_token_ids, position_offset=prompt.shape[1]
+                    )
+                    # For Aaronson, use normalized score instead of Z-score
+                    max_match_percent = aaronson_score / actual_length if actual_length > 0 else 0
+                    max_num_matches = aaronson_score
+                    z_score = max_match_percent  # Use normalized score as the main metric
+                    best_start = 0  # Not applicable for Aaronson
+                    match_arr = []  # Not applicable for Aaronson
+                else:
+                    raise ValueError(f"Unknown watermark_type: {self.watermark_type}")
 
             # remove special tokens
             generated_answer_ids = self.tokenizer(generated_answer_text)["input_ids"]
@@ -387,18 +420,35 @@ class LLaDAEvalHarness(LM):
             print(f"\n=== PROMPT {i+1} ===")
             print(f"Question: {last_question_text}")
             print(f"Generated: {generated_answer_text}")
-            print(f"Green token matches: {max_num_matches}/{actual_length} ({max_match_percent:.2%})")
-            print(f"Z-score: {z_score:.2f}")
+            if self.watermark_type == 'green_list':
+                print(f"Green token matches: {max_num_matches}/{actual_length} ({max_match_percent:.2%})")
+                print(f"Z-score: {z_score:.2f}")
+            elif self.watermark_type == 'aaronson':
+                print(f"Aaronson watermark score: {max_num_matches:.4f}")
+                print(f"Normalized score: {z_score:.4f}")
+                print(f"Length: {actual_length}")
             print("=" * 50)
             
             # Store this question and answer pair for JSON output
-            all_qa_pairs.append({
-                "prompt_number": i + 1,
-                "question": last_question_text,
-                "answer": generated_answer_text,
-                "green_token_matches": f"{max_num_matches}/{actual_length} ({max_match_percent:.2%})",
-                "z_score": z_score
-            })
+            if self.watermark_type == 'green_list':
+                all_qa_pairs.append({
+                    "prompt_number": i + 1,
+                    "question": last_question_text,
+                    "answer": generated_answer_text,
+                    "watermark_type": "green_list",
+                    "green_token_matches": f"{max_num_matches}/{actual_length} ({max_match_percent:.2%})",
+                    "z_score": z_score
+                })
+            elif self.watermark_type == 'aaronson':
+                all_qa_pairs.append({
+                    "prompt_number": i + 1,
+                    "question": last_question_text,
+                    "answer": generated_answer_text,
+                    "watermark_type": "aaronson",
+                    "aaronson_score": max_num_matches,
+                    "normalized_score": z_score,
+                    "length": actual_length
+                })
             
             out.append(generated_answer_text)
 
