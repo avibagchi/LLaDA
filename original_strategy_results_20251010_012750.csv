@@ -1,0 +1,5 @@
+Prompt,Prompt_Len,steps=0,steps=64,steps=128,steps=256
+P1: What is the capital of France?...,7,1.3564,1.0377,1.0377,1.0838
+P2: Explain the concept of machine learning ...,10,0.9675,1.0590,1.0870,1.1409
+P3: Write a short story about a robot learni...,11,0.8685,1.1934,1.2273,1.5898
+P4: Question: If John has 5 apples and buys ...,22,1.0265,1.1005,1.1769,1.3214

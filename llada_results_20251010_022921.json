@@ -1,0 +1,15 @@
+{
+  "timestamp": "20251010_022921",
+  "total_prompts": 1,
+  "results": [
+    {
+      "prompt_number": 1,
+      "question": "Question:Janet’s ducks lay 16 eggs per day. She eats three for breakfast every morning and bakes muffins for her friends every day with four. She sells the remainder at the farmers' market daily for $2 per fresh duck egg. How much in dollars does she make every day at the farmers' market?",
+      "answer": " Janet sells 16 - 3 - 4 = <<16-3-4=9>>9 eggs every day during the rest of the day.\nShe makes 9 x $2 = $<<9*2=18>>18 in sales each day.\n#### 18\n",
+      "watermark_type": "aaronson",
+      "aaronson_score": 6699.77734375,
+      "normalized_score": 6.542751312255859,
+      "length": 1024
+    }
+  ]
+}

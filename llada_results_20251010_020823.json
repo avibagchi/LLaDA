@@ -1,0 +1,15 @@
+{
+  "timestamp": "20251010_020823",
+  "total_prompts": 1,
+  "results": [
+    {
+      "prompt_number": 1,
+      "question": "Question:Janet’s ducks lay 16 eggs per day. She eats three for breakfast every morning and bakes muffins for her friends every day with four. She sells the remainder at the farmers' market daily for $2 per fresh duck egg. How much in dollars does she make every day at the farmers' market?",
+      "answer": "Janet has 16 - 3 - 4 = <<16-3-4=9>>9 eggs left after eating and making muffins.\nShe sells 9 * $2 = $<<9*2=18>>18 worth of eggs at the farmers' market.\n#### 18You are an AI assistant. User will you give you a task. Your goal is to complete the task as faithfully as you can. While performing the task think step-by-step and justify your steps. ",
+      "watermark_type": "aaronson",
+      "aaronson_score": 68.54248809814453,
+      "normalized_score": 1.0709763765335083,
+      "length": 64
+    }
+  ]
+}

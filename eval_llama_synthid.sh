@@ -122,19 +122,19 @@ echo ""
 #     --batch_size 8 \
 #     --model_args model_path=$MODEL_PATH,use_watermark=$USE_WATERMARK,bias=$BIAS,seeding_scheme=$SEEDING_SCHEME,hashing_key=$HASHING_KEY,greenlist_ratio=$GREENLIST_RATIO,max_prompts=$MAX_PROMPTS
 
-# echo "Running BBH with SynthID watermarking..."
-# accelerate launch eval_llama_synthid.py \
-#     --tasks bbh \
-#     --model llama_watermark \
-#     --batch_size 8 \
-#     --model_args model_path=$MODEL_PATH,use_watermark=$USE_WATERMARK,bias=$BIAS,seeding_scheme=$SEEDING_SCHEME,hashing_key=$HASHING_KEY,greenlist_ratio=$GREENLIST_RATIO,max_prompts=$MAX_PROMPTS
-
-echo "Running GSM8K with SynthID watermarking..."
+echo "Running BBH with SynthID watermarking..."
 accelerate launch eval_llama_synthid.py \
-    --tasks gsm8k \
+    --tasks bbh \
     --model llama_watermark \
     --batch_size 8 \
     --model_args model_path=$MODEL_PATH,use_watermark=$USE_WATERMARK,bias=$BIAS,seeding_scheme=$SEEDING_SCHEME,hashing_key=$HASHING_KEY,greenlist_ratio=$GREENLIST_RATIO,max_prompts=$MAX_PROMPTS
+
+# echo "Running GSM8K with SynthID watermarking..."
+# accelerate launch eval_llama_synthid.py \
+#     --tasks gsm8k \
+#     --model llama_watermark \
+#     --batch_size 8 \
+#     --model_args model_path=$MODEL_PATH,use_watermark=$USE_WATERMARK,bias=$BIAS,seeding_scheme=$SEEDING_SCHEME,hashing_key=$HASHING_KEY,greenlist_ratio=$GREENLIST_RATIO,max_prompts=$MAX_PROMPTS
 
 # echo "Running Minerva Math with SynthID watermarking..."
 # accelerate launch eval_llama_synthid.py \

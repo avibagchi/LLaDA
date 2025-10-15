@@ -84,3 +84,4 @@ This was a **critical bug** that completely broke Aaronson watermark detection. 
 - ✓ Watermark is properly detectable
 - ✓ Detection scores are significantly higher with correct offset vs wrong offset
 
+

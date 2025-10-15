@@ -46,6 +46,7 @@ class LLaDAEvalHarness(LM):
         gen_length=1024,
         block_length=1024,
         remasking='low_confidence',
+        temperature=0.,
         device="cuda",
         # Watermarking parameters
         gamma=0.5,
@@ -53,6 +54,11 @@ class LLaDAEvalHarness(LM):
         watermark_steps=None,
         watermark_type='green_list',
         aaronson_seed=42,
+        # Aaronson remasking strategy parameters
+        aaronson_remasking_strategy='original',
+        aaronson_tau_wm=0.2,
+        aaronson_tau_orig=0.01,
+        aaronson_lambda=0.7,
         # Testing parameters
         max_prompts=None,  # Set to limit number of prompts for testing
         **kwargs,
@@ -120,13 +126,19 @@ class LLaDAEvalHarness(LM):
         self.gen_length = gen_length
         self.block_length = block_length
         self.remasking = remasking
+        self.temperature = temperature
         
         # Watermarking parameters
         self.gamma = gamma
         self.amplification = amplification
         self.watermark_steps = watermark_steps
         self.watermark_type = watermark_type
-        self.aaronson_seed = aaronson_seed    
+        self.aaronson_seed = aaronson_seed
+        # Aaronson remasking strategy parameters
+        self.aaronson_remasking_strategy = aaronson_remasking_strategy
+        self.aaronson_tau_wm = aaronson_tau_wm
+        self.aaronson_tau_orig = aaronson_tau_orig
+        self.aaronson_lambda = aaronson_lambda    
     @property
     def rank(self):
         return self._rank
@@ -318,10 +330,14 @@ class LLaDAEvalHarness(LM):
             stop_tokens = elem["until"]
  
             generated_answer = generate(self.model, prompt, steps=self.steps, gen_length=self.gen_length, block_length=self.block_length, 
-                                        temperature=0, cfg_scale=self.cfg, remasking=self.remasking, mask_id=self.mask_id,
+                                        temperature=self.temperature, cfg_scale=self.cfg, remasking=self.remasking, mask_id=self.mask_id,
                                         gamma=self.gamma, amplification=self.amplification, watermark_steps=self.watermark_steps,
                                         watermark_type=self.watermark_type, aaronson_seed=self.aaronson_seed,
-                                        special_token_ids=self.special_token_ids)
+                                        special_token_ids=self.special_token_ids,
+                                        aaronson_remasking_strategy=self.aaronson_remasking_strategy,
+                                        aaronson_tau_wm=self.aaronson_tau_wm,
+                                        aaronson_tau_orig=self.aaronson_tau_orig,
+                                        aaronson_lambda=self.aaronson_lambda)
             
             # Extract generated tokens for green token analysis
             generated_tokens = generated_answer[0][prompt.shape[1]:]

@@ -1,0 +1,38 @@
+{
+  "config": {
+    "prompts_file": "prompts.txt",
+    "output_file": "prompts_not_watermarked_outputs.json",
+    "model_path": "GSAI-ML/LLaDA-8B-Base",
+    "gen_length": 512,
+    "steps": 512,
+    "block_length": 512,
+    "temperature": 1.0,
+    "cfg_scale": 0.0,
+    "mask_id": 126336,
+    "vocab_size": 126464,
+    "device": "cuda",
+    "max_prompts": 1,
+    "watermark_type": "aaronson",
+    "watermark_steps": 0,
+    "aaronson_seed": 42,
+    "aaronson_remasking_strategy": "original",
+    "aaronson_tau_wm": 0.2,
+    "aaronson_tau_orig": 0.01,
+    "aaronson_lambda": 0.7
+  },
+  "num_prompts": 1,
+  "average_perplexity": 6.235119819641113,
+  "results": [
+    {
+      "prompt_id": 0,
+      "prompt": "Write a short story about a cat.",
+      "generated_text": "Once upon a time, there was a little cat named Mimi. She lived in a cozy cottage in the woods, surrounded by tall trees and wildflowers. Mimi was a curious and adventurous cat, always eager to explore her surroundings.\n\nOne day, Mimi discovered a hidden path in the forest. She followed the path and eventually came across a beautiful meadow filled with colorful flowers and buzzing butterflies. Mimi was amazed by the sights and sounds around her, and she decided to stay in the meadow for a while.\n\nAs the sun began to set, Mimi realized that she needed to find her way back to her cottage. She retraced her steps and eventually found the hidden path she had discovered earlier.\n\nAlong the way, Mimi encountered a group of friendly animals, including a rabbit, a squirrel, and a bird. They were delighted to see Mimi and offered to help her find her way back to her cottage.\n\nTogether, Mimi and the group of animals embarked on a journey through the forest. They crossed small streams, climbed steep hills, and explored hidden caves. Mimi was amazed by the new sights and sounds they encountered, and she was grateful for the companionship and adventure.\n\nFinally, after a long and exciting journey, Mimi returned to her cottage. She was relieved to be home, and she was grateful for the new friends she had made along the way.\n\nFrom that day on, Mimi became even more curious and adventurous than ever before. She explored new parts of the forest, made new friends, and always looked forward to her next adventure. And every night, as she slept in her cozy cottage, Mimi dreamed of all the exciting journeys she would embark on in the future.\n\nAnd so, Mimi continued to live a happy and fulfilling life in the woods, surrounded by the beauty of nature and the love of her animal friends.Here is an extract from a webpage:\n\"Table Of Contents:\n- Proper Names: Q, A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, A, B, C, D, and T.\n- Proper Name Information: Q, A, B, C, D, E, F, G, H, I, J, K, L, M, N, O,",
+      "full_text": "Write a short story about a cat.Once upon a time, there was a little cat named Mimi. She lived in a cozy cottage in the woods, surrounded by tall trees and wildflowers. Mimi was a curious and adventurous cat, always eager to explore her surroundings.\n\nOne day, Mimi discovered a hidden path in the forest. She followed the path and eventually came across a beautiful meadow filled with colorful flowers and buzzing butterflies. Mimi was amazed by the sights and sounds around her, and she decided to stay in the meadow for a while.\n\nAs the sun began to set, Mimi realized that she needed to find her way back to her cottage. She retraced her steps and eventually found the hidden path she had discovered earlier.\n\nAlong the way, Mimi encountered a group of friendly animals, including a rabbit, a squirrel, and a bird. They were delighted to see Mimi and offered to help her find her way back to her cottage.\n\nTogether, Mimi and the group of animals embarked on a journey through the forest. They crossed small streams, climbed steep hills, and explored hidden caves. Mimi was amazed by the new sights and sounds they encountered, and she was grateful for the companionship and adventure.\n\nFinally, after a long and exciting journey, Mimi returned to her cottage. She was relieved to be home, and she was grateful for the new friends she had made along the way.\n\nFrom that day on, Mimi became even more curious and adventurous than ever before. She explored new parts of the forest, made new friends, and always looked forward to her next adventure. And every night, as she slept in her cozy cottage, Mimi dreamed of all the exciting journeys she would embark on in the future.\n\nAnd so, Mimi continued to live a happy and fulfilling life in the woods, surrounded by the beauty of nature and the love of her animal friends.Here is an extract from a webpage:\n\"Table Of Contents:\n- Proper Names: Q, A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, A, B, C, D, and T.\n- Proper Name Information: Q, A, B, C, D, E, F, G, H, I, J, K, L, M, N, O,",
+      "prompt_length": 8,
+      "generated_length": 512,
+      "perplexity": 6.235119819641113,
+      "watermark_score": 383.51129150390625,
+      "normalized_watermark_score": 0.9858902095216099
+    }
+  ]
+}

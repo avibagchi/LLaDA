@@ -541,7 +541,9 @@ def generate(model, prompt, steps=128, gen_length=128, block_length=128, tempera
                 elif aaronson_remasking_strategy == 'hard_favor':
                     # Hard favor: Give watermarked tokens high sentinel confidence (0.99)
                     # breakpoint()
+                    
                     x0_p = torch.where(watermark_mask, torch.full_like(x0_p, 0.99), x0_p)
+                    
                 
                 # else: 'original' strategy - keep x0_p as is (default behavior)
 

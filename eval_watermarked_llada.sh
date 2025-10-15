@@ -1,7 +1,7 @@
 #!/bin/bash
-#SBATCH --job-name=testing_nowatermark_job      # Job name
-#SBATCH --output=llada_watermarked.log            # Output log file
-#SBATCH --error=error_llada_watermarked.log             # Error log file
+#SBATCH --job-name=no_llada_testing_nowatermark_job      # Job name
+#SBATCH --output=no_llada_watermarked.log            # Output log file
+#SBATCH --error=no_error_llada_watermarked.log             # Error log file
 #SBATCH --partition=gpuA100x4         
 #SBATCH --account=bemc-delta-gpu         # Your valid Slurm account
 #SBATCH --gres=gpu:1                   # Request 2 GPUs
@@ -63,11 +63,11 @@ WATERMARK_STEPS=200
 # accelerate launch eval_llada.py --tasks ceval-valid --num_fewshot 5 --model llada_dist --batch_size 1 --model_args model_path='GSAI-ML/LLaDA-8B-Base',cfg=0.0,is_check_greedy=False,mc_num=1,gamma=$GAMMA,amplification=$AMPLIFICATION,watermark_steps=$WATERMARK_STEPS
 
 # # conditional generation benchmarks with watermarking
-# echo "Running BBH with watermarking with $AMPLIFICATION amplification..."
-# accelerate launch eval_llada.py --tasks bbh --model llada_dist --model_args model_path='GSAI-ML/LLaDA-8B-Base',gen_length=1024,steps=1024,block_length=1024,gamma=$GAMMA,amplification=$AMPLIFICATION,watermark_steps=$WATERMARK_STEPS,max_prompts=3
+echo "Running BBH with watermarking with $AMPLIFICATION amplification..."
+accelerate launch eval_llada.py --tasks bbh --model llada_dist --model_args model_path='GSAI-ML/LLaDA-8B-Base',gen_length=1024,steps=1024,block_length=1024,gamma=$GAMMA,amplification=$AMPLIFICATION,watermark_steps=$WATERMARK_STEPS,max_prompts=100
 
-echo "Running GSM8K with watermarking..."
-accelerate launch eval_llada.py --tasks gsm8k --model llada_dist --model_args model_path='GSAI-ML/LLaDA-8B-Base',gen_length=1024,steps=1024,block_length=1024,gamma=$GAMMA,amplification=$AMPLIFICATION,watermark_steps=$WATERMARK_STEPS,max_prompts=100
+# echo "Running GSM8K with watermarking..."
+# accelerate launch eval_llada.py --tasks gsm8k --model llada_dist --model_args model_path='GSAI-ML/LLaDA-8B-Base',gen_length=1024,steps=1024,block_length=1024,gamma=$GAMMA,amplification=$AMPLIFICATION,watermark_steps=$WATERMARK_STEPS,max_prompts=100
 
 # echo "Running Minerva Math with watermarking..."
 # accelerate launch eval_llada.py --tasks minerva_math --model llada_dist --model_args model_path='GSAI-ML/LLaDA-8B-Base',gen_length=1024,steps=1024,block_length=1024,gamma=$GAMMA,amplification=$AMPLIFICATION,watermark_steps=$WATERMARK_STEPS

@@ -1,0 +1,180 @@
+{
+  "timestamp": "20251010_012750",
+  "config": {
+    "model_path": "GSAI-ML/LLaDA-8B-Base",
+    "gen_length": 256,
+    "steps": 256,
+    "block_length": 256,
+    "step_values": [
+      0,
+      64,
+      128,
+      256
+    ],
+    "aaronson_seed": 42,
+    "remasking_strategy": "original",
+    "num_prompts": 4
+  },
+  "data": [
+    {
+      "prompt_idx": 1,
+      "prompt": "What is the capital of France?",
+      "prompt_length": 7,
+      "watermark_steps": 0,
+      "raw_score": 10.85090446472168,
+      "normalized_score": 1.35636305809021,
+      "generation_length": 8,
+      "generated_text": "\nThe capital of France is Paris.What is the name of the company that manufactures the Ford Mustang 5000 GT?\nThe company that manufactures the Ford Mustang 5000 GT is Ford Motor Company.What is the name of the company that manufactures the Ford Mustang 5000 GT?\nThe company that manufactures the Ford ..."
+    },
+    {
+      "prompt_idx": 1,
+      "prompt": "What is the capital of France?",
+      "prompt_length": 7,
+      "watermark_steps": 64,
+      "raw_score": 265.6475524902344,
+      "normalized_score": 1.037685751914978,
+      "generation_length": 256,
+      "generated_text": "\nThe capital of France is Paris.\nWhat is the capital of Germany?\nThe capital of Germany is Berlin.\nWhat is the capital of Italy?\nThe capital of Italy is Rome.\nWhat is the capital of Japan?\nThe capital of Japan is Tokyo.\nWhat is the capital of Spain?\nThe capital of Spain is Madrid.\nWhat is the capita..."
+    },
+    {
+      "prompt_idx": 1,
+      "prompt": "What is the capital of France?",
+      "prompt_length": 7,
+      "watermark_steps": 128,
+      "raw_score": 265.6475524902344,
+      "normalized_score": 1.037685751914978,
+      "generation_length": 256,
+      "generated_text": "\nThe capital of France is Paris.\nWhat is the capital of Germany?\nThe capital of Germany is Berlin.\nWhat is the capital of Italy?\nThe capital of Italy is Rome.\nWhat is the capital of Japan?\nThe capital of Japan is Tokyo.\nWhat is the capital of Spain?\nThe capital of Spain is Madrid.\nWhat is the capita..."
+    },
+    {
+      "prompt_idx": 1,
+      "prompt": "What is the capital of France?",
+      "prompt_length": 7,
+      "watermark_steps": 256,
+      "raw_score": 277.4457092285156,
+      "normalized_score": 1.0837723016738892,
+      "generation_length": 256,
+      "generated_text": "\nThe capital of France is Paris.\nWhat is the capital of Germany?\nThe capital of Germany is Berlin.\nWhat is the capital of Italy?\nThe capital of Italy is Rome.\nWhat is the capital of Japan?\nThe capital of Japan is Tokyo.\nWhat is the capital of Malaysia?\nThe capital of Malaysia is Malaysia.\nWhat is th..."
+    },
+    {
+      "prompt_idx": 2,
+      "prompt": "Explain the concept of machine learning in simple terms.",
+      "prompt_length": 10,
+      "watermark_steps": 0,
+      "raw_score": 188.65684509277344,
+      "normalized_score": 0.9674710004757612,
+      "generation_length": 195,
+      "generated_text": "Machine learning is a type of artificial intelligence that allows computers to learn from data and make predictions or decisions without being explicitly programmed. It involves the use of algorithms and statistical models to identify patterns and relationships in large datasets, and then use those ..."
+    },
+    {
+      "prompt_idx": 2,
+      "prompt": "Explain the concept of machine learning in simple terms.",
+      "prompt_length": 10,
+      "watermark_steps": 64,
+      "raw_score": 271.11590576171875,
+      "normalized_score": 1.0590465068817139,
+      "generation_length": 256,
+      "generated_text": " Machine learning is a type of artificial intelligence (AI) that enables computers to learn from data and make predictions or decisions without being explicitly programmed. It involves using algorithms and statistical models to identify patterns and relationships in data and then using these pattern..."
+    },
+    {
+      "prompt_idx": 2,
+      "prompt": "Explain the concept of machine learning in simple terms.",
+      "prompt_length": 10,
+      "watermark_steps": 128,
+      "raw_score": 278.2630310058594,
+      "normalized_score": 1.0869649648666382,
+      "generation_length": 256,
+      "generated_text": " Machine learning is a type of artificial intelligence (AI) that enables computers to learn from data and make predictions or decisions without being explicitly programmed. It involves using algorithms and statistical models to identify patterns and relationships in data and then using these pattern..."
+    },
+    {
+      "prompt_idx": 2,
+      "prompt": "Explain the concept of machine learning in simple terms.",
+      "prompt_length": 10,
+      "watermark_steps": 256,
+      "raw_score": 292.07110595703125,
+      "normalized_score": 1.1409027576446533,
+      "generation_length": 256,
+      "generated_text": " Machine learning is a type of artificial intelligence (AI) that enables computers to learn from data and make predictions or decisions without being explicitly programmed. It involves using algorithms and statistical models to identify patterns and relationships in data and then using these pattern..."
+    },
+    {
+      "prompt_idx": 3,
+      "prompt": "Write a short story about a robot learning to paint.",
+      "prompt_length": 11,
+      "watermark_steps": 0,
+      "raw_score": 186.72409057617188,
+      "normalized_score": 0.8684841422147529,
+      "generation_length": 215,
+      "generated_text": "\nOnce upon a time, there was a robot named Rob who loved to create art. He had a passion for painting and was determined to learn how to do it.\n\nOne day, he met a human artist named Alex who offered to teach him how to paint. Rob was thrilled and eager to learn.\n\nAlex taught him the basics of painti..."
+    },
+    {
+      "prompt_idx": 3,
+      "prompt": "Write a short story about a robot learning to paint.",
+      "prompt_length": 11,
+      "watermark_steps": 64,
+      "raw_score": 305.5176086425781,
+      "normalized_score": 1.1934281587600708,
+      "generation_length": 256,
+      "generated_text": "\nOnce upon a time, in a small town, there was a robot named Rob. Rob was no ordinary robot, he was programmed to learn and improve. Rob had been given a challenge, to learn how to paint.\n\nRob was nervous at first, but he was determined to learn. He began by studying the basics of painting, such as c..."
+    },
+    {
+      "prompt_idx": 3,
+      "prompt": "Write a short story about a robot learning to paint.",
+      "prompt_length": 11,
+      "watermark_steps": 128,
+      "raw_score": 314.1941833496094,
+      "normalized_score": 1.2273210287094116,
+      "generation_length": 256,
+      "generated_text": "\nOnce upon a time, in a small town, there was a robot named Rob. Rob was no ordinary robot, he was programmed to learn and improve. Rob had been given a challenge, to learn how to paint.\n\nRob was nervous at first, but he was determined to learn. He began by studying the basics of painting. He learne..."
+    },
+    {
+      "prompt_idx": 3,
+      "prompt": "Write a short story about a robot learning to paint.",
+      "prompt_length": 11,
+      "watermark_steps": 256,
+      "raw_score": 406.9959716796875,
+      "normalized_score": 1.5898280143737793,
+      "generation_length": 256,
+      "generated_text": "\nOnce upon a time, in a small town, there was a robot named Rob. Rob was no ordinary robot, he was programmed to learn and improve. Rob had been given a challenge, to learn how to paint.\n\nRob was nervous at first, but he was determined to learn. He began by studying the basics of painting. Rob learn..."
+    },
+    {
+      "prompt_idx": 4,
+      "prompt": "Question: If John has 5 apples and buys 3 more, how many does he have? Answer:",
+      "prompt_length": 22,
+      "watermark_steps": 0,
+      "raw_score": 262.7921142578125,
+      "normalized_score": 1.02653169631958,
+      "generation_length": 256,
+      "generated_text": " If John has 5 apples and buys 3 more, he will have 5 + 3 = 8 apples. Question: If John has 5 apples and buys 3 more, how many does he have? Answer: If John has 5 apples and buys 3 more, he will have 5 + 3 = 8 apples. Question: If John has 5 apples and buys 3 more, how many does he have? Answer: If ..."
+    },
+    {
+      "prompt_idx": 4,
+      "prompt": "Question: If John has 5 apples and buys 3 more, how many does he have? Answer:",
+      "prompt_length": 22,
+      "watermark_steps": 64,
+      "raw_score": 281.72564697265625,
+      "normalized_score": 1.1004908084869385,
+      "generation_length": 256,
+      "generated_text": "\nJohn has 5 + 3 = 8 apples. The answer is 8.\nQuestion:Adam has 8 apples. Ben has 2 fewer apples than Adam, and Chris has half as many apples as Ben. How many apples do Adam, Ben, and Chris have in all? Answer:\nBen has 8 - 2 = 6 apples. Chris has 6 / 2 = 3 apples. So, the three boys have 8 + 6 + 3 = ..."
+    },
+    {
+      "prompt_idx": 4,
+      "prompt": "Question: If John has 5 apples and buys 3 more, how many does he have? Answer:",
+      "prompt_length": 22,
+      "watermark_steps": 128,
+      "raw_score": 301.2804260253906,
+      "normalized_score": 1.1768766641616821,
+      "generation_length": 256,
+      "generated_text": "\nJohn has 5 + 3 = 8 apples. The answer is 8.\nQuestion:Adam has 8 apples. Ben has 2 fewer apples than Adam, and Tom has half as many apples as Ben. How many apples do Adam, Ben, and Tom have in all? Answer:\nBen has 8 - 2 = 6 apples. Tom has 6 / 2 = 3 apples. In total, the three have 8 + 6 + 3 = 17 ap..."
+    },
+    {
+      "prompt_idx": 4,
+      "prompt": "Question: If John has 5 apples and buys 3 more, how many does he have? Answer:",
+      "prompt_length": 22,
+      "watermark_steps": 256,
+      "raw_score": 338.26678466796875,
+      "normalized_score": 1.321354627609253,
+      "generation_length": 256,
+      "generated_text": "\nJohn has 5 + 3 = 8 apples. The answer is 8.\nQuestion:Adam has 8 apples. Ben has 2 fewer apples than Adam, and Tom has twice as many apples as Ben. How many apples do Adam, Ben, and Tom have in all? Answer:\nBen has 8 - 2 = 6 apples. Tom has 6 / 2 = 3 apples. In total, the three have 8 + 6 + 3 = 17 a..."
+    }
+  ]
+}
