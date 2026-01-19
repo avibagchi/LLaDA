@@ -50,13 +50,14 @@ def add_gumbel_noise(logits, temperature):
     The Gumbel max is a method for sampling categorical distributions.
     According to arXiv:2409.02908, for MDM, low-precision Gumbel Max improves perplexity score but reduces generation quality.
     Thus, we use float64.
+    Standard Gumbel-max trick: logits - log(-log(U)) * temperature
     '''
     if temperature == 0:
         return logits
     logits = logits.to(torch.float64)
     noise = torch.rand_like(logits, dtype=torch.float64)
-    gumbel_noise = (- torch.log(noise)) ** temperature
-    return logits.exp() / gumbel_noise
+    # Standard Gumbel-max trick (more numerically stable than exponentiating)
+    return logits - torch.log(-torch.log(noise)) * temperature
 
 
 def generate_green_mask(sequence_length, vocab_size, gamma, device, n=5):
@@ -458,9 +459,14 @@ def generate(model, prompt, steps=128, gen_length=128, block_length=128, tempera
             else:
                 logits = model(x).logits
 
-            # Apply watermark to logits before adding Gumbel noise
+            # Separate sampling and remasking logits (like diffusion-lm-watermark)
+            # Keep original logits for remasking confidence calculation
+            remasking_logits = logits.clone()
+            
+            # Apply watermark to create sampling logits
             aaronson_choices = None  # Will hold watermarked token choices for Aaronson
             aaronson_wm_confidences = None  # Will hold watermark confidences for Aaronson
+            sampling_logits = logits.clone()  # Start with original logits
             
             if watermark_type == 'green_list' and amplification > 0 and green_mask is not None:
                 # Check if we should apply watermarking at this step (using consistent 1-indexed logic)
@@ -478,8 +484,9 @@ def generate(model, prompt, steps=128, gen_length=128, block_length=128, tempera
                     current_block_mask = torch.zeros_like(x, dtype=torch.bool)
                     current_block_mask[:, current_block_start:current_block_end] = True
                     current_block_mask = current_block_mask & mask_index
-                    # breakpoint()
-                    logits = apply_watermark_to_logits(logits, full_green_mask, amplification, current_block_mask, special_token_ids)
+                    
+                    # Apply watermark to sampling logits only
+                    sampling_logits = apply_watermark_to_logits(sampling_logits, full_green_mask, amplification, current_block_mask, special_token_ids)
             
             elif watermark_type == 'aaronson':
                 # Check if we should apply Aaronson watermarking at this step (using consistent 1-indexed logic)
@@ -493,25 +500,26 @@ def generate(model, prompt, steps=128, gen_length=128, block_length=128, tempera
                     current_block_mask[:, current_block_start:current_block_end] = True
                     current_block_mask = current_block_mask & mask_index
                     
-                    # Apply Aaronson watermarking - returns token choices and confidences (Fix B)
+                    # Apply Aaronson watermarking - returns token choices and confidences
                     # NOTE: position_offset=0 because pos in apply_aaronson_gumbel_watermark is already absolute
                     aaronson_choices, aaronson_wm_confidences = apply_aaronson_gumbel_watermark(
-                        logits, current_block_mask, vocab_size, 
+                        sampling_logits, current_block_mask, vocab_size, 
                         position_offset=0, seed=aaronson_seed,
                         special_token_ids=special_token_ids
                     )
 
-            # For non-Aaronson watermarking or non-watermarked positions, use standard sampling
-            logits_with_noise = add_gumbel_noise(logits, temperature=temperature)
+            # Use sampling_logits for Gumbel noise and argmax (for sampling)
+            logits_with_noise = add_gumbel_noise(sampling_logits, temperature=temperature)
             x0 = torch.argmax(logits_with_noise, dim=-1) # b, l
             
-            # Override with Aaronson watermarked choices where applicable (Fix B)
+            # Override with Aaronson watermarked choices where applicable
             if aaronson_choices is not None:
                 watermark_mask = (aaronson_choices != -1)  # Positions where watermarking was applied
                 x0 = torch.where(watermark_mask, aaronson_choices, x0)
 
+            # Use remasking_logits (original, unwatermarked) for confidence calculation
             if remasking == 'low_confidence':
-                p = F.softmax(logits, dim=-1)
+                p = F.softmax(remasking_logits.to(torch.float64), dim=-1)
                 x0_p = torch.squeeze(
                     torch.gather(p, dim=-1, index=torch.unsqueeze(x0, -1)), -1) # b, l
             elif remasking == 'random':

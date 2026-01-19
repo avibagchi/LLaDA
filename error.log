@@ -1,7 +1,0 @@
-/work/nvme/bemc/python_envs/sedd_env_3/lib/python3.10/site-packages/huggingface_hub/file_download.py:945: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
-  warnings.warn(
-Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]Loading checkpoint shards:  17%|█▋        | 1/6 [00:05<00:27,  5.43s/it]Loading checkpoint shards:  33%|███▎      | 2/6 [00:12<00:26,  6.53s/it]Loading checkpoint shards:  50%|█████     | 3/6 [00:19<00:20,  6.77s/it]Loading checkpoint shards:  67%|██████▋   | 4/6 [00:26<00:13,  6.88s/it]Loading checkpoint shards:  83%|████████▎ | 5/6 [00:34<00:07,  7.22s/it]Loading checkpoint shards: 100%|██████████| 6/6 [00:40<00:00,  6.83s/it]Loading checkpoint shards: 100%|██████████| 6/6 [00:40<00:00,  6.79s/it]
-/work/nvme/bemc/python_envs/sedd_env_3/lib/python3.10/site-packages/huggingface_hub/file_download.py:945: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
-  warnings.warn(
-Special tokens have been added in the vocabulary, make sure the associated word embeddings are fine-tuned or trained.
-slurmstepd: error: *** JOB 12253411 ON gpua034 CANCELLED AT 2025-09-16T13:03:54 ***

@@ -33,7 +33,7 @@ GEN_LENGTH=512
 STEPS=512
 BLOCK_LENGTH=512
 TEMPERATURE=1.0  # Standard sampling temperature
-MAX_PROMPTS=500   # Limit for testing (set to None or remove for all prompts)
+MAX_PROMPTS=2   # Limit for testing (set to None or remove for all prompts)
 
 # Aaronson watermarking parameters
 WATERMARK_TYPE="aaronson"
