@@ -15,6 +15,10 @@ import time
 from concurrent.futures import ThreadPoolExecutor, TimeoutError
 import matplotlib.pyplot as plt
 import numpy as np
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 
 def query_gpt4_correctness(
@@ -309,8 +313,8 @@ def main():
     parser.add_argument(
         '--api_key',
         type=str,
-        default='REDACTED_OPENAI_KEY',
-        help='OpenAI API key'
+        default=None,
+        help='OpenAI API key (default: read from .env file or OPENAI_API_KEY environment variable)'
     )
     parser.add_argument(
         '--max_workers',
@@ -352,8 +356,18 @@ def main():
         results = results[:args.max_prompts]
         print(f"Limited to {len(results)} prompts for evaluation")
     
+    # Get API key from command line, .env file, or environment variable
+    api_key = args.api_key or os.getenv('OPENAI_API_KEY')
+    if not api_key:
+        raise ValueError(
+            "OpenAI API key not found. Please:\n"
+            "  1. Create a .env file with: OPENAI_API_KEY=your-api-key-here\n"
+            "  2. Or set the OPENAI_API_KEY environment variable\n"
+            "  3. Or provide it via --api_key argument"
+        )
+    
     # Initialize OpenAI client
-    client = openai.OpenAI(api_key=args.api_key)
+    client = openai.OpenAI(api_key=api_key)
     
     # Evaluate all results
     print(f"Evaluating {len(results)} results using GPT-4...")
