@@ -356,7 +356,7 @@ def main():
         results = results[:args.max_prompts]
         print(f"Limited to {len(results)} prompts for evaluation")
     
-    # Get API key from command line, .env file, or environment variable
+    # Get API key from command line, .env file, or environment variable.
     api_key = args.api_key or os.getenv('OPENAI_API_KEY')
     if not api_key:
         raise ValueError(
