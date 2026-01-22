@@ -50,14 +50,13 @@ def add_gumbel_noise(logits, temperature):
     The Gumbel max is a method for sampling categorical distributions.
     According to arXiv:2409.02908, for MDM, low-precision Gumbel Max improves perplexity score but reduces generation quality.
     Thus, we use float64.
-    Standard Gumbel-max trick: logits - log(-log(U)) * temperature
     '''
     if temperature == 0:
         return logits
     logits = logits.to(torch.float64)
     noise = torch.rand_like(logits, dtype=torch.float64)
-    # Standard Gumbel-max trick (more numerically stable than exponentiating)
-    return logits - torch.log(-torch.log(noise)) * temperature
+    gumbel_noise = (- torch.log(noise)) ** temperature
+    return logits.exp() / gumbel_noise
 
 
 def generate_green_mask(sequence_length, vocab_size, gamma, device, n=5):
@@ -489,8 +488,29 @@ def generate(model, prompt, steps=128, gen_length=128, block_length=128, tempera
                     sampling_logits = apply_watermark_to_logits(sampling_logits, full_green_mask, amplification, current_block_mask, special_token_ids)
             
             elif watermark_type == 'aaronson':
-                # Check if we should apply Aaronson watermarking at this step (using consistent 1-indexed logic)
-                if _should_watermark(i, watermark_steps):
+                # Aaronson watermarking should ONLY be applied at the final step(s) when distribution is close to final.
+                # The theoretical guarantee of distortion-freeness only holds when sampling from the final distribution.
+                # 
+                # Logic: Only watermark steps >= watermark_steps (i.e., the last N steps)
+                # - If watermark_steps is None: default to only the last step (steps)
+                # - If watermark_steps is int: watermark steps >= watermark_steps (e.g., 295 means steps 295-300)
+                # - If watermark_steps is list: watermark only those specific steps
+                should_apply = False
+                if watermark_steps is None:
+                    # Default: only apply at the very last step to preserve quality
+                    should_apply = (i == steps - 1)
+                elif isinstance(watermark_steps, int):
+                    # Apply at steps >= watermark_steps (only the last N steps)
+                    # Example: if watermark_steps=295 and steps=300, apply at steps 295, 296, 297, 298, 299, 300
+                    # WARNING: Using low watermark_steps (e.g., 200) will degrade quality because the distribution
+                    # at intermediate steps is still noisy and far from the final distribution.
+                    should_apply = (i + 1) <= watermark_steps
+                else:
+                    # For lists, check if current step is in the list
+                    wanted = {s - 1 for s in watermark_steps}
+                    should_apply = i in wanted
+                
+                if should_apply:
                     # Only apply to the current block being generated
                     current_block_start = prompt.shape[1] + num_block * block_length
                     current_block_end = prompt.shape[1] + (num_block + 1) * block_length
@@ -519,7 +539,7 @@ def generate(model, prompt, steps=128, gen_length=128, block_length=128, tempera
 
             # Use remasking_logits (original, unwatermarked) for confidence calculation
             if remasking == 'low_confidence':
-                p = F.softmax(remasking_logits.to(torch.float64), dim=-1)
+                p = F.softmax(remasking_logits, dim=-1)
                 x0_p = torch.squeeze(
                     torch.gather(p, dim=-1, index=torch.unsqueeze(x0, -1)), -1) # b, l
             elif remasking == 'random':

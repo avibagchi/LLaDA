@@ -1,11 +1,9 @@
 # HuggingFace token (keep this private!)
 hf_token.txt
 
-# Environment variables (keep this private!)
-.env
-
 # Log files
 *.log
+.env
 
 # Python cache
 __pycache__/

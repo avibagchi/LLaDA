@@ -295,14 +295,18 @@ def main():
         }
         results.append(result)
     
+    # Create output directory if it doesn't exist
+    output_dir = Path("water-bench-results/json-outputs")
+    output_dir.mkdir(parents=True, exist_ok=True)
+    
     # Generate output filename if not specified
     if args.output_file is None:
         timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
         jsonl_basename = Path(args.jsonl_file).stem
         args.output_file = f"waterbench_{jsonl_basename}_{args.watermark_type}_{timestamp}.json"
     
-    # Save results
-    output_path = Path(args.output_file)
+    # Save results to water-bench-results/json-outputs directory
+    output_path = output_dir / Path(args.output_file).name
     print(f"\nSaving results to {output_path}...")
     
     # Calculate statistics

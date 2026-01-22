@@ -331,17 +331,36 @@ def main():
     
     args = parser.parse_args()
     
+    # Create output directories if they don't exist
+    json_output_dir = Path("water-bench-results/json-outputs")
+    graph_output_dir = Path("water-bench-results/graphs")
+    json_output_dir.mkdir(parents=True, exist_ok=True)
+    graph_output_dir.mkdir(parents=True, exist_ok=True)
+    
     # Set up output paths
     input_path = Path(args.input_json)
+    
+    # If input file doesn't exist, check in json-outputs directory
+    if not input_path.exists():
+        potential_path = json_output_dir / input_path.name
+        if potential_path.exists():
+            input_path = potential_path
+        else:
+            raise FileNotFoundError(
+                f"Input file not found: {args.input_json}\n"
+                f"Checked: {Path(args.input_json).absolute()}\n"
+                f"Also checked: {potential_path.absolute()}"
+            )
+    
     if args.output_json is None:
-        output_json_path = input_path.parent / f"{input_path.stem}_gpt4_eval.json"
+        output_json_path = json_output_dir / f"{input_path.stem}_gpt4_eval.json"
     else:
-        output_json_path = Path(args.output_json)
+        output_json_path = json_output_dir / Path(args.output_json).name
     
     if args.graph_output is None:
-        graph_output_path = input_path.parent / f"{input_path.stem}_normalized_score_graph.png"
+        graph_output_path = graph_output_dir / f"{input_path.stem}_normalized_score_graph.png"
     else:
-        graph_output_path = Path(args.graph_output)
+        graph_output_path = graph_output_dir / Path(args.graph_output).name
     
     # Load input JSON
     print(f"Loading JSON file: {input_path}")

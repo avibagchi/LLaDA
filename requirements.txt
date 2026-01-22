@@ -106,4 +106,3 @@ word2number==1.1
 xxhash==3.4.1
 yarl==1.9.4
 zstandard==0.24.0
-python-dotenv==1.0.0
