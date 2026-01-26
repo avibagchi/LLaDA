@@ -45,18 +45,45 @@ def get_special_token_ids(tokenizer):
     return list(set(special_tokens))  # Remove duplicates
 
 
-def add_gumbel_noise(logits, temperature):
+def add_gumbel_noise(logits, temperature, chunk_size=50000):
     '''
     The Gumbel max is a method for sampling categorical distributions.
     According to arXiv:2409.02908, for MDM, low-precision Gumbel Max improves perplexity score but reduces generation quality.
-    Thus, we use float64.
+    Memory-optimized version: processes vocabulary in chunks to reduce peak memory usage.
     '''
     if temperature == 0:
         return logits
-    logits = logits.to(torch.float64)
-    noise = torch.rand_like(logits, dtype=torch.float64)
-    gumbel_noise = (- torch.log(noise)) ** temperature
-    return logits.exp() / gumbel_noise
+    
+    batch_size, seq_len, vocab_size = logits.shape
+    
+    # Convert to float32 to save memory
+    logits_f32 = logits.to(torch.float32)
+    
+    # Process vocabulary in chunks to avoid OOM
+    result_chunks = []
+    for vocab_start in range(0, vocab_size, chunk_size):
+        vocab_end = min(vocab_start + chunk_size, vocab_size)
+        
+        # Extract chunk
+        logits_chunk = logits_f32[:, :, vocab_start:vocab_end]
+        
+        # Generate noise for this chunk only
+        noise_chunk = torch.rand_like(logits_chunk, dtype=torch.float32)
+        gumbel_noise_chunk = (- torch.log(noise_chunk + 1e-8)) ** temperature
+        
+        # Compute result for this chunk
+        result_chunk = logits_chunk.exp() / gumbel_noise_chunk
+        result_chunks.append(result_chunk)
+        
+        # Clear intermediate tensors to free memory
+        del noise_chunk, gumbel_noise_chunk, logits_chunk
+        torch.cuda.empty_cache()
+    
+    # Concatenate chunks
+    result = torch.cat(result_chunks, dim=-1)
+    
+    # Convert back to original dtype
+    return result.to(logits.dtype)
 
 
 def generate_green_mask(sequence_length, vocab_size, gamma, device, n=5):

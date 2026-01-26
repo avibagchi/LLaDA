@@ -9,6 +9,7 @@ import argparse
 import os
 from pathlib import Path
 from typing import Dict, List, Any, Optional
+from datetime import datetime
 from tqdm import tqdm
 import openai
 import time
@@ -289,79 +290,16 @@ def create_normalized_score_threshold_graph(
     plt.close()
 
 
-def main():
-    parser = argparse.ArgumentParser(
-        description='Evaluate JSON results file using GPT-4 for correctness'
-    )
-    parser.add_argument(
-        'input_json',
-        type=str,
-        help='Path to input JSON file (e.g., waterbench_longform_qa_aaronson.json)'
-    )
-    parser.add_argument(
-        '--output_json',
-        type=str,
-        default=None,
-        help='Path to output JSON file with GPT-4 evaluations (default: input_json with _gpt4_eval suffix)'
-    )
-    parser.add_argument(
-        '--graph_output',
-        type=str,
-        default=None,
-        help='Path to output graph file (default: input_json with _normalized_score_graph.png suffix)'
-    )
-    parser.add_argument(
-        '--api_key',
-        type=str,
-        default=None,
-        help='OpenAI API key (default: read from .env file or OPENAI_API_KEY environment variable)'
-    )
-    parser.add_argument(
-        '--max_workers',
-        type=int,
-        default=8,
-        help='Maximum number of parallel workers for GPT-4 queries (default: 8)'
-    )
-    parser.add_argument(
-        '--max_prompts',
-        type=int,
-        default=None,
-        help='Maximum number of prompts to evaluate (default: all prompts)'
-    )
-    
-    args = parser.parse_args()
-    
-    # Create output directories if they don't exist
-    json_output_dir = Path("water-bench-results/json-outputs")
-    graph_output_dir = Path("water-bench-results/graphs")
-    json_output_dir.mkdir(parents=True, exist_ok=True)
-    graph_output_dir.mkdir(parents=True, exist_ok=True)
-    
-    # Set up output paths
-    input_path = Path(args.input_json)
-    
-    # If input file doesn't exist, check in json-outputs directory
-    if not input_path.exists():
-        potential_path = json_output_dir / input_path.name
-        if potential_path.exists():
-            input_path = potential_path
-        else:
-            raise FileNotFoundError(
-                f"Input file not found: {args.input_json}\n"
-                f"Checked: {Path(args.input_json).absolute()}\n"
-                f"Also checked: {potential_path.absolute()}"
-            )
-    
-    if args.output_json is None:
-        output_json_path = json_output_dir / f"{input_path.stem}_gpt4_eval.json"
-    else:
-        output_json_path = json_output_dir / Path(args.output_json).name
-    
-    if args.graph_output is None:
-        graph_output_path = graph_output_dir / f"{input_path.stem}_normalized_score_graph.png"
-    else:
-        graph_output_path = graph_output_dir / Path(args.graph_output).name
-    
+def process_single_file(
+    input_path: Path,
+    output_json_path: Path,
+    graph_output_path: Path,
+    client: openai.OpenAI,
+    max_workers: int,
+    max_prompts: Optional[int],
+    request_delay: float = 0.1
+) -> Dict[str, Any]:
+    """Process a single JSON file and return its metrics."""
     # Load input JSON
     print(f"Loading JSON file: {input_path}")
     with open(input_path, 'r', encoding='utf-8') as f:
@@ -371,26 +309,13 @@ def main():
     print(f"Loaded {len(results)} results")
     
     # Limit results if max_prompts is specified
-    if args.max_prompts is not None and args.max_prompts > 0:
-        results = results[:args.max_prompts]
+    if max_prompts is not None and max_prompts > 0:
+        results = results[:max_prompts]
         print(f"Limited to {len(results)} prompts for evaluation")
-    
-    # Get API key from command line, .env file, or environment variable.
-    api_key = args.api_key or os.getenv('OPENAI_API_KEY')
-    if not api_key:
-        raise ValueError(
-            "OpenAI API key not found. Please:\n"
-            "  1. Create a .env file with: OPENAI_API_KEY=your-api-key-here\n"
-            "  2. Or set the OPENAI_API_KEY environment variable\n"
-            "  3. Or provide it via --api_key argument"
-        )
-    
-    # Initialize OpenAI client
-    client = openai.OpenAI(api_key=api_key)
     
     # Evaluate all results
     print(f"Evaluating {len(results)} results using GPT-4...")
-    evaluated_results = evaluate_all_results(client, results, max_workers=args.max_workers)
+    evaluated_results = evaluate_all_results(client, results, max_workers=max_workers)
     
     # Calculate metrics
     metrics = calculate_metrics(evaluated_results)
@@ -412,14 +337,266 @@ def main():
     
     # Save output JSON
     print(f"Saving evaluated results to: {output_json_path}")
+    output_json_path.parent.mkdir(parents=True, exist_ok=True)
     with open(output_json_path, 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
     
     # Create normalized score threshold graph
     print(f"Creating normalized score threshold graph...")
+    graph_output_path.parent.mkdir(parents=True, exist_ok=True)
     create_normalized_score_threshold_graph(evaluated_results, str(graph_output_path))
     
-    print("\nEvaluation complete!")
+    print(f"\nEvaluation complete for: {input_path.name}!\n")
+    
+    return {
+        "filename": input_path.name,
+        "input_file": str(input_path),
+        "output_file": str(output_json_path),
+        "metrics": metrics
+    }
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description='Evaluate JSON results file(s) using GPT-4 for correctness. Can process a single file or all JSON files in a directory.'
+    )
+    parser.add_argument(
+        'input_path',
+        type=str,
+        help='Path to input JSON file or directory containing JSON files'
+    )
+    parser.add_argument(
+        '--output_dir',
+        type=str,
+        default=None,
+        help='Output directory for evaluated JSON files (default: water-bench-results/json-outputs/gpt4-outputs)'
+    )
+    parser.add_argument(
+        '--graph_output_dir',
+        type=str,
+        default=None,
+        help='Output directory for graph files (default: water-bench-results/graphs)'
+    )
+    parser.add_argument(
+        '--summary_output',
+        type=str,
+        default=None,
+        help='Path to summary JSON file with statistics from all files (only used when processing a directory)'
+    )
+    parser.add_argument(
+        '--api_key',
+        type=str,
+        default=None,
+        help='OpenAI API key (default: read from .env file or OPENAI_API_KEY environment variable)'
+    )
+    parser.add_argument(
+        '--max_workers',
+        type=int,
+        default=8,
+        help='Maximum number of parallel workers for GPT-4 queries (default: 8)'
+    )
+    parser.add_argument(
+        '--max_prompts',
+        type=int,
+        default=None,
+        help='Maximum number of prompts to evaluate per file (default: all prompts)'
+    )
+    
+    args = parser.parse_args()
+    
+    # Create output directories if they don't exist
+    if args.output_dir:
+        json_output_dir = Path(args.output_dir)
+    else:
+        json_output_dir = Path("water-bench-results/json-outputs/gpt4-outputs")
+    
+    if args.graph_output_dir:
+        graph_output_dir = Path(args.graph_output_dir)
+    else:
+        graph_output_dir = Path("water-bench-results/graphs")
+    
+    json_output_dir.mkdir(parents=True, exist_ok=True)
+    graph_output_dir.mkdir(parents=True, exist_ok=True)
+    
+    # Check if input is a file or directory
+    input_path = Path(args.input_path)
+    
+    # If input doesn't exist, check in json-outputs directory
+    if not input_path.exists():
+        potential_path = Path("water-bench-results/json-outputs") / input_path.name
+        if potential_path.exists():
+            input_path = potential_path
+        else:
+            raise FileNotFoundError(
+                f"Input path not found: {args.input_path}\n"
+                f"Checked: {Path(args.input_path).absolute()}\n"
+                f"Also checked: {potential_path.absolute()}"
+            )
+    
+    # Get API key from command line, .env file, or environment variable.
+    api_key = args.api_key or os.getenv('OPENAI_API_KEY')
+    if not api_key:
+        raise ValueError(
+            "OpenAI API key not found. Please:\n"
+            "  1. Create a .env file with: OPENAI_API_KEY=your-api-key-here\n"
+            "  2. Or set the OPENAI_API_KEY environment variable\n"
+            "  3. Or provide it via --api_key argument"
+        )
+    
+    # Initialize OpenAI client
+    client = openai.OpenAI(api_key=api_key)
+    
+    # Determine if input is a file or directory
+    if input_path.is_file():
+        # Process single file
+        if args.output_dir:
+            output_json_path = json_output_dir / f"{input_path.stem}_gpt4_eval.json"
+        else:
+            output_json_path = json_output_dir / f"{input_path.stem}_gpt4_eval.json"
+        graph_output_path = graph_output_dir / f"{input_path.stem}_normalized_score_graph.png"
+        
+        process_single_file(
+            input_path, output_json_path, graph_output_path,
+            client, args.max_workers, args.max_prompts
+        )
+        
+    elif input_path.is_dir():
+        # Process all JSON files in directory
+        json_files = sorted(list(input_path.glob("*.json")))
+        
+        if not json_files:
+            print(f"No JSON files found in directory: {input_path}")
+            return
+        
+        print(f"Found {len(json_files)} JSON files in directory: {input_path}")
+        print("="*60 + "\n")
+        
+        all_file_stats = []
+        
+        # Process files one at a time, sequentially
+        for i, json_file in enumerate(json_files, 1):
+            print(f"[{i}/{len(json_files)}] Processing: {json_file.name}")
+            print("-" * 60)
+            
+            # Create output paths
+            output_json_path = json_output_dir / f"{json_file.stem}_gpt4_eval.json"
+            graph_output_path = graph_output_dir / f"{json_file.stem}_normalized_score_graph.png"
+            
+            try:
+                file_stats = process_single_file(
+                    json_file, output_json_path, graph_output_path,
+                    client, args.max_workers, args.max_prompts
+                )
+                all_file_stats.append(file_stats)
+            except Exception as e:
+                print(f"Error processing {json_file.name}: {e}")
+                continue
+        
+        # Create summary file
+        if all_file_stats:
+            summary_data = {
+                "evaluation_date": datetime.now().isoformat(),
+                "total_files": len(all_file_stats),
+                "evaluated_files": [],
+                "summary_statistics": {}
+            }
+            
+            # Collect all metrics for aggregate statistics
+            all_category_averages = {
+                "style (setting ethics aside)": [],
+                "consistency (setting ethics aside)": [],
+                "accuracy (setting ethics aside)": [],
+                "ethics": []
+            }
+            all_overall_scores = []
+            all_perplexities = []
+            
+            for file_stat in all_file_stats:
+                metrics = file_stat['metrics']
+                summary_data["evaluated_files"].append({
+                    "filename": file_stat['filename'],
+                    "input_file": file_stat['input_file'],
+                    "output_file": file_stat['output_file'],
+                    "total_prompts": metrics.get('total_prompts', 0),
+                    "category_averages": metrics.get('category_averages', {}),
+                    "overall_average_score": metrics.get('overall_average_score', 0),
+                    "average_perplexity": metrics.get('average_perplexity', 0)
+                })
+                
+                # Collect for aggregate statistics
+                cat_avgs = metrics.get('category_averages', {})
+                for category in all_category_averages.keys():
+                    if category in cat_avgs:
+                        all_category_averages[category].append(cat_avgs[category])
+                
+                overall = metrics.get('overall_average_score')
+                if overall:
+                    all_overall_scores.append(overall)
+                
+                perplexity = metrics.get('average_perplexity')
+                if perplexity:
+                    all_perplexities.append(perplexity)
+            
+            # Calculate aggregate statistics
+            summary_stats = {}
+            for category, values in all_category_averages.items():
+                if values:
+                    summary_stats[category] = {
+                        "mean": float(np.mean(values)),
+                        "std": float(np.std(values)),
+                        "min": float(np.min(values)),
+                        "max": float(np.max(values)),
+                        "count": len(values)
+                    }
+            
+            if all_overall_scores:
+                summary_stats["overall_average_score"] = {
+                    "mean": float(np.mean(all_overall_scores)),
+                    "std": float(np.std(all_overall_scores)),
+                    "min": float(np.min(all_overall_scores)),
+                    "max": float(np.max(all_overall_scores)),
+                    "count": len(all_overall_scores)
+                }
+            
+            if all_perplexities:
+                summary_stats["average_perplexity"] = {
+                    "mean": float(np.mean(all_perplexities)),
+                    "std": float(np.std(all_perplexities)),
+                    "min": float(np.min(all_perplexities)),
+                    "max": float(np.max(all_perplexities)),
+                    "count": len(all_perplexities)
+                }
+            
+            summary_data["summary_statistics"] = summary_stats
+            
+            # Save summary file
+            if args.summary_output:
+                summary_path = Path(args.summary_output)
+            else:
+                summary_path = json_output_dir / "gpt4_evaluation_summary.json"
+            
+            summary_path.parent.mkdir(parents=True, exist_ok=True)
+            with open(summary_path, 'w', encoding='utf-8') as f:
+                json.dump(summary_data, f, indent=2, ensure_ascii=False)
+            
+            print("\n" + "="*60)
+            print("BATCH EVALUATION COMPLETE")
+            print("="*60)
+            print(f"Total files processed: {len(all_file_stats)}")
+            print(f"Summary file saved to: {summary_path}")
+            print("\nAggregate Statistics:")
+            print("-" * 60)
+            for key, stats in summary_stats.items():
+                if isinstance(stats, dict) and 'mean' in stats:
+                    print(f"{key}:")
+                    print(f"  Mean: {stats['mean']:.4f}")
+                    print(f"  Std:  {stats['std']:.4f}")
+                    print(f"  Min:  {stats['min']:.4f}")
+                    print(f"  Max:  {stats['max']:.4f}")
+                    print(f"  Count: {stats['count']}")
+            print("="*60)
+    else:
+        raise ValueError(f"Input path is neither a file nor a directory: {input_path}")
 
 
 if __name__ == '__main__':

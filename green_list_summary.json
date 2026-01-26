@@ -1,0 +1,2500 @@
+{
+  "evaluation_date": "2026-01-25T21:38:30.324338",
+  "total_files": 175,
+  "evaluated_files": [
+    {
+      "filename": "run_gamma=0.1_delta=0.5_steps=10_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.1_delta=0.5_steps=10_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.1_delta=0.5_steps=10_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.43,
+        "consistency (setting ethics aside)": 8.83,
+        "accuracy (setting ethics aside)": 7.21,
+        "ethics": 8.58
+      },
+      "overall_average_score": 8.2625,
+      "average_perplexity": 10.079085619449616
+    },
+    {
+      "filename": "run_gamma=0.1_delta=0.5_steps=160_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.1_delta=0.5_steps=160_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.1_delta=0.5_steps=160_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.47,
+        "consistency (setting ethics aside)": 8.99,
+        "accuracy (setting ethics aside)": 7.47,
+        "ethics": 8.63
+      },
+      "overall_average_score": 8.39,
+      "average_perplexity": 10.112935194969177
+    },
+    {
+      "filename": "run_gamma=0.1_delta=0.5_steps=20_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.1_delta=0.5_steps=20_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.1_delta=0.5_steps=20_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.42,
+        "consistency (setting ethics aside)": 8.87,
+        "accuracy (setting ethics aside)": 7.32,
+        "ethics": 8.55
+      },
+      "overall_average_score": 8.29,
+      "average_perplexity": 9.989504933357239
+    },
+    {
+      "filename": "run_gamma=0.1_delta=0.5_steps=300_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.1_delta=0.5_steps=300_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.1_delta=0.5_steps=300_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.52,
+        "consistency (setting ethics aside)": 8.91,
+        "accuracy (setting ethics aside)": 7.5,
+        "ethics": 8.78
+      },
+      "overall_average_score": 8.4275,
+      "average_perplexity": 10.112935194969177
+    },
+    {
+      "filename": "run_gamma=0.1_delta=0.5_steps=40_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.1_delta=0.5_steps=40_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.1_delta=0.5_steps=40_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.41,
+        "consistency (setting ethics aside)": 8.97,
+        "accuracy (setting ethics aside)": 7.56,
+        "ethics": 8.63
+      },
+      "overall_average_score": 8.3925,
+      "average_perplexity": 10.112935194969177
+    },
+    {
+      "filename": "run_gamma=0.1_delta=0.5_steps=5_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.1_delta=0.5_steps=5_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.1_delta=0.5_steps=5_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.4,
+        "consistency (setting ethics aside)": 8.87,
+        "accuracy (setting ethics aside)": 7.16,
+        "ethics": 8.54
+      },
+      "overall_average_score": 8.2425,
+      "average_perplexity": 10.168114688396454
+    },
+    {
+      "filename": "run_gamma=0.1_delta=0.5_steps=80_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.1_delta=0.5_steps=80_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.1_delta=0.5_steps=80_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.46,
+        "consistency (setting ethics aside)": 8.93,
+        "accuracy (setting ethics aside)": 7.37,
+        "ethics": 8.77
+      },
+      "overall_average_score": 8.3825,
+      "average_perplexity": 10.112935194969177
+    },
+    {
+      "filename": "run_gamma=0.1_delta=1_steps=10_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.1_delta=1_steps=10_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.1_delta=1_steps=10_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.42,
+        "consistency (setting ethics aside)": 8.9,
+        "accuracy (setting ethics aside)": 7.29,
+        "ethics": 8.52
+      },
+      "overall_average_score": 8.2825,
+      "average_perplexity": 9.574819459915162
+    },
+    {
+      "filename": "run_gamma=0.1_delta=1_steps=160_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.1_delta=1_steps=160_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.1_delta=1_steps=160_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.57,
+        "consistency (setting ethics aside)": 9.02,
+        "accuracy (setting ethics aside)": 7.37,
+        "ethics": 8.6
+      },
+      "overall_average_score": 8.39,
+      "average_perplexity": 10.558172695636749
+    },
+    {
+      "filename": "run_gamma=0.1_delta=1_steps=20_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.1_delta=1_steps=20_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.1_delta=1_steps=20_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.48,
+        "consistency (setting ethics aside)": 8.89,
+        "accuracy (setting ethics aside)": 7.28,
+        "ethics": 8.45
+      },
+      "overall_average_score": 8.275,
+      "average_perplexity": 10.159821197986602
+    },
+    {
+      "filename": "run_gamma=0.1_delta=1_steps=300_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.1_delta=1_steps=300_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.1_delta=1_steps=300_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.55,
+        "consistency (setting ethics aside)": 8.9,
+        "accuracy (setting ethics aside)": 7.51,
+        "ethics": 8.58
+      },
+      "overall_average_score": 8.385,
+      "average_perplexity": 10.558172695636749
+    },
+    {
+      "filename": "run_gamma=0.1_delta=1_steps=40_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.1_delta=1_steps=40_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.1_delta=1_steps=40_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.59,
+        "consistency (setting ethics aside)": 9.07,
+        "accuracy (setting ethics aside)": 7.34,
+        "ethics": 8.56
+      },
+      "overall_average_score": 8.39,
+      "average_perplexity": 10.558172695636749
+    },
+    {
+      "filename": "run_gamma=0.1_delta=1_steps=5_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.1_delta=1_steps=5_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.1_delta=1_steps=5_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.48,
+        "consistency (setting ethics aside)": 8.87,
+        "accuracy (setting ethics aside)": 7.32,
+        "ethics": 8.46
+      },
+      "overall_average_score": 8.2825,
+      "average_perplexity": 9.85768566608429
+    },
+    {
+      "filename": "run_gamma=0.1_delta=1_steps=80_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.1_delta=1_steps=80_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.1_delta=1_steps=80_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.54,
+        "consistency (setting ethics aside)": 9.01,
+        "accuracy (setting ethics aside)": 7.38,
+        "ethics": 8.54
+      },
+      "overall_average_score": 8.3675,
+      "average_perplexity": 10.558172695636749
+    },
+    {
+      "filename": "run_gamma=0.1_delta=2_steps=10_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.1_delta=2_steps=10_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.1_delta=2_steps=10_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.5,
+        "consistency (setting ethics aside)": 9.06,
+        "accuracy (setting ethics aside)": 7.28,
+        "ethics": 8.47
+      },
+      "overall_average_score": 8.3275,
+      "average_perplexity": 10.192431895732879
+    },
+    {
+      "filename": "run_gamma=0.1_delta=2_steps=160_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.1_delta=2_steps=160_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.1_delta=2_steps=160_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.51,
+        "consistency (setting ethics aside)": 9.02,
+        "accuracy (setting ethics aside)": 7.37,
+        "ethics": 8.34
+      },
+      "overall_average_score": 8.31,
+      "average_perplexity": 10.479607744216919
+    },
+    {
+      "filename": "run_gamma=0.1_delta=2_steps=20_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.1_delta=2_steps=20_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.1_delta=2_steps=20_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.49,
+        "consistency (setting ethics aside)": 8.95,
+        "accuracy (setting ethics aside)": 7.48,
+        "ethics": 8.69
+      },
+      "overall_average_score": 8.4025,
+      "average_perplexity": 10.292628750801086
+    },
+    {
+      "filename": "run_gamma=0.1_delta=2_steps=300_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.1_delta=2_steps=300_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.1_delta=2_steps=300_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.55,
+        "consistency (setting ethics aside)": 9.06,
+        "accuracy (setting ethics aside)": 7.31,
+        "ethics": 8.41
+      },
+      "overall_average_score": 8.3325,
+      "average_perplexity": 10.479607744216919
+    },
+    {
+      "filename": "run_gamma=0.1_delta=2_steps=40_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.1_delta=2_steps=40_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.1_delta=2_steps=40_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.45,
+        "consistency (setting ethics aside)": 8.94,
+        "accuracy (setting ethics aside)": 7.33,
+        "ethics": 8.28
+      },
+      "overall_average_score": 8.25,
+      "average_perplexity": 10.479607744216919
+    },
+    {
+      "filename": "run_gamma=0.1_delta=2_steps=5_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.1_delta=2_steps=5_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.1_delta=2_steps=5_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.47,
+        "consistency (setting ethics aside)": 9.03,
+        "accuracy (setting ethics aside)": 7.31,
+        "ethics": 8.59
+      },
+      "overall_average_score": 8.35,
+      "average_perplexity": 10.13940021276474
+    },
+    {
+      "filename": "run_gamma=0.1_delta=2_steps=80_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.1_delta=2_steps=80_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.1_delta=2_steps=80_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.54,
+        "consistency (setting ethics aside)": 8.94,
+        "accuracy (setting ethics aside)": 7.26,
+        "ethics": 8.31
+      },
+      "overall_average_score": 8.2625,
+      "average_perplexity": 10.479607744216919
+    },
+    {
+      "filename": "run_gamma=0.1_delta=4_steps=10_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.1_delta=4_steps=10_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.1_delta=4_steps=10_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.54,
+        "consistency (setting ethics aside)": 8.99,
+        "accuracy (setting ethics aside)": 7.58,
+        "ethics": 8.86
+      },
+      "overall_average_score": 8.4925,
+      "average_perplexity": 10.37699111700058
+    },
+    {
+      "filename": "run_gamma=0.1_delta=4_steps=160_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.1_delta=4_steps=160_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.1_delta=4_steps=160_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.45,
+        "consistency (setting ethics aside)": 8.81,
+        "accuracy (setting ethics aside)": 7.11,
+        "ethics": 8.33
+      },
+      "overall_average_score": 8.175,
+      "average_perplexity": 11.378065700531005
+    },
+    {
+      "filename": "run_gamma=0.1_delta=4_steps=20_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.1_delta=4_steps=20_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.1_delta=4_steps=20_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.62,
+        "consistency (setting ethics aside)": 9.07,
+        "accuracy (setting ethics aside)": 7.49,
+        "ethics": 8.69
+      },
+      "overall_average_score": 8.4675,
+      "average_perplexity": 11.15806016921997
+    },
+    {
+      "filename": "run_gamma=0.1_delta=4_steps=300_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.1_delta=4_steps=300_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.1_delta=4_steps=300_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.47,
+        "consistency (setting ethics aside)": 8.89,
+        "accuracy (setting ethics aside)": 7.15,
+        "ethics": 8.3
+      },
+      "overall_average_score": 8.2025,
+      "average_perplexity": 11.378065700531005
+    },
+    {
+      "filename": "run_gamma=0.1_delta=4_steps=40_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.1_delta=4_steps=40_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.1_delta=4_steps=40_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.4,
+        "consistency (setting ethics aside)": 8.73,
+        "accuracy (setting ethics aside)": 7.15,
+        "ethics": 8.42
+      },
+      "overall_average_score": 8.175,
+      "average_perplexity": 11.378065700531005
+    },
+    {
+      "filename": "run_gamma=0.1_delta=4_steps=5_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.1_delta=4_steps=5_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.1_delta=4_steps=5_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.6,
+        "consistency (setting ethics aside)": 9.13,
+        "accuracy (setting ethics aside)": 7.53,
+        "ethics": 8.91
+      },
+      "overall_average_score": 8.5425,
+      "average_perplexity": 9.73997954249382
+    },
+    {
+      "filename": "run_gamma=0.1_delta=4_steps=80_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.1_delta=4_steps=80_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.1_delta=4_steps=80_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.48,
+        "consistency (setting ethics aside)": 8.91,
+        "accuracy (setting ethics aside)": 7.17,
+        "ethics": 8.25
+      },
+      "overall_average_score": 8.2025,
+      "average_perplexity": 11.378065700531005
+    },
+    {
+      "filename": "run_gamma=0.1_delta=8_steps=10_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.1_delta=8_steps=10_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.1_delta=8_steps=10_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.71,
+        "consistency (setting ethics aside)": 9.18,
+        "accuracy (setting ethics aside)": 7.6,
+        "ethics": 8.8
+      },
+      "overall_average_score": 8.5725,
+      "average_perplexity": 10.679461324214936
+    },
+    {
+      "filename": "run_gamma=0.1_delta=8_steps=160_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.1_delta=8_steps=160_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.1_delta=8_steps=160_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 4.75,
+        "consistency (setting ethics aside)": 4.31,
+        "accuracy (setting ethics aside)": 4.13,
+        "ethics": 6.41
+      },
+      "overall_average_score": 4.9,
+      "average_perplexity": 9.562006068229675
+    },
+    {
+      "filename": "run_gamma=0.1_delta=8_steps=20_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.1_delta=8_steps=20_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.1_delta=8_steps=20_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 7.66,
+        "consistency (setting ethics aside)": 7.84,
+        "accuracy (setting ethics aside)": 6.58,
+        "ethics": 7.9
+      },
+      "overall_average_score": 7.495,
+      "average_perplexity": 9.929407632350921
+    },
+    {
+      "filename": "run_gamma=0.1_delta=8_steps=300_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.1_delta=8_steps=300_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.1_delta=8_steps=300_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 4.71,
+        "consistency (setting ethics aside)": 4.39,
+        "accuracy (setting ethics aside)": 4.11,
+        "ethics": 6.38
+      },
+      "overall_average_score": 4.8975,
+      "average_perplexity": 9.562006068229675
+    },
+    {
+      "filename": "run_gamma=0.1_delta=8_steps=40_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.1_delta=8_steps=40_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.1_delta=8_steps=40_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 4.65,
+        "consistency (setting ethics aside)": 4.35,
+        "accuracy (setting ethics aside)": 4.12,
+        "ethics": 6.37
+      },
+      "overall_average_score": 4.8725,
+      "average_perplexity": 9.562006068229675
+    },
+    {
+      "filename": "run_gamma=0.1_delta=8_steps=5_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.1_delta=8_steps=5_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.1_delta=8_steps=5_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.48,
+        "consistency (setting ethics aside)": 8.95,
+        "accuracy (setting ethics aside)": 7.34,
+        "ethics": 8.55
+      },
+      "overall_average_score": 8.33,
+      "average_perplexity": 10.487406787872315
+    },
+    {
+      "filename": "run_gamma=0.1_delta=8_steps=80_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.1_delta=8_steps=80_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.1_delta=8_steps=80_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 4.71,
+        "consistency (setting ethics aside)": 4.29,
+        "accuracy (setting ethics aside)": 4.08,
+        "ethics": 6.42
+      },
+      "overall_average_score": 4.875,
+      "average_perplexity": 9.562006068229675
+    },
+    {
+      "filename": "run_gamma=0.25_delta=0.5_steps=10_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.25_delta=0.5_steps=10_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.25_delta=0.5_steps=10_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.46,
+        "consistency (setting ethics aside)": 8.89,
+        "accuracy (setting ethics aside)": 7.08,
+        "ethics": 8.46
+      },
+      "overall_average_score": 8.2225,
+      "average_perplexity": 10.262821927070618
+    },
+    {
+      "filename": "run_gamma=0.25_delta=0.5_steps=160_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.25_delta=0.5_steps=160_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.25_delta=0.5_steps=160_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.51,
+        "consistency (setting ethics aside)": 9.07,
+        "accuracy (setting ethics aside)": 7.43,
+        "ethics": 8.69
+      },
+      "overall_average_score": 8.425,
+      "average_perplexity": 9.965096220970153
+    },
+    {
+      "filename": "run_gamma=0.25_delta=0.5_steps=20_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.25_delta=0.5_steps=20_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.25_delta=0.5_steps=20_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.5,
+        "consistency (setting ethics aside)": 9.03,
+        "accuracy (setting ethics aside)": 7.45,
+        "ethics": 8.61
+      },
+      "overall_average_score": 8.3975,
+      "average_perplexity": 10.253902797698975
+    },
+    {
+      "filename": "run_gamma=0.25_delta=0.5_steps=300_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.25_delta=0.5_steps=300_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.25_delta=0.5_steps=300_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.51,
+        "consistency (setting ethics aside)": 8.97,
+        "accuracy (setting ethics aside)": 7.37,
+        "ethics": 8.65
+      },
+      "overall_average_score": 8.375,
+      "average_perplexity": 9.965096220970153
+    },
+    {
+      "filename": "run_gamma=0.25_delta=0.5_steps=40_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.25_delta=0.5_steps=40_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.25_delta=0.5_steps=40_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.56,
+        "consistency (setting ethics aside)": 9.09,
+        "accuracy (setting ethics aside)": 7.42,
+        "ethics": 8.72
+      },
+      "overall_average_score": 8.4475,
+      "average_perplexity": 9.965096220970153
+    },
+    {
+      "filename": "run_gamma=0.25_delta=0.5_steps=5_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.25_delta=0.5_steps=5_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.25_delta=0.5_steps=5_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.52,
+        "consistency (setting ethics aside)": 9.02,
+        "accuracy (setting ethics aside)": 7.38,
+        "ethics": 8.64
+      },
+      "overall_average_score": 8.39,
+      "average_perplexity": 10.611906371116639
+    },
+    {
+      "filename": "run_gamma=0.25_delta=0.5_steps=80_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.25_delta=0.5_steps=80_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.25_delta=0.5_steps=80_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.56,
+        "consistency (setting ethics aside)": 9.02,
+        "accuracy (setting ethics aside)": 7.39,
+        "ethics": 8.64
+      },
+      "overall_average_score": 8.4025,
+      "average_perplexity": 9.965096220970153
+    },
+    {
+      "filename": "run_gamma=0.25_delta=1_steps=10_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.25_delta=1_steps=10_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.25_delta=1_steps=10_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.31,
+        "consistency (setting ethics aside)": 8.85,
+        "accuracy (setting ethics aside)": 7.04,
+        "ethics": 8.37
+      },
+      "overall_average_score": 8.1425,
+      "average_perplexity": 9.858396687507629
+    },
+    {
+      "filename": "run_gamma=0.25_delta=1_steps=160_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.25_delta=1_steps=160_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.25_delta=1_steps=160_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.55,
+        "consistency (setting ethics aside)": 9.03,
+        "accuracy (setting ethics aside)": 7.28,
+        "ethics": 8.69
+      },
+      "overall_average_score": 8.3875,
+      "average_perplexity": 10.252115395069122
+    },
+    {
+      "filename": "run_gamma=0.25_delta=1_steps=20_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.25_delta=1_steps=20_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.25_delta=1_steps=20_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.55,
+        "consistency (setting ethics aside)": 8.97,
+        "accuracy (setting ethics aside)": 7.34,
+        "ethics": 8.53
+      },
+      "overall_average_score": 8.3475,
+      "average_perplexity": 10.297196388244629
+    },
+    {
+      "filename": "run_gamma=0.25_delta=1_steps=300_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.25_delta=1_steps=300_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.25_delta=1_steps=300_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.53,
+        "consistency (setting ethics aside)": 9.04,
+        "accuracy (setting ethics aside)": 7.45,
+        "ethics": 8.8
+      },
+      "overall_average_score": 8.455,
+      "average_perplexity": 10.252115395069122
+    },
+    {
+      "filename": "run_gamma=0.25_delta=1_steps=40_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.25_delta=1_steps=40_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.25_delta=1_steps=40_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.57,
+        "consistency (setting ethics aside)": 9.15,
+        "accuracy (setting ethics aside)": 7.43,
+        "ethics": 8.72
+      },
+      "overall_average_score": 8.4675,
+      "average_perplexity": 10.252115395069122
+    },
+    {
+      "filename": "run_gamma=0.25_delta=1_steps=5_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.25_delta=1_steps=5_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.25_delta=1_steps=5_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.43,
+        "consistency (setting ethics aside)": 8.84,
+        "accuracy (setting ethics aside)": 7.16,
+        "ethics": 8.42
+      },
+      "overall_average_score": 8.2125,
+      "average_perplexity": 9.99419466972351
+    },
+    {
+      "filename": "run_gamma=0.25_delta=1_steps=80_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.25_delta=1_steps=80_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.25_delta=1_steps=80_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.54,
+        "consistency (setting ethics aside)": 8.99,
+        "accuracy (setting ethics aside)": 7.41,
+        "ethics": 8.66
+      },
+      "overall_average_score": 8.4,
+      "average_perplexity": 10.252115395069122
+    },
+    {
+      "filename": "run_gamma=0.25_delta=2_steps=10_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.25_delta=2_steps=10_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.25_delta=2_steps=10_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.56,
+        "consistency (setting ethics aside)": 8.94,
+        "accuracy (setting ethics aside)": 7.34,
+        "ethics": 8.61
+      },
+      "overall_average_score": 8.3625,
+      "average_perplexity": 10.38796406507492
+    },
+    {
+      "filename": "run_gamma=0.25_delta=2_steps=160_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.25_delta=2_steps=160_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.25_delta=2_steps=160_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.68,
+        "consistency (setting ethics aside)": 9.09,
+        "accuracy (setting ethics aside)": 7.58,
+        "ethics": 8.67
+      },
+      "overall_average_score": 8.505,
+      "average_perplexity": 9.973384339809417
+    },
+    {
+      "filename": "run_gamma=0.25_delta=2_steps=20_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.25_delta=2_steps=20_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.25_delta=2_steps=20_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.63,
+        "consistency (setting ethics aside)": 9.13,
+        "accuracy (setting ethics aside)": 7.47,
+        "ethics": 8.66
+      },
+      "overall_average_score": 8.4725,
+      "average_perplexity": 10.093965182304382
+    },
+    {
+      "filename": "run_gamma=0.25_delta=2_steps=300_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.25_delta=2_steps=300_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.25_delta=2_steps=300_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.64,
+        "consistency (setting ethics aside)": 9.13,
+        "accuracy (setting ethics aside)": 7.57,
+        "ethics": 8.8
+      },
+      "overall_average_score": 8.535,
+      "average_perplexity": 9.973384339809417
+    },
+    {
+      "filename": "run_gamma=0.25_delta=2_steps=40_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.25_delta=2_steps=40_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.25_delta=2_steps=40_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.7,
+        "consistency (setting ethics aside)": 9.13,
+        "accuracy (setting ethics aside)": 7.54,
+        "ethics": 8.76
+      },
+      "overall_average_score": 8.5325,
+      "average_perplexity": 9.973384339809417
+    },
+    {
+      "filename": "run_gamma=0.25_delta=2_steps=5_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.25_delta=2_steps=5_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.25_delta=2_steps=5_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.53,
+        "consistency (setting ethics aside)": 9.07,
+        "accuracy (setting ethics aside)": 7.28,
+        "ethics": 8.39
+      },
+      "overall_average_score": 8.3175,
+      "average_perplexity": 9.67095332622528
+    },
+    {
+      "filename": "run_gamma=0.25_delta=2_steps=80_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.25_delta=2_steps=80_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.25_delta=2_steps=80_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.68,
+        "consistency (setting ethics aside)": 9.15,
+        "accuracy (setting ethics aside)": 7.47,
+        "ethics": 8.64
+      },
+      "overall_average_score": 8.485,
+      "average_perplexity": 9.973384339809417
+    },
+    {
+      "filename": "run_gamma=0.25_delta=4_steps=10_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.25_delta=4_steps=10_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.25_delta=4_steps=10_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.48,
+        "consistency (setting ethics aside)": 9.02,
+        "accuracy (setting ethics aside)": 7.26,
+        "ethics": 8.54
+      },
+      "overall_average_score": 8.325,
+      "average_perplexity": 10.066215827465058
+    },
+    {
+      "filename": "run_gamma=0.25_delta=4_steps=160_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.25_delta=4_steps=160_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.25_delta=4_steps=160_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.37,
+        "consistency (setting ethics aside)": 8.75,
+        "accuracy (setting ethics aside)": 6.99,
+        "ethics": 8.28
+      },
+      "overall_average_score": 8.0975,
+      "average_perplexity": 11.808856828212738
+    },
+    {
+      "filename": "run_gamma=0.25_delta=4_steps=20_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.25_delta=4_steps=20_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.25_delta=4_steps=20_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.39,
+        "consistency (setting ethics aside)": 8.87,
+        "accuracy (setting ethics aside)": 7.55,
+        "ethics": 8.54
+      },
+      "overall_average_score": 8.3375,
+      "average_perplexity": 11.583489198684692
+    },
+    {
+      "filename": "run_gamma=0.25_delta=4_steps=300_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.25_delta=4_steps=300_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.25_delta=4_steps=300_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.38,
+        "consistency (setting ethics aside)": 8.77,
+        "accuracy (setting ethics aside)": 7.1,
+        "ethics": 8.2
+      },
+      "overall_average_score": 8.1125,
+      "average_perplexity": 11.808856828212738
+    },
+    {
+      "filename": "run_gamma=0.25_delta=4_steps=40_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.25_delta=4_steps=40_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.25_delta=4_steps=40_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.26,
+        "consistency (setting ethics aside)": 8.61,
+        "accuracy (setting ethics aside)": 7.06,
+        "ethics": 8.2
+      },
+      "overall_average_score": 8.0325,
+      "average_perplexity": 11.808856828212738
+    },
+    {
+      "filename": "run_gamma=0.25_delta=4_steps=5_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.25_delta=4_steps=5_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.25_delta=4_steps=5_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.43,
+        "consistency (setting ethics aside)": 9.02,
+        "accuracy (setting ethics aside)": 7.35,
+        "ethics": 8.65
+      },
+      "overall_average_score": 8.3625,
+      "average_perplexity": 10.400800602436066
+    },
+    {
+      "filename": "run_gamma=0.25_delta=4_steps=80_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.25_delta=4_steps=80_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.25_delta=4_steps=80_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.37,
+        "consistency (setting ethics aside)": 8.84,
+        "accuracy (setting ethics aside)": 7.07,
+        "ethics": 8.3
+      },
+      "overall_average_score": 8.145,
+      "average_perplexity": 11.808856828212738
+    },
+    {
+      "filename": "run_gamma=0.25_delta=8_steps=10_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.25_delta=8_steps=10_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.25_delta=8_steps=10_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.49,
+        "consistency (setting ethics aside)": 8.95,
+        "accuracy (setting ethics aside)": 7.32,
+        "ethics": 8.72
+      },
+      "overall_average_score": 8.37,
+      "average_perplexity": 10.831107044219971
+    },
+    {
+      "filename": "run_gamma=0.25_delta=8_steps=160_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.25_delta=8_steps=160_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.25_delta=8_steps=160_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 6.84,
+        "consistency (setting ethics aside)": 6.77,
+        "accuracy (setting ethics aside)": 5.75,
+        "ethics": 7.66
+      },
+      "overall_average_score": 6.755,
+      "average_perplexity": 19.05732987165451
+    },
+    {
+      "filename": "run_gamma=0.25_delta=8_steps=20_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.25_delta=8_steps=20_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.25_delta=8_steps=20_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.31,
+        "consistency (setting ethics aside)": 8.6,
+        "accuracy (setting ethics aside)": 7.07,
+        "ethics": 8.16
+      },
+      "overall_average_score": 8.035,
+      "average_perplexity": 10.10135104894638
+    },
+    {
+      "filename": "run_gamma=0.25_delta=8_steps=300_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.25_delta=8_steps=300_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.25_delta=8_steps=300_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 6.83,
+        "consistency (setting ethics aside)": 6.78,
+        "accuracy (setting ethics aside)": 5.75,
+        "ethics": 7.45
+      },
+      "overall_average_score": 6.7025,
+      "average_perplexity": 19.05732987165451
+    },
+    {
+      "filename": "run_gamma=0.25_delta=8_steps=40_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.25_delta=8_steps=40_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.25_delta=8_steps=40_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 6.87,
+        "consistency (setting ethics aside)": 6.92,
+        "accuracy (setting ethics aside)": 5.85,
+        "ethics": 7.44
+      },
+      "overall_average_score": 6.77,
+      "average_perplexity": 19.05732987165451
+    },
+    {
+      "filename": "run_gamma=0.25_delta=8_steps=5_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.25_delta=8_steps=5_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.25_delta=8_steps=5_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.45,
+        "consistency (setting ethics aside)": 8.81,
+        "accuracy (setting ethics aside)": 7.3,
+        "ethics": 8.64
+      },
+      "overall_average_score": 8.3,
+      "average_perplexity": 10.117896082401275
+    },
+    {
+      "filename": "run_gamma=0.25_delta=8_steps=80_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.25_delta=8_steps=80_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.25_delta=8_steps=80_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 6.92,
+        "consistency (setting ethics aside)": 6.97,
+        "accuracy (setting ethics aside)": 5.82,
+        "ethics": 7.64
+      },
+      "overall_average_score": 6.8375,
+      "average_perplexity": 19.05732987165451
+    },
+    {
+      "filename": "run_gamma=0.5_delta=0.5_steps=10_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.5_delta=0.5_steps=10_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.5_delta=0.5_steps=10_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.42,
+        "consistency (setting ethics aside)": 8.79,
+        "accuracy (setting ethics aside)": 7.26,
+        "ethics": 8.52
+      },
+      "overall_average_score": 8.2475,
+      "average_perplexity": 10.405611696243286
+    },
+    {
+      "filename": "run_gamma=0.5_delta=0.5_steps=160_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.5_delta=0.5_steps=160_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.5_delta=0.5_steps=160_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.58,
+        "consistency (setting ethics aside)": 9.04,
+        "accuracy (setting ethics aside)": 7.6,
+        "ethics": 8.77
+      },
+      "overall_average_score": 8.4975,
+      "average_perplexity": 10.375743384361266
+    },
+    {
+      "filename": "run_gamma=0.5_delta=0.5_steps=20_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.5_delta=0.5_steps=20_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.5_delta=0.5_steps=20_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.58,
+        "consistency (setting ethics aside)": 8.98,
+        "accuracy (setting ethics aside)": 7.44,
+        "ethics": 8.67
+      },
+      "overall_average_score": 8.4175,
+      "average_perplexity": 10.431384799480439
+    },
+    {
+      "filename": "run_gamma=0.5_delta=0.5_steps=300_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.5_delta=0.5_steps=300_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.5_delta=0.5_steps=300_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.58,
+        "consistency (setting ethics aside)": 9.0,
+        "accuracy (setting ethics aside)": 7.57,
+        "ethics": 8.67
+      },
+      "overall_average_score": 8.455,
+      "average_perplexity": 10.375743384361266
+    },
+    {
+      "filename": "run_gamma=0.5_delta=0.5_steps=40_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.5_delta=0.5_steps=40_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.5_delta=0.5_steps=40_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.62,
+        "consistency (setting ethics aside)": 9.14,
+        "accuracy (setting ethics aside)": 7.55,
+        "ethics": 8.69
+      },
+      "overall_average_score": 8.5,
+      "average_perplexity": 10.375743384361266
+    },
+    {
+      "filename": "run_gamma=0.5_delta=0.5_steps=5_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.5_delta=0.5_steps=5_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.5_delta=0.5_steps=5_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.49,
+        "consistency (setting ethics aside)": 8.98,
+        "accuracy (setting ethics aside)": 7.33,
+        "ethics": 8.58
+      },
+      "overall_average_score": 8.345,
+      "average_perplexity": 11.268595519065856
+    },
+    {
+      "filename": "run_gamma=0.5_delta=0.5_steps=80_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.5_delta=0.5_steps=80_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.5_delta=0.5_steps=80_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.58,
+        "consistency (setting ethics aside)": 9.07,
+        "accuracy (setting ethics aside)": 7.48,
+        "ethics": 8.73
+      },
+      "overall_average_score": 8.465,
+      "average_perplexity": 10.375743384361266
+    },
+    {
+      "filename": "run_gamma=0.5_delta=1_steps=10_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.5_delta=1_steps=10_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.5_delta=1_steps=10_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.52,
+        "consistency (setting ethics aside)": 9.06,
+        "accuracy (setting ethics aside)": 7.3,
+        "ethics": 8.58
+      },
+      "overall_average_score": 8.365,
+      "average_perplexity": 10.090249981880188
+    },
+    {
+      "filename": "run_gamma=0.5_delta=1_steps=160_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.5_delta=1_steps=160_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.5_delta=1_steps=160_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.46,
+        "consistency (setting ethics aside)": 8.77,
+        "accuracy (setting ethics aside)": 7.42,
+        "ethics": 8.57
+      },
+      "overall_average_score": 8.305,
+      "average_perplexity": 9.888279383182526
+    },
+    {
+      "filename": "run_gamma=0.5_delta=1_steps=20_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.5_delta=1_steps=20_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.5_delta=1_steps=20_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.42,
+        "consistency (setting ethics aside)": 8.79,
+        "accuracy (setting ethics aside)": 7.46,
+        "ethics": 8.76
+      },
+      "overall_average_score": 8.3575,
+      "average_perplexity": 10.503854703903198
+    },
+    {
+      "filename": "run_gamma=0.5_delta=1_steps=300_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.5_delta=1_steps=300_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.5_delta=1_steps=300_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.43,
+        "consistency (setting ethics aside)": 8.86,
+        "accuracy (setting ethics aside)": 7.29,
+        "ethics": 8.5
+      },
+      "overall_average_score": 8.27,
+      "average_perplexity": 9.888279383182526
+    },
+    {
+      "filename": "run_gamma=0.5_delta=1_steps=40_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.5_delta=1_steps=40_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.5_delta=1_steps=40_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.5,
+        "consistency (setting ethics aside)": 9.0,
+        "accuracy (setting ethics aside)": 7.36,
+        "ethics": 8.49
+      },
+      "overall_average_score": 8.3375,
+      "average_perplexity": 9.888279383182526
+    },
+    {
+      "filename": "run_gamma=0.5_delta=1_steps=5_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.5_delta=1_steps=5_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.5_delta=1_steps=5_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.49,
+        "consistency (setting ethics aside)": 9.0,
+        "accuracy (setting ethics aside)": 7.31,
+        "ethics": 8.63
+      },
+      "overall_average_score": 8.3575,
+      "average_perplexity": 11.11431405544281
+    },
+    {
+      "filename": "run_gamma=0.5_delta=1_steps=80_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.5_delta=1_steps=80_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.5_delta=1_steps=80_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.52,
+        "consistency (setting ethics aside)": 8.92,
+        "accuracy (setting ethics aside)": 7.38,
+        "ethics": 8.51
+      },
+      "overall_average_score": 8.3325,
+      "average_perplexity": 9.888279383182526
+    },
+    {
+      "filename": "run_gamma=0.5_delta=2_steps=10_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.5_delta=2_steps=10_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.5_delta=2_steps=10_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.55,
+        "consistency (setting ethics aside)": 9.04,
+        "accuracy (setting ethics aside)": 7.39,
+        "ethics": 8.71
+      },
+      "overall_average_score": 8.4225,
+      "average_perplexity": 10.84065949678421
+    },
+    {
+      "filename": "run_gamma=0.5_delta=2_steps=160_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.5_delta=2_steps=160_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.5_delta=2_steps=160_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.53,
+        "consistency (setting ethics aside)": 9.04,
+        "accuracy (setting ethics aside)": 7.45,
+        "ethics": 8.75
+      },
+      "overall_average_score": 8.4425,
+      "average_perplexity": 11.21592717409134
+    },
+    {
+      "filename": "run_gamma=0.5_delta=2_steps=20_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.5_delta=2_steps=20_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.5_delta=2_steps=20_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.61,
+        "consistency (setting ethics aside)": 8.99,
+        "accuracy (setting ethics aside)": 7.46,
+        "ethics": 8.67
+      },
+      "overall_average_score": 8.4325,
+      "average_perplexity": 10.309504709243775
+    },
+    {
+      "filename": "run_gamma=0.5_delta=2_steps=300_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.5_delta=2_steps=300_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.5_delta=2_steps=300_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.52,
+        "consistency (setting ethics aside)": 9.02,
+        "accuracy (setting ethics aside)": 7.6,
+        "ethics": 8.88
+      },
+      "overall_average_score": 8.505,
+      "average_perplexity": 11.21592717409134
+    },
+    {
+      "filename": "run_gamma=0.5_delta=2_steps=40_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.5_delta=2_steps=40_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.5_delta=2_steps=40_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.55,
+        "consistency (setting ethics aside)": 9.12,
+        "accuracy (setting ethics aside)": 7.46,
+        "ethics": 8.78
+      },
+      "overall_average_score": 8.4775,
+      "average_perplexity": 11.21592717409134
+    },
+    {
+      "filename": "run_gamma=0.5_delta=2_steps=5_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.5_delta=2_steps=5_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.5_delta=2_steps=5_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.48,
+        "consistency (setting ethics aside)": 8.92,
+        "accuracy (setting ethics aside)": 7.18,
+        "ethics": 8.58
+      },
+      "overall_average_score": 8.29,
+      "average_perplexity": 9.807220976352692
+    },
+    {
+      "filename": "run_gamma=0.5_delta=2_steps=80_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.5_delta=2_steps=80_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.5_delta=2_steps=80_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.52,
+        "consistency (setting ethics aside)": 9.03,
+        "accuracy (setting ethics aside)": 7.48,
+        "ethics": 8.75
+      },
+      "overall_average_score": 8.445,
+      "average_perplexity": 11.21592717409134
+    },
+    {
+      "filename": "run_gamma=0.5_delta=4_steps=10_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.5_delta=4_steps=10_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.5_delta=4_steps=10_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.37,
+        "consistency (setting ethics aside)": 8.76,
+        "accuracy (setting ethics aside)": 7.34,
+        "ethics": 8.55
+      },
+      "overall_average_score": 8.255,
+      "average_perplexity": 9.524329388141632
+    },
+    {
+      "filename": "run_gamma=0.5_delta=4_steps=160_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.5_delta=4_steps=160_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.5_delta=4_steps=160_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.61,
+        "consistency (setting ethics aside)": 9.04,
+        "accuracy (setting ethics aside)": 7.44,
+        "ethics": 8.72
+      },
+      "overall_average_score": 8.4525,
+      "average_perplexity": 11.72033329486847
+    },
+    {
+      "filename": "run_gamma=0.5_delta=4_steps=20_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.5_delta=4_steps=20_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.5_delta=4_steps=20_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.62,
+        "consistency (setting ethics aside)": 9.02,
+        "accuracy (setting ethics aside)": 7.44,
+        "ethics": 8.55
+      },
+      "overall_average_score": 8.4075,
+      "average_perplexity": 10.27757597208023
+    },
+    {
+      "filename": "run_gamma=0.5_delta=4_steps=300_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.5_delta=4_steps=300_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.5_delta=4_steps=300_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.65,
+        "consistency (setting ethics aside)": 9.06,
+        "accuracy (setting ethics aside)": 7.47,
+        "ethics": 8.5
+      },
+      "overall_average_score": 8.42,
+      "average_perplexity": 11.72033329486847
+    },
+    {
+      "filename": "run_gamma=0.5_delta=4_steps=40_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.5_delta=4_steps=40_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.5_delta=4_steps=40_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.66,
+        "consistency (setting ethics aside)": 9.05,
+        "accuracy (setting ethics aside)": 7.51,
+        "ethics": 8.5
+      },
+      "overall_average_score": 8.43,
+      "average_perplexity": 11.72033329486847
+    },
+    {
+      "filename": "run_gamma=0.5_delta=4_steps=5_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.5_delta=4_steps=5_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.5_delta=4_steps=5_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.4,
+        "consistency (setting ethics aside)": 8.92,
+        "accuracy (setting ethics aside)": 7.34,
+        "ethics": 8.67
+      },
+      "overall_average_score": 8.3325,
+      "average_perplexity": 9.72209221959114
+    },
+    {
+      "filename": "run_gamma=0.5_delta=4_steps=80_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.5_delta=4_steps=80_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.5_delta=4_steps=80_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.63,
+        "consistency (setting ethics aside)": 9.01,
+        "accuracy (setting ethics aside)": 7.5,
+        "ethics": 8.61
+      },
+      "overall_average_score": 8.4375,
+      "average_perplexity": 11.72033329486847
+    },
+    {
+      "filename": "run_gamma=0.5_delta=8_steps=10_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.5_delta=8_steps=10_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.5_delta=8_steps=10_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.67,
+        "consistency (setting ethics aside)": 9.19,
+        "accuracy (setting ethics aside)": 7.54,
+        "ethics": 8.61
+      },
+      "overall_average_score": 8.5025,
+      "average_perplexity": 9.961586520671844
+    },
+    {
+      "filename": "run_gamma=0.5_delta=8_steps=160_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.5_delta=8_steps=160_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.5_delta=8_steps=160_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.05,
+        "consistency (setting ethics aside)": 8.38,
+        "accuracy (setting ethics aside)": 6.84,
+        "ethics": 8.3
+      },
+      "overall_average_score": 7.8925,
+      "average_perplexity": 15.206605267524719
+    },
+    {
+      "filename": "run_gamma=0.5_delta=8_steps=20_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.5_delta=8_steps=20_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.5_delta=8_steps=20_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.46,
+        "consistency (setting ethics aside)": 8.88,
+        "accuracy (setting ethics aside)": 7.27,
+        "ethics": 8.29
+      },
+      "overall_average_score": 8.225,
+      "average_perplexity": 11.32501032590866
+    },
+    {
+      "filename": "run_gamma=0.5_delta=8_steps=300_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.5_delta=8_steps=300_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.5_delta=8_steps=300_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.05,
+        "consistency (setting ethics aside)": 8.42,
+        "accuracy (setting ethics aside)": 6.79,
+        "ethics": 8.31
+      },
+      "overall_average_score": 7.8925,
+      "average_perplexity": 15.206605267524719
+    },
+    {
+      "filename": "run_gamma=0.5_delta=8_steps=40_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.5_delta=8_steps=40_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.5_delta=8_steps=40_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.1,
+        "consistency (setting ethics aside)": 8.41,
+        "accuracy (setting ethics aside)": 6.87,
+        "ethics": 8.28
+      },
+      "overall_average_score": 7.915,
+      "average_perplexity": 15.206605267524719
+    },
+    {
+      "filename": "run_gamma=0.5_delta=8_steps=5_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.5_delta=8_steps=5_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.5_delta=8_steps=5_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.5,
+        "consistency (setting ethics aside)": 8.88,
+        "accuracy (setting ethics aside)": 7.25,
+        "ethics": 8.27
+      },
+      "overall_average_score": 8.225,
+      "average_perplexity": 9.688885530233383
+    },
+    {
+      "filename": "run_gamma=0.5_delta=8_steps=80_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.5_delta=8_steps=80_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.5_delta=8_steps=80_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.06,
+        "consistency (setting ethics aside)": 8.44,
+        "accuracy (setting ethics aside)": 6.83,
+        "ethics": 8.34
+      },
+      "overall_average_score": 7.9175,
+      "average_perplexity": 15.206605267524719
+    },
+    {
+      "filename": "run_gamma=0.75_delta=0.5_steps=10_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.75_delta=0.5_steps=10_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.75_delta=0.5_steps=10_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.53,
+        "consistency (setting ethics aside)": 9.0,
+        "accuracy (setting ethics aside)": 7.26,
+        "ethics": 8.53
+      },
+      "overall_average_score": 8.33,
+      "average_perplexity": 10.101790030002594
+    },
+    {
+      "filename": "run_gamma=0.75_delta=0.5_steps=160_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.75_delta=0.5_steps=160_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.75_delta=0.5_steps=160_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.47,
+        "consistency (setting ethics aside)": 8.92,
+        "accuracy (setting ethics aside)": 7.64,
+        "ethics": 8.77
+      },
+      "overall_average_score": 8.45,
+      "average_perplexity": 9.852624871730804
+    },
+    {
+      "filename": "run_gamma=0.75_delta=0.5_steps=20_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.75_delta=0.5_steps=20_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.75_delta=0.5_steps=20_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.49,
+        "consistency (setting ethics aside)": 8.98,
+        "accuracy (setting ethics aside)": 7.6,
+        "ethics": 8.63
+      },
+      "overall_average_score": 8.425,
+      "average_perplexity": 10.492663135528565
+    },
+    {
+      "filename": "run_gamma=0.75_delta=0.5_steps=300_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.75_delta=0.5_steps=300_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.75_delta=0.5_steps=300_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.5,
+        "consistency (setting ethics aside)": 8.87,
+        "accuracy (setting ethics aside)": 7.59,
+        "ethics": 8.82
+      },
+      "overall_average_score": 8.445,
+      "average_perplexity": 9.852624871730804
+    },
+    {
+      "filename": "run_gamma=0.75_delta=0.5_steps=40_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.75_delta=0.5_steps=40_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.75_delta=0.5_steps=40_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.44,
+        "consistency (setting ethics aside)": 8.92,
+        "accuracy (setting ethics aside)": 7.56,
+        "ethics": 8.72
+      },
+      "overall_average_score": 8.41,
+      "average_perplexity": 9.852624871730804
+    },
+    {
+      "filename": "run_gamma=0.75_delta=0.5_steps=5_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.75_delta=0.5_steps=5_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.75_delta=0.5_steps=5_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.55,
+        "consistency (setting ethics aside)": 9.05,
+        "accuracy (setting ethics aside)": 7.35,
+        "ethics": 8.8
+      },
+      "overall_average_score": 8.4375,
+      "average_perplexity": 11.410063297748566
+    },
+    {
+      "filename": "run_gamma=0.75_delta=0.5_steps=80_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.75_delta=0.5_steps=80_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.75_delta=0.5_steps=80_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.43,
+        "consistency (setting ethics aside)": 8.9,
+        "accuracy (setting ethics aside)": 7.55,
+        "ethics": 8.74
+      },
+      "overall_average_score": 8.405,
+      "average_perplexity": 9.852624871730804
+    },
+    {
+      "filename": "run_gamma=0.75_delta=1_steps=10_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.75_delta=1_steps=10_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.75_delta=1_steps=10_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.64,
+        "consistency (setting ethics aside)": 9.22,
+        "accuracy (setting ethics aside)": 7.44,
+        "ethics": 8.78
+      },
+      "overall_average_score": 8.52,
+      "average_perplexity": 10.705849061012268
+    },
+    {
+      "filename": "run_gamma=0.75_delta=1_steps=160_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.75_delta=1_steps=160_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.75_delta=1_steps=160_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.48,
+        "consistency (setting ethics aside)": 9.03,
+        "accuracy (setting ethics aside)": 7.57,
+        "ethics": 8.59
+      },
+      "overall_average_score": 8.4175,
+      "average_perplexity": 10.19123579263687
+    },
+    {
+      "filename": "run_gamma=0.75_delta=1_steps=20_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.75_delta=1_steps=20_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.75_delta=1_steps=20_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.63,
+        "consistency (setting ethics aside)": 9.06,
+        "accuracy (setting ethics aside)": 7.58,
+        "ethics": 8.78
+      },
+      "overall_average_score": 8.5125,
+      "average_perplexity": 10.892031280994415
+    },
+    {
+      "filename": "run_gamma=0.75_delta=1_steps=300_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.75_delta=1_steps=300_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.75_delta=1_steps=300_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.55,
+        "consistency (setting ethics aside)": 9.08,
+        "accuracy (setting ethics aside)": 7.55,
+        "ethics": 8.56
+      },
+      "overall_average_score": 8.435,
+      "average_perplexity": 10.19123579263687
+    },
+    {
+      "filename": "run_gamma=0.75_delta=1_steps=40_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.75_delta=1_steps=40_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.75_delta=1_steps=40_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.54,
+        "consistency (setting ethics aside)": 9.05,
+        "accuracy (setting ethics aside)": 7.66,
+        "ethics": 8.56
+      },
+      "overall_average_score": 8.4525,
+      "average_perplexity": 10.19123579263687
+    },
+    {
+      "filename": "run_gamma=0.75_delta=1_steps=5_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.75_delta=1_steps=5_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.75_delta=1_steps=5_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.55,
+        "consistency (setting ethics aside)": 8.96,
+        "accuracy (setting ethics aside)": 7.24,
+        "ethics": 8.62
+      },
+      "overall_average_score": 8.3425,
+      "average_perplexity": 11.367043550014495
+    },
+    {
+      "filename": "run_gamma=0.75_delta=1_steps=80_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.75_delta=1_steps=80_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.75_delta=1_steps=80_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.5,
+        "consistency (setting ethics aside)": 9.06,
+        "accuracy (setting ethics aside)": 7.62,
+        "ethics": 8.55
+      },
+      "overall_average_score": 8.4325,
+      "average_perplexity": 10.19123579263687
+    },
+    {
+      "filename": "run_gamma=0.75_delta=2_steps=10_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.75_delta=2_steps=10_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.75_delta=2_steps=10_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.53,
+        "consistency (setting ethics aside)": 9.05,
+        "accuracy (setting ethics aside)": 7.57,
+        "ethics": 8.81
+      },
+      "overall_average_score": 8.49,
+      "average_perplexity": 10.435180053710937
+    },
+    {
+      "filename": "run_gamma=0.75_delta=2_steps=160_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.75_delta=2_steps=160_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.75_delta=2_steps=160_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.53,
+        "consistency (setting ethics aside)": 9.0,
+        "accuracy (setting ethics aside)": 7.45,
+        "ethics": 8.67
+      },
+      "overall_average_score": 8.4125,
+      "average_perplexity": 10.483153965473175
+    },
+    {
+      "filename": "run_gamma=0.75_delta=2_steps=20_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.75_delta=2_steps=20_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.75_delta=2_steps=20_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.6,
+        "consistency (setting ethics aside)": 9.05,
+        "accuracy (setting ethics aside)": 7.54,
+        "ethics": 8.62
+      },
+      "overall_average_score": 8.4525,
+      "average_perplexity": 10.725711913108826
+    },
+    {
+      "filename": "run_gamma=0.75_delta=2_steps=300_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.75_delta=2_steps=300_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.75_delta=2_steps=300_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.53,
+        "consistency (setting ethics aside)": 9.0,
+        "accuracy (setting ethics aside)": 7.47,
+        "ethics": 8.73
+      },
+      "overall_average_score": 8.4325,
+      "average_perplexity": 10.483153965473175
+    },
+    {
+      "filename": "run_gamma=0.75_delta=2_steps=40_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.75_delta=2_steps=40_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.75_delta=2_steps=40_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.51,
+        "consistency (setting ethics aside)": 8.93,
+        "accuracy (setting ethics aside)": 7.47,
+        "ethics": 8.71
+      },
+      "overall_average_score": 8.405,
+      "average_perplexity": 10.483153965473175
+    },
+    {
+      "filename": "run_gamma=0.75_delta=2_steps=5_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.75_delta=2_steps=5_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.75_delta=2_steps=5_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.61,
+        "consistency (setting ethics aside)": 9.09,
+        "accuracy (setting ethics aside)": 7.36,
+        "ethics": 8.65
+      },
+      "overall_average_score": 8.4275,
+      "average_perplexity": 10.724761664867401
+    },
+    {
+      "filename": "run_gamma=0.75_delta=2_steps=80_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.75_delta=2_steps=80_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.75_delta=2_steps=80_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.53,
+        "consistency (setting ethics aside)": 9.01,
+        "accuracy (setting ethics aside)": 7.46,
+        "ethics": 8.77
+      },
+      "overall_average_score": 8.4425,
+      "average_perplexity": 10.483153965473175
+    },
+    {
+      "filename": "run_gamma=0.75_delta=4_steps=10_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.75_delta=4_steps=10_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.75_delta=4_steps=10_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.48,
+        "consistency (setting ethics aside)": 8.99,
+        "accuracy (setting ethics aside)": 7.43,
+        "ethics": 8.76
+      },
+      "overall_average_score": 8.415,
+      "average_perplexity": 9.598060162067414
+    },
+    {
+      "filename": "run_gamma=0.75_delta=4_steps=160_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.75_delta=4_steps=160_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.75_delta=4_steps=160_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.42,
+        "consistency (setting ethics aside)": 8.76,
+        "accuracy (setting ethics aside)": 7.42,
+        "ethics": 8.53
+      },
+      "overall_average_score": 8.2825,
+      "average_perplexity": 10.410896379947662
+    },
+    {
+      "filename": "run_gamma=0.75_delta=4_steps=20_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.75_delta=4_steps=20_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.75_delta=4_steps=20_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.42,
+        "consistency (setting ethics aside)": 8.81,
+        "accuracy (setting ethics aside)": 7.55,
+        "ethics": 8.69
+      },
+      "overall_average_score": 8.3675,
+      "average_perplexity": 10.91623281955719
+    },
+    {
+      "filename": "run_gamma=0.75_delta=4_steps=300_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.75_delta=4_steps=300_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.75_delta=4_steps=300_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.42,
+        "consistency (setting ethics aside)": 8.76,
+        "accuracy (setting ethics aside)": 7.48,
+        "ethics": 8.48
+      },
+      "overall_average_score": 8.285,
+      "average_perplexity": 10.410896379947662
+    },
+    {
+      "filename": "run_gamma=0.75_delta=4_steps=40_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.75_delta=4_steps=40_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.75_delta=4_steps=40_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.45,
+        "consistency (setting ethics aside)": 8.88,
+        "accuracy (setting ethics aside)": 7.52,
+        "ethics": 8.67
+      },
+      "overall_average_score": 8.38,
+      "average_perplexity": 10.410896379947662
+    },
+    {
+      "filename": "run_gamma=0.75_delta=4_steps=5_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.75_delta=4_steps=5_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.75_delta=4_steps=5_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.62,
+        "consistency (setting ethics aside)": 9.09,
+        "accuracy (setting ethics aside)": 7.45,
+        "ethics": 8.65
+      },
+      "overall_average_score": 8.4525,
+      "average_perplexity": 9.901423733234406
+    },
+    {
+      "filename": "run_gamma=0.75_delta=4_steps=80_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.75_delta=4_steps=80_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.75_delta=4_steps=80_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.45,
+        "consistency (setting ethics aside)": 8.79,
+        "accuracy (setting ethics aside)": 7.54,
+        "ethics": 8.52
+      },
+      "overall_average_score": 8.325,
+      "average_perplexity": 10.410896379947662
+    },
+    {
+      "filename": "run_gamma=0.75_delta=8_steps=10_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.75_delta=8_steps=10_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.75_delta=8_steps=10_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.72,
+        "consistency (setting ethics aside)": 9.3,
+        "accuracy (setting ethics aside)": 7.54,
+        "ethics": 8.86
+      },
+      "overall_average_score": 8.605,
+      "average_perplexity": 9.933169386386872
+    },
+    {
+      "filename": "run_gamma=0.75_delta=8_steps=160_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.75_delta=8_steps=160_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.75_delta=8_steps=160_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.55,
+        "consistency (setting ethics aside)": 8.93,
+        "accuracy (setting ethics aside)": 7.16,
+        "ethics": 8.32
+      },
+      "overall_average_score": 8.24,
+      "average_perplexity": 12.061100416183471
+    },
+    {
+      "filename": "run_gamma=0.75_delta=8_steps=20_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.75_delta=8_steps=20_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.75_delta=8_steps=20_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.67,
+        "consistency (setting ethics aside)": 9.04,
+        "accuracy (setting ethics aside)": 7.53,
+        "ethics": 8.7
+      },
+      "overall_average_score": 8.485,
+      "average_perplexity": 10.264226837158203
+    },
+    {
+      "filename": "run_gamma=0.75_delta=8_steps=300_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.75_delta=8_steps=300_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.75_delta=8_steps=300_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.48,
+        "consistency (setting ethics aside)": 8.83,
+        "accuracy (setting ethics aside)": 7.21,
+        "ethics": 8.32
+      },
+      "overall_average_score": 8.21,
+      "average_perplexity": 12.061100416183471
+    },
+    {
+      "filename": "run_gamma=0.75_delta=8_steps=40_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.75_delta=8_steps=40_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.75_delta=8_steps=40_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.49,
+        "consistency (setting ethics aside)": 8.82,
+        "accuracy (setting ethics aside)": 7.14,
+        "ethics": 8.22
+      },
+      "overall_average_score": 8.1675,
+      "average_perplexity": 12.061100416183471
+    },
+    {
+      "filename": "run_gamma=0.75_delta=8_steps=5_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.75_delta=8_steps=5_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.75_delta=8_steps=5_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.63,
+        "consistency (setting ethics aside)": 9.12,
+        "accuracy (setting ethics aside)": 7.31,
+        "ethics": 8.35
+      },
+      "overall_average_score": 8.3525,
+      "average_perplexity": 10.615916411876679
+    },
+    {
+      "filename": "run_gamma=0.75_delta=8_steps=80_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.75_delta=8_steps=80_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.75_delta=8_steps=80_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.51,
+        "consistency (setting ethics aside)": 8.9,
+        "accuracy (setting ethics aside)": 7.17,
+        "ethics": 8.23
+      },
+      "overall_average_score": 8.2025,
+      "average_perplexity": 12.061100416183471
+    },
+    {
+      "filename": "run_gamma=0.9_delta=0.5_steps=10_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.9_delta=0.5_steps=10_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.9_delta=0.5_steps=10_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.47,
+        "consistency (setting ethics aside)": 9.01,
+        "accuracy (setting ethics aside)": 7.49,
+        "ethics": 8.6
+      },
+      "overall_average_score": 8.3925,
+      "average_perplexity": 11.399797430038452
+    },
+    {
+      "filename": "run_gamma=0.9_delta=0.5_steps=160_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.9_delta=0.5_steps=160_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.9_delta=0.5_steps=160_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.5,
+        "consistency (setting ethics aside)": 9.07,
+        "accuracy (setting ethics aside)": 7.3,
+        "ethics": 8.54
+      },
+      "overall_average_score": 8.3525,
+      "average_perplexity": 11.007384169101716
+    },
+    {
+      "filename": "run_gamma=0.9_delta=0.5_steps=20_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.9_delta=0.5_steps=20_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.9_delta=0.5_steps=20_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.48,
+        "consistency (setting ethics aside)": 8.9,
+        "accuracy (setting ethics aside)": 7.38,
+        "ethics": 8.71
+      },
+      "overall_average_score": 8.3675,
+      "average_perplexity": 11.453071267604829
+    },
+    {
+      "filename": "run_gamma=0.9_delta=0.5_steps=300_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.9_delta=0.5_steps=300_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.9_delta=0.5_steps=300_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.43,
+        "consistency (setting ethics aside)": 8.97,
+        "accuracy (setting ethics aside)": 7.32,
+        "ethics": 8.58
+      },
+      "overall_average_score": 8.325,
+      "average_perplexity": 11.007384169101716
+    },
+    {
+      "filename": "run_gamma=0.9_delta=0.5_steps=40_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.9_delta=0.5_steps=40_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.9_delta=0.5_steps=40_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.52,
+        "consistency (setting ethics aside)": 9.0,
+        "accuracy (setting ethics aside)": 7.27,
+        "ethics": 8.67
+      },
+      "overall_average_score": 8.365,
+      "average_perplexity": 11.007384169101716
+    },
+    {
+      "filename": "run_gamma=0.9_delta=0.5_steps=5_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.9_delta=0.5_steps=5_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.9_delta=0.5_steps=5_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.41,
+        "consistency (setting ethics aside)": 8.85,
+        "accuracy (setting ethics aside)": 7.25,
+        "ethics": 8.52
+      },
+      "overall_average_score": 8.2575,
+      "average_perplexity": 11.360368671417236
+    },
+    {
+      "filename": "run_gamma=0.9_delta=0.5_steps=80_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.9_delta=0.5_steps=80_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.9_delta=0.5_steps=80_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.48,
+        "consistency (setting ethics aside)": 8.95,
+        "accuracy (setting ethics aside)": 7.27,
+        "ethics": 8.54
+      },
+      "overall_average_score": 8.31,
+      "average_perplexity": 11.007384169101716
+    },
+    {
+      "filename": "run_gamma=0.9_delta=1_steps=10_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.9_delta=1_steps=10_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.9_delta=1_steps=10_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.51,
+        "consistency (setting ethics aside)": 9.07,
+        "accuracy (setting ethics aside)": 7.26,
+        "ethics": 8.43
+      },
+      "overall_average_score": 8.3175,
+      "average_perplexity": 10.530196979045868
+    },
+    {
+      "filename": "run_gamma=0.9_delta=1_steps=160_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.9_delta=1_steps=160_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.9_delta=1_steps=160_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.51,
+        "consistency (setting ethics aside)": 9.01,
+        "accuracy (setting ethics aside)": 7.35,
+        "ethics": 8.62
+      },
+      "overall_average_score": 8.3725,
+      "average_perplexity": 9.91306824207306
+    },
+    {
+      "filename": "run_gamma=0.9_delta=1_steps=20_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.9_delta=1_steps=20_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.9_delta=1_steps=20_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.53,
+        "consistency (setting ethics aside)": 8.99,
+        "accuracy (setting ethics aside)": 7.43,
+        "ethics": 8.61
+      },
+      "overall_average_score": 8.39,
+      "average_perplexity": 10.569615876674652
+    },
+    {
+      "filename": "run_gamma=0.9_delta=1_steps=300_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.9_delta=1_steps=300_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.9_delta=1_steps=300_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.51,
+        "consistency (setting ethics aside)": 9.04,
+        "accuracy (setting ethics aside)": 7.3,
+        "ethics": 8.46
+      },
+      "overall_average_score": 8.3275,
+      "average_perplexity": 9.91306824207306
+    },
+    {
+      "filename": "run_gamma=0.9_delta=1_steps=40_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.9_delta=1_steps=40_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.9_delta=1_steps=40_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.47,
+        "consistency (setting ethics aside)": 8.95,
+        "accuracy (setting ethics aside)": 7.26,
+        "ethics": 8.46
+      },
+      "overall_average_score": 8.285,
+      "average_perplexity": 9.91306824207306
+    },
+    {
+      "filename": "run_gamma=0.9_delta=1_steps=5_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.9_delta=1_steps=5_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.9_delta=1_steps=5_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.46,
+        "consistency (setting ethics aside)": 8.95,
+        "accuracy (setting ethics aside)": 7.4,
+        "ethics": 8.45
+      },
+      "overall_average_score": 8.315,
+      "average_perplexity": 11.382473948001861
+    },
+    {
+      "filename": "run_gamma=0.9_delta=1_steps=80_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.9_delta=1_steps=80_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.9_delta=1_steps=80_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.55,
+        "consistency (setting ethics aside)": 9.05,
+        "accuracy (setting ethics aside)": 7.31,
+        "ethics": 8.55
+      },
+      "overall_average_score": 8.365,
+      "average_perplexity": 9.91306824207306
+    },
+    {
+      "filename": "run_gamma=0.9_delta=2_steps=10_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.9_delta=2_steps=10_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.9_delta=2_steps=10_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.54,
+        "consistency (setting ethics aside)": 9.05,
+        "accuracy (setting ethics aside)": 7.37,
+        "ethics": 8.47
+      },
+      "overall_average_score": 8.3575,
+      "average_perplexity": 10.71320220708847
+    },
+    {
+      "filename": "run_gamma=0.9_delta=2_steps=160_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.9_delta=2_steps=160_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.9_delta=2_steps=160_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.52,
+        "consistency (setting ethics aside)": 9.0,
+        "accuracy (setting ethics aside)": 7.12,
+        "ethics": 8.47
+      },
+      "overall_average_score": 8.2775,
+      "average_perplexity": 9.778777298927308
+    },
+    {
+      "filename": "run_gamma=0.9_delta=2_steps=20_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.9_delta=2_steps=20_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.9_delta=2_steps=20_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.64,
+        "consistency (setting ethics aside)": 9.14,
+        "accuracy (setting ethics aside)": 7.33,
+        "ethics": 8.58
+      },
+      "overall_average_score": 8.4225,
+      "average_perplexity": 9.885669271945954
+    },
+    {
+      "filename": "run_gamma=0.9_delta=2_steps=300_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.9_delta=2_steps=300_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.9_delta=2_steps=300_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.51,
+        "consistency (setting ethics aside)": 8.93,
+        "accuracy (setting ethics aside)": 7.18,
+        "ethics": 8.52
+      },
+      "overall_average_score": 8.285,
+      "average_perplexity": 9.778777298927308
+    },
+    {
+      "filename": "run_gamma=0.9_delta=2_steps=40_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.9_delta=2_steps=40_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.9_delta=2_steps=40_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.48,
+        "consistency (setting ethics aside)": 8.89,
+        "accuracy (setting ethics aside)": 7.31,
+        "ethics": 8.48
+      },
+      "overall_average_score": 8.29,
+      "average_perplexity": 9.778777298927308
+    },
+    {
+      "filename": "run_gamma=0.9_delta=2_steps=5_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.9_delta=2_steps=5_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.9_delta=2_steps=5_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.54,
+        "consistency (setting ethics aside)": 9.01,
+        "accuracy (setting ethics aside)": 7.19,
+        "ethics": 8.58
+      },
+      "overall_average_score": 8.33,
+      "average_perplexity": 10.942309198379517
+    },
+    {
+      "filename": "run_gamma=0.9_delta=2_steps=80_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.9_delta=2_steps=80_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.9_delta=2_steps=80_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.48,
+        "consistency (setting ethics aside)": 9.03,
+        "accuracy (setting ethics aside)": 7.36,
+        "ethics": 8.63
+      },
+      "overall_average_score": 8.375,
+      "average_perplexity": 9.778777298927308
+    },
+    {
+      "filename": "run_gamma=0.9_delta=4_steps=10_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.9_delta=4_steps=10_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.9_delta=4_steps=10_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.67,
+        "consistency (setting ethics aside)": 9.28,
+        "accuracy (setting ethics aside)": 7.45,
+        "ethics": 8.6
+      },
+      "overall_average_score": 8.5,
+      "average_perplexity": 10.596595897674561
+    },
+    {
+      "filename": "run_gamma=0.9_delta=4_steps=160_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.9_delta=4_steps=160_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.9_delta=4_steps=160_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.52,
+        "consistency (setting ethics aside)": 8.99,
+        "accuracy (setting ethics aside)": 7.24,
+        "ethics": 8.37
+      },
+      "overall_average_score": 8.28,
+      "average_perplexity": 9.529487206935883
+    },
+    {
+      "filename": "run_gamma=0.9_delta=4_steps=20_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.9_delta=4_steps=20_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.9_delta=4_steps=20_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.63,
+        "consistency (setting ethics aside)": 9.11,
+        "accuracy (setting ethics aside)": 7.4,
+        "ethics": 8.52
+      },
+      "overall_average_score": 8.415,
+      "average_perplexity": 9.893256101608277
+    },
+    {
+      "filename": "run_gamma=0.9_delta=4_steps=300_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.9_delta=4_steps=300_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.9_delta=4_steps=300_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.5,
+        "consistency (setting ethics aside)": 8.9,
+        "accuracy (setting ethics aside)": 7.27,
+        "ethics": 8.44
+      },
+      "overall_average_score": 8.2775,
+      "average_perplexity": 9.529487206935883
+    },
+    {
+      "filename": "run_gamma=0.9_delta=4_steps=40_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.9_delta=4_steps=40_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.9_delta=4_steps=40_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.52,
+        "consistency (setting ethics aside)": 9.02,
+        "accuracy (setting ethics aside)": 7.16,
+        "ethics": 8.32
+      },
+      "overall_average_score": 8.255,
+      "average_perplexity": 9.529487206935883
+    },
+    {
+      "filename": "run_gamma=0.9_delta=4_steps=5_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.9_delta=4_steps=5_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.9_delta=4_steps=5_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.53,
+        "consistency (setting ethics aside)": 9.02,
+        "accuracy (setting ethics aside)": 7.36,
+        "ethics": 8.53
+      },
+      "overall_average_score": 8.36,
+      "average_perplexity": 10.956659333705902
+    },
+    {
+      "filename": "run_gamma=0.9_delta=4_steps=80_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.9_delta=4_steps=80_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.9_delta=4_steps=80_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.5,
+        "consistency (setting ethics aside)": 9.03,
+        "accuracy (setting ethics aside)": 7.25,
+        "ethics": 8.39
+      },
+      "overall_average_score": 8.2925,
+      "average_perplexity": 9.529487206935883
+    },
+    {
+      "filename": "run_gamma=0.9_delta=8_steps=10_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.9_delta=8_steps=10_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.9_delta=8_steps=10_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.61,
+        "consistency (setting ethics aside)": 9.05,
+        "accuracy (setting ethics aside)": 7.6,
+        "ethics": 8.61
+      },
+      "overall_average_score": 8.4675,
+      "average_perplexity": 10.690666706562043
+    },
+    {
+      "filename": "run_gamma=0.9_delta=8_steps=160_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.9_delta=8_steps=160_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.9_delta=8_steps=160_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.63,
+        "consistency (setting ethics aside)": 9.05,
+        "accuracy (setting ethics aside)": 7.21,
+        "ethics": 8.51
+      },
+      "overall_average_score": 8.35,
+      "average_perplexity": 10.88210482597351
+    },
+    {
+      "filename": "run_gamma=0.9_delta=8_steps=20_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.9_delta=8_steps=20_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.9_delta=8_steps=20_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.61,
+        "consistency (setting ethics aside)": 9.11,
+        "accuracy (setting ethics aside)": 7.43,
+        "ethics": 8.61
+      },
+      "overall_average_score": 8.44,
+      "average_perplexity": 9.518392772674561
+    },
+    {
+      "filename": "run_gamma=0.9_delta=8_steps=300_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.9_delta=8_steps=300_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.9_delta=8_steps=300_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.62,
+        "consistency (setting ethics aside)": 9.04,
+        "accuracy (setting ethics aside)": 7.11,
+        "ethics": 8.44
+      },
+      "overall_average_score": 8.3025,
+      "average_perplexity": 10.88210482597351
+    },
+    {
+      "filename": "run_gamma=0.9_delta=8_steps=40_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.9_delta=8_steps=40_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.9_delta=8_steps=40_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.65,
+        "consistency (setting ethics aside)": 9.07,
+        "accuracy (setting ethics aside)": 7.23,
+        "ethics": 8.3
+      },
+      "overall_average_score": 8.3125,
+      "average_perplexity": 10.88210482597351
+    },
+    {
+      "filename": "run_gamma=0.9_delta=8_steps=5_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.9_delta=8_steps=5_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.9_delta=8_steps=5_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.41,
+        "consistency (setting ethics aside)": 8.86,
+        "accuracy (setting ethics aside)": 7.27,
+        "ethics": 8.77
+      },
+      "overall_average_score": 8.3275,
+      "average_perplexity": 10.813262536525727
+    },
+    {
+      "filename": "run_gamma=0.9_delta=8_steps=80_sampled_100.json",
+      "input_file": "water-bench-results/json-outputs/new-red-green-list/run_gamma=0.9_delta=8_steps=80_sampled_100.json",
+      "output_file": "gpt4-outputs/green-list/run_gamma=0.9_delta=8_steps=80_sampled_100_gpt4_eval.json",
+      "total_prompts": 100,
+      "category_averages": {
+        "style (setting ethics aside)": 8.66,
+        "consistency (setting ethics aside)": 9.05,
+        "accuracy (setting ethics aside)": 7.12,
+        "ethics": 8.48
+      },
+      "overall_average_score": 8.3275,
+      "average_perplexity": 10.88210482597351
+    }
+  ],
+  "summary_statistics": {
+    "style (setting ethics aside)": {
+      "mean": 8.378400000000001,
+      "std": 0.6249944091178508,
+      "min": 4.65,
+      "max": 8.72,
+      "count": 175
+    },
+    "consistency (setting ethics aside)": {
+      "mean": 8.804914285714284,
+      "std": 0.76955933109906,
+      "min": 4.29,
+      "max": 9.3,
+      "count": 175
+    },
+    "accuracy (setting ethics aside)": {
+      "mean": 7.242342857142858,
+      "std": 0.5599690778634704,
+      "min": 4.08,
+      "max": 7.66,
+      "count": 175
+    },
+    "ethics": {
+      "mean": 8.49017142857143,
+      "std": 0.39109878077862964,
+      "min": 6.37,
+      "max": 8.91,
+      "count": 175
+    },
+    "overall_average_score": {
+      "mean": 8.228957142857144,
+      "std": 0.5790447351510265,
+      "min": 4.8725,
+      "max": 8.605,
+      "count": 175
+    },
+    "average_perplexity": {
+      "mean": 10.766140940441407,
+      "std": 1.5808667829621983,
+      "min": 9.518392772674561,
+      "max": 19.05732987165451,
+      "count": 175
+    }
+  }
+}

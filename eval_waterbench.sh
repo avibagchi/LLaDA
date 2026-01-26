@@ -33,9 +33,11 @@ export HF_DATASETS_TRUST_REMOTE_CODE=true
 
 # Parse command line arguments
 WATERMARK_TYPE="aaronson"  # Options: aaronson, green_list, none
-JSONL_FILE="water-bench/2-2_finance_qa.jsonl"
-OUTPUT_FILE="test_aaronson_4.json" # OUTPUT_FILE="run_gamma=0.9_delta=10_steps=100_waterbench_2-2_finance_qa.json"
-MAX_PROMPTS="200"
+JSONL_FILE=""  # Will be generated from sampled prompts if not specified
+OUTPUT_FILE="300_full_bench_aaronson.json" # OUTPUT_FILE="run_gamma=0.9_delta=10_steps=100_waterbench_2-2_finance_qa.json"
+MAX_PROMPTS="100"  # Number of random prompts to sample from all water-bench files
+USE_ALL_WATERBENCH=true  # If true, sample from all water-bench files; if false, use specific JSONL_FILE
+RANDOM_SEED=43  # Seed for random sampling (for reproducibility)
 GEN_LENGTH=300
 STEPS=300
 TEMPERATURE=0.5
@@ -46,11 +48,11 @@ AARONSON_SEED=42
 WATERMARK_STEPS=300
 
 # Green list watermarking parameters
-# [0.1, 0.25, 0.5, 0.75, 0.9]
+# [0.1, 0.5, 0.9]
 GAMMA=0.9
 # [0.5, 1, 2, 5, 10]
 AMPLIFICATION=10
-# [50, 100, 150, 200, 250, 300]
+# [100, 200, 300]
 GREEN_LIST_WATERMARK_STEPS="100"  # Empty means all steps, set to int (e.g., 100) to watermark steps <= N
 
 # Parse arguments
@@ -62,6 +64,7 @@ while [[ $# -gt 0 ]]; do
             ;;
         --jsonl_file)
             JSONL_FILE="$2"
+            USE_ALL_WATERBENCH=false  # If specific file provided, don't sample
             shift 2
             ;;
         --output_file)
@@ -71,6 +74,18 @@ while [[ $# -gt 0 ]]; do
         --max_prompts)
             MAX_PROMPTS="$2"
             shift 2
+            ;;
+        --random_seed)
+            RANDOM_SEED="$2"
+            shift 2
+            ;;
+        --use_all_waterbench)
+            USE_ALL_WATERBENCH=true
+            shift
+            ;;
+        --use_specific_file)
+            USE_ALL_WATERBENCH=false
+            shift
             ;;
         --gen_length)
             GEN_LENGTH="$2"
@@ -115,25 +130,49 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
+# If using all water-bench files, create sampled JSONL file
+if [ "$USE_ALL_WATERBENCH" = true ]; then
+    SAMPLED_JSONL="water-bench-sampled_${MAX_PROMPTS}_seed${RANDOM_SEED}.jsonl"
+    MAX_PROMPT_TOKENS=500  # Filter out prompts with contexts longer than this (to avoid OOM)
+    echo "Sampling $MAX_PROMPTS random prompts from all water-bench files..."
+    echo "Filtering out prompts with contexts longer than $MAX_PROMPT_TOKENS tokens..."
+    python sample_waterbench_prompts.py \
+        --num_samples "$MAX_PROMPTS" \
+        --seed "$RANDOM_SEED" \
+        --max_prompt_tokens "$MAX_PROMPT_TOKENS" \
+        --output_file "$SAMPLED_JSONL"
+    
+    if [ ! -f "$SAMPLED_JSONL" ]; then
+        echo "Error: Failed to create sampled JSONL file"
+        exit 1
+    fi
+    
+    JSONL_FILE="$SAMPLED_JSONL"
+    echo "Using sampled file: $JSONL_FILE"
+    echo ""
+fi
+
 # Check required arguments
 if [ -z "$JSONL_FILE" ]; then
-    echo "Error: --jsonl_file is required"
-    echo "Usage: $0 --jsonl_file <path> [options]"
+    echo "Error: --jsonl_file is required, or use --use_all_waterbench to sample from all files"
+    echo "Usage: $0 [--jsonl_file <path> | --use_all_waterbench] [options]"
     echo ""
     echo "Options:"
-    echo "  --watermark_type <aaronson|green_list|none>  (default: aaronson)"
+    echo "  --jsonl_file <path>                          (specific JSONL file to use)"
+    echo "  --use_all_waterbench                         (sample from all water-bench files, default: true)"
+    echo "  --max_prompts <N>                             (number of prompts to sample, default: 500)"
+    echo "  --random_seed <N>                             (seed for random sampling, default: 42)"
+    echo "  --watermark_type <aaronson|green_list|none>  (default: green_list)"
     echo "  --output_file <path>                         (optional, auto-generated if not specified)"
-    echo "  --max_prompts <N>                            (optional, limit number of prompts)"
     echo "  --gen_length <N>                             (default: 300)"
     echo "  --steps <N>                                   (default: 300)"
     echo "  --temperature <float>                        (default: 0.5)"
     echo "  --block_length <N>                            (default: 25)"
     echo "  --aaronson_seed <N>                          (default: 42)"
-    echo "  --watermark_steps <N>                        (default: 2000, for aaronson; None for all steps)"
-    echo "  --green_list_watermark_steps <N>              (default: all steps, for green_list; set to N to watermark steps <= N)"
-    echo "  --remasking_strategy <strategy>               (default: original)"
-    echo "  --gamma <float>                              (default: 0.5, for green_list)"
-    echo "  --amplification <float>                       (default: 2.0, for green_list)"
+    echo "  --watermark_steps <N>                        (default: 300, for aaronson; None for all steps)"
+    echo "  --green_list_watermark_steps <N>              (default: 100, for green_list; set to N to watermark steps <= N)"
+    echo "  --gamma <float>                              (default: 0.9, for green_list)"
+    echo "  --amplification <float>                       (default: 10, for green_list)"
     exit 1
 fi
 
@@ -144,11 +183,15 @@ echo "Starting WaterBench evaluation..."
 echo "Watermarking parameters:"
 echo "  watermark_type=$WATERMARK_TYPE"
 echo "  jsonl_file=$JSONL_FILE"
+if [ "$USE_ALL_WATERBENCH" = true ]; then
+    echo "  sampling_mode=random from all water-bench files"
+    echo "  num_samples=$MAX_PROMPTS"
+    echo "  random_seed=$RANDOM_SEED"
+else
+    echo "  sampling_mode=specific file"
+fi
 if [ -n "$OUTPUT_FILE" ]; then
     echo "  output_file=$OUTPUT_FILE"
-fi
-if [ -n "$MAX_PROMPTS" ]; then
-    echo "  max_prompts=$MAX_PROMPTS"
 fi
 echo "  gen_length=$GEN_LENGTH"
 echo "  steps=$STEPS"
@@ -184,7 +227,9 @@ if [ -n "$OUTPUT_FILE" ]; then
     CMD="$CMD --output_file $OUTPUT_FILE"
 fi
 
-if [ -n "$MAX_PROMPTS" ]; then
+# Only pass --max_prompts if using a specific file (not sampled)
+# If sampled, the file already contains exactly MAX_PROMPTS prompts
+if [ "$USE_ALL_WATERBENCH" = false ] && [ -n "$MAX_PROMPTS" ]; then
     CMD="$CMD --max_prompts $MAX_PROMPTS"
 fi
 
