@@ -32,12 +32,12 @@ export HF_ALLOW_CODE_EVAL=1
 export HF_DATASETS_TRUST_REMOTE_CODE=true
 
 # Parse command line arguments
-WATERMARK_TYPE="aaronson"  # Options: aaronson, green_list, none
+WATERMARK_TYPE="green_list"  # Options: aaronson, green_list, none
 JSONL_FILE=""  # Will be generated from sampled prompts if not specified
-OUTPUT_FILE="300_full_bench_aaronson.json" # OUTPUT_FILE="run_gamma=0.9_delta=10_steps=100_waterbench_2-2_finance_qa.json"
-MAX_PROMPTS="100"  # Number of random prompts to sample from all water-bench files
+OUTPUT_FILE="rg_list_optimal_values.json" # OUTPUT_FILE="run_gamma=0.9_delta=10_steps=100_waterbench_2-2_finance_qa.json"
+MAX_PROMPTS="500"  # Number of random prompts to sample from all water-bench files
 USE_ALL_WATERBENCH=true  # If true, sample from all water-bench files; if false, use specific JSONL_FILE
-RANDOM_SEED=43  # Seed for random sampling (for reproducibility)
+RANDOM_SEED=42  # Seed for random sampling (for reproducibility), used 43 for ablations
 GEN_LENGTH=300
 STEPS=300
 TEMPERATURE=0.5
@@ -49,11 +49,11 @@ WATERMARK_STEPS=300
 
 # Green list watermarking parameters
 # [0.1, 0.5, 0.9]
-GAMMA=0.9
+GAMMA=0.1
 # [0.5, 1, 2, 5, 10]
-AMPLIFICATION=10
+AMPLIFICATION=8
 # [100, 200, 300]
-GREEN_LIST_WATERMARK_STEPS="100"  # Empty means all steps, set to int (e.g., 100) to watermark steps <= N
+GREEN_LIST_WATERMARK_STEPS="10"  # Empty means all steps, set to int (e.g., 100) to watermark steps <= N
 
 # Parse arguments
 while [[ $# -gt 0 ]]; do
