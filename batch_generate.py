@@ -173,7 +173,7 @@ def main():
         watermark_score = None
         normalized_score = None
         if args.watermark_type == 'aaronson':
-            score, actual_length, per_token_scores = calculate_aaronson_watermark_score(
+            score, actual_length, per_token_scores, _ = calculate_aaronson_watermark_score(
                 generated_tokens.unsqueeze(0),
                 vocab_size=args.vocab_size,
                 seed=args.aaronson_seed,

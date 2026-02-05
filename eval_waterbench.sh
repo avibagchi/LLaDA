@@ -32,9 +32,9 @@ export HF_ALLOW_CODE_EVAL=1
 export HF_DATASETS_TRUST_REMOTE_CODE=true
 
 # Parse command line arguments
-WATERMARK_TYPE="green_list"  # Options: aaronson, green_list, none
+WATERMARK_TYPE="aaronson"  # Options: aaronson, green_list, none
 JSONL_FILE=""  # Will be generated from sampled prompts if not specified
-OUTPUT_FILE="rg_list_optimal_values.json" # OUTPUT_FILE="run_gamma=0.9_delta=10_steps=100_waterbench_2-2_finance_qa.json"
+OUTPUT_FILE="robust_500_m=50.json" # OUTPUT_FILE="run_gamma=0.9_delta=10_steps=100_waterbench_2-2_finance_qa.json"
 MAX_PROMPTS="500"  # Number of random prompts to sample from all water-bench files
 USE_ALL_WATERBENCH=true  # If true, sample from all water-bench files; if false, use specific JSONL_FILE
 RANDOM_SEED=42  # Seed for random sampling (for reproducibility), used 43 for ablations
@@ -46,6 +46,11 @@ BLOCK_LENGTH=25
 # Aaronson watermarking parameters
 AARONSON_SEED=42
 WATERMARK_STEPS=300
+# Watermark param m: RNG seed = position mod m (thwarts prefix deletion). Empty = disabled.
+AARONSON_WM_PARAM_M="50"
+# Random prefix deletion before scoring: int (max tokens) or float (max fraction). Empty = no deletion.
+AARONSON_PREFIX_DELETE_MAX="100"
+AARONSON_PREFIX_DELETE_SEED=123
 
 # Green list watermarking parameters
 # [0.1, 0.5, 0.9]
@@ -111,6 +116,18 @@ while [[ $# -gt 0 ]]; do
             WATERMARK_STEPS="$2"
             shift 2
             ;;
+        --aaronson_wm_param_m)
+            AARONSON_WM_PARAM_M="$2"
+            shift 2
+            ;;
+        --aaronson_prefix_delete_max)
+            AARONSON_PREFIX_DELETE_MAX="$2"
+            shift 2
+            ;;
+        --aaronson_prefix_delete_seed)
+            AARONSON_PREFIX_DELETE_SEED="$2"
+            shift 2
+            ;;
         --gamma)
             GAMMA="$2"
             shift 2
@@ -170,6 +187,8 @@ if [ -z "$JSONL_FILE" ]; then
     echo "  --block_length <N>                            (default: 25)"
     echo "  --aaronson_seed <N>                          (default: 42)"
     echo "  --watermark_steps <N>                        (default: 300, for aaronson; None for all steps)"
+    echo "  --aaronson_wm_param_m <N>                    (optional; enable m for prefix-deletion robustness)"
+    echo "  --aaronson_prefix_delete_max <N|float>       (optional; random prefix deletion before scoring)"
     echo "  --green_list_watermark_steps <N>              (default: 100, for green_list; set to N to watermark steps <= N)"
     echo "  --gamma <float>                              (default: 0.9, for green_list)"
     echo "  --amplification <float>                       (default: 10, for green_list)"
@@ -201,6 +220,15 @@ echo "  block_length=$BLOCK_LENGTH"
 if [ "$WATERMARK_TYPE" = "aaronson" ]; then
     echo "  aaronson_seed=$AARONSON_SEED"
     echo "  watermark_steps=$WATERMARK_STEPS"
+    if [ -n "$AARONSON_WM_PARAM_M" ]; then
+        echo "  aaronson_wm_param_m=$AARONSON_WM_PARAM_M"
+    else
+        echo "  aaronson_wm_param_m=disabled"
+    fi
+    if [ -n "$AARONSON_PREFIX_DELETE_MAX" ]; then
+        echo "  aaronson_prefix_delete_max=$AARONSON_PREFIX_DELETE_MAX"
+        echo "  aaronson_prefix_delete_seed=$AARONSON_PREFIX_DELETE_SEED"
+    fi
     echo "  remasking_strategy=original"
 elif [ "$WATERMARK_TYPE" = "green_list" ]; then
     echo "  gamma=$GAMMA"
@@ -237,6 +265,12 @@ if [ "$WATERMARK_TYPE" = "aaronson" ]; then
     CMD="$CMD --aaronson_seed $AARONSON_SEED"
     if [ -n "$WATERMARK_STEPS" ] && [ "$WATERMARK_STEPS" != "None" ]; then
         CMD="$CMD --watermark_steps $WATERMARK_STEPS"
+    fi
+    if [ -n "$AARONSON_WM_PARAM_M" ]; then
+        CMD="$CMD --aaronson_wm_param_m $AARONSON_WM_PARAM_M"
+    fi
+    if [ -n "$AARONSON_PREFIX_DELETE_MAX" ]; then
+        CMD="$CMD --aaronson_prefix_delete_max $AARONSON_PREFIX_DELETE_MAX --aaronson_prefix_delete_seed $AARONSON_PREFIX_DELETE_SEED"
     fi
 elif [ "$WATERMARK_TYPE" = "green_list" ]; then
     CMD="$CMD --gamma $GAMMA --amplification $AMPLIFICATION"

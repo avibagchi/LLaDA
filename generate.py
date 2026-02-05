@@ -219,15 +219,18 @@ def calculate_green_matches(generated_tokens, gamma=0.5, vocab_size=126464, n=5)
     return max_match_percent, actual_length_used, max_num_matches, best_start, match_arr
 
 
-def generate_pseudo_random_values(position, vocab_size, seed=42, device="cpu"):
+def generate_pseudo_random_values(position, vocab_size, seed=42, wm_param_m=None, device="cpu"):
     """
     Generate pseudorandom values r_{t,i} for each token i at position t.
     Uses position-based seeding for deterministic generation with local Generator.
+    When wm_param_m is set, seed is base_seed + (position mod m) so positions
+    with the same residue mod m get the same r (thwarts prefix deletion via shift search).
     
     Args:
         position: Position index t
         vocab_size: Size of the vocabulary
         seed: Base seed for pseudorandom generation
+        wm_param_m: If set, use seed = seed + (position % m) for shift-resistant watermarking
         device: Device to generate values on
         
     Returns:
@@ -235,7 +238,11 @@ def generate_pseudo_random_values(position, vocab_size, seed=42, device="cpu"):
     """
     # Use a local Generator to avoid mutating global RNG state (Fix E)
     g = torch.Generator(device=device)
-    g.manual_seed(seed + position)
+    if wm_param_m is not None and wm_param_m > 0:
+        effective_seed = seed + (position % wm_param_m)
+    else:
+        effective_seed = seed + position
+    g.manual_seed(effective_seed)
     
     # Generate pseudorandom values in (0, 1)
     r_values = torch.rand(vocab_size, generator=g, device=device)
@@ -246,10 +253,11 @@ def generate_pseudo_random_values(position, vocab_size, seed=42, device="cpu"):
     return r_values
 
 
-def apply_aaronson_gumbel_watermark(logits, mask_positions, vocab_size, position_offset=0, seed=42, special_token_ids=None):
+def apply_aaronson_gumbel_watermark(logits, mask_positions, vocab_size, position_offset=0, seed=42, wm_param_m=None, special_token_ids=None):
     """
     Apply Aaronson's watermarking scheme during generation.
     At each position t, selects the token that maximizes r_{t,i}^{1/p_{t,i}}.
+    When wm_param_m is set, RNG seed is (position mod m) to thwart prefix deletions (Algorithm 1).
     
     Args:
         logits: [batch_size, seq_len, vocab_size] - model logits
@@ -257,6 +265,7 @@ def apply_aaronson_gumbel_watermark(logits, mask_positions, vocab_size, position
         vocab_size: Size of the vocabulary
         position_offset: Offset to add to position indices (for prompt length)
         seed: Seed for pseudorandom generation
+        wm_param_m: If set, use seed (position mod m) for shift-resistant watermarking
         special_token_ids: List of token IDs to exclude from watermarking (optional)
         
     Returns:
@@ -279,8 +288,9 @@ def apply_aaronson_gumbel_watermark(logits, mask_positions, vocab_size, position
                 model_probs = F.softmax(logits[batch_idx, pos], dim=-1)  # shape [V]
                 
                 # Generate pseudorandom values for this position (Fix E - using local generator)
+                # Algorithm 1: seed = i mod m when wm_param_m is set
                 r_values = generate_pseudo_random_values(
-                    position_offset + pos, vocab_size, seed, device=logits.device
+                    position_offset + pos, vocab_size, seed, wm_param_m=wm_param_m, device=logits.device
                 )
                 
                 # Compute Aaronson scores: log(r_{t,i}) / p_{t,i} (Fix A)
@@ -304,30 +314,30 @@ def apply_aaronson_gumbel_watermark(logits, mask_positions, vocab_size, position
     return watermarked_choices, watermark_confidences
 
 
-def calculate_aaronson_watermark_score(generated_tokens, vocab_size=126464, seed=42, special_token_ids=None, position_offset=0):
+def calculate_aaronson_watermark_score(generated_tokens, vocab_size=126464, seed=42, special_token_ids=None, position_offset=0, wm_param_m=None):
     """
-    Calculate the watermark detection score for generated text.
-    Uses the formula: sum_{t=1}^{n} ln(1 / (1 - r_{t,i(t)}))
+    Calculate the watermark detection score for generated text (Algorithm 2).
+    Uses the formula: Γ = sum_t -ln(1 - r_{t,x_t}); if Γ/L > τ then "Watermarked".
+    When wm_param_m is set, tries all shifts s ∈ {0, 1, ..., m-1} (seed (i+s) mod m)
+    and returns the maximum normalized score (thwarts prefix deletion).
     
     Args:
         generated_tokens: [batch_size, seq_len] - generated token IDs
         vocab_size: Size of the vocabulary
         seed: Seed for pseudorandom generation (must match generation)
         special_token_ids: List of token IDs to exclude from detection (optional)
-        position_offset: Position offset to match generation (e.g., prompt length). CRITICAL for correct detection!
+        position_offset: Position offset when no shift search (e.g., prompt length)
+        wm_param_m: If set, try shifts s in [0, m-1] and return max normalized score
         
     Returns:
-        watermark_score: Total watermark score
+        watermark_score: Total (or best total when wm_param_m set) watermark score
         actual_length: Number of tokens analyzed (excluding special tokens)
-        per_token_scores: [actual_length] array of per-token scores
+        per_token_scores: [actual_length] array of per-token scores (from best shift when wm_param_m set)
+        best_shift: When wm_param_m is set, the shift s that achieved the best score; else None
     """
     batch_size, seq_len = generated_tokens.shape
-    per_token_scores = []
-    
-    # Process only the first batch (assuming batch_size=1 for generation)
     tokens = generated_tokens[0]
     
-    # Create set of special token IDs for efficient lookup
     special_token_set = set()
     if special_token_ids is not None:
         special_token_set = set(special_token_ids)
@@ -335,40 +345,64 @@ def calculate_aaronson_watermark_score(generated_tokens, vocab_size=126464, seed
     # Find actual length (stop at EOS token if present)
     actual_length = seq_len
     for i, token in enumerate(tokens):
-        # Check for common EOS tokens: 50256 (GPT-2), 2 (LLaMA), 126081 (LLaDA)
-        if token.item() in [50256, 2, 126081]:
+        if token.item() in [50256, 2, 126081]:  # EOS tokens
             actual_length = i
             break
     
-    # Calculate per-token scores, skipping special tokens
+    if wm_param_m is not None and wm_param_m > 0:
+        # Algorithm 2: try all shifts s ∈ {0, 1, ..., m-1}
+        best_score = -float("inf")
+        best_shift = None
+        best_per_token_scores = []
+        
+        for s in range(wm_param_m):
+            per_token_scores = []
+            for pos in range(actual_length):
+                token_id = tokens[pos].item()
+                if token_id in special_token_set:
+                    continue
+                # Seed (i + s) mod m: position in text is pos, so use pos + s
+                r_values = generate_pseudo_random_values(
+                    pos + s, vocab_size, seed, wm_param_m=wm_param_m, device=tokens.device
+                )
+                r_token = r_values[token_id]
+                per_token_score = torch.log(1.0 / (1.0 - r_token))
+                per_token_scores.append(per_token_score.item())
+            
+            if not per_token_scores:
+                continue
+            total = sum(per_token_scores)
+            n = len(per_token_scores)
+            normalized = total / n
+            if normalized > best_score:
+                best_score = normalized
+                best_shift = s
+                best_per_token_scores = per_token_scores
+        
+        if not best_per_token_scores:
+            return 0.0, 0, torch.tensor([]), best_shift if wm_param_m else None
+        
+        total_score = sum(best_per_token_scores)
+        actual_length = len(best_per_token_scores)
+        return total_score, actual_length, torch.tensor(best_per_token_scores), best_shift
+    
+    # Original behavior: no shift search, use position_offset
+    per_token_scores = []
     for pos in range(actual_length):
         token_id = tokens[pos].item()
-        
-        # Skip special tokens
         if token_id in special_token_set:
             continue
-        
-        # Generate pseudorandom values for this position (MUST match generation offset!)
-        r_values = generate_pseudo_random_values(position_offset + pos, vocab_size, seed, device=tokens.device)
-        
-        # Get the r value for the selected token
+        r_values = generate_pseudo_random_values(
+            position_offset + pos, vocab_size, seed, wm_param_m=wm_param_m, device=tokens.device
+        )
         r_token = r_values[token_id]
-        
-        # Calculate per-token score: ln(1 / (1 - r_{t,i(t)}))
-        # This grows as r approaches 1, so watermarked text has higher scores
         per_token_score = torch.log(1.0 / (1.0 - r_token))
         per_token_scores.append(per_token_score.item())
     
-    # Convert to tensor for easier handling
-    per_token_scores = torch.tensor(per_token_scores)
-    
-    # Calculate total watermark score
-    watermark_score = per_token_scores.sum().item()
-    
-    # Update actual_length to reflect only non-special tokens
+    per_token_scores_t = torch.tensor(per_token_scores) if per_token_scores else torch.tensor([])
+    watermark_score = per_token_scores_t.sum().item() if per_token_scores else 0.0
     actual_length = len(per_token_scores)
-    
-    return watermark_score, actual_length, per_token_scores
+    return watermark_score, actual_length, per_token_scores_t, None
 
 
 def get_num_transfer_tokens(mask_index, steps):
@@ -419,6 +453,7 @@ def generate(model, prompt, steps=128, gen_length=128, block_length=128, tempera
              cfg_scale=0., remasking='low_confidence', mask_id=126336, 
              gamma=0.5, amplification=0.0, vocab_size=126464, watermark_steps=None, 
              special_token_ids=None, watermark_type='green_list', aaronson_seed=42,
+             aaronson_wm_param_m=None,
              aaronson_remasking_strategy='original', aaronson_tau_wm=0.2, aaronson_tau_orig=0.01, aaronson_lambda=0.7):
     '''
     Args:
@@ -441,6 +476,7 @@ def generate(model, prompt, steps=128, gen_length=128, block_length=128, tempera
         special_token_ids: List of token IDs to exclude from amplification (optional) - only for green_list watermarking.
         watermark_type: Type of watermarking to use ('green_list' or 'aaronson').
         aaronson_seed: Seed for pseudorandom generation in Aaronson watermarking.
+        aaronson_wm_param_m: If set, use RNG seed (position mod m) to thwart prefix deletion (Algorithm 1).
         aaronson_remasking_strategy: Remasking strategy for Aaronson watermarking.
                                     'original': Use only original model confidence (default, best quality)
                                     'dual_gate': Require both wm_conf >= tau_wm AND orig_conf >= tau_orig
@@ -548,10 +584,11 @@ def generate(model, prompt, steps=128, gen_length=128, block_length=128, tempera
                     current_block_mask = current_block_mask & mask_index
                     
                     # Apply Aaronson watermarking - returns token choices and confidences
-                    # NOTE: position_offset=0 because pos in apply_aaronson_gumbel_watermark is already absolute
+                    # pos in apply_aaronson_gumbel_watermark is index in full sequence (prompt + generated)
                     aaronson_choices, aaronson_wm_confidences = apply_aaronson_gumbel_watermark(
                         sampling_logits, current_block_mask, vocab_size, 
                         position_offset=0, seed=aaronson_seed,
+                        wm_param_m=aaronson_wm_param_m,
                         special_token_ids=special_token_ids
                     )
 

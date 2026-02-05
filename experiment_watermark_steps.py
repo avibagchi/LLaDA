@@ -124,7 +124,7 @@ def main():
             generated_text = tokenizer.decode(generated_tokens, skip_special_tokens=True)
             
             # Calculate watermark score
-            score, actual_length, per_token_scores = calculate_aaronson_watermark_score(
+            score, actual_length, per_token_scores, _ = calculate_aaronson_watermark_score(
                 generated_tokens.unsqueeze(0),
                 vocab_size=args.vocab_size,
                 seed=args.aaronson_seed,

@@ -405,7 +405,7 @@ class LLaDAEvalHarness(LM):
                         z_score = (max_num_matches - true_num_green) / math.sqrt(true_num_green * (1-self.gamma))
                 elif self.watermark_type == 'aaronson':
                     # Use actual generated tokens with correct position offset (prompt length)
-                    aaronson_score, actual_length, per_token_scores = calculate_aaronson_watermark_score(
+                    aaronson_score, actual_length, per_token_scores, _ = calculate_aaronson_watermark_score(
                         generated_tokens.unsqueeze(0), vocab_size=126464, seed=self.aaronson_seed,
                         special_token_ids=self.special_token_ids, position_offset=prompt.shape[1]
                     )

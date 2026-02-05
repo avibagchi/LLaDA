@@ -1,32 +1,4 @@
-Using device: cuda
-Special token IDs to exclude from amplification: [126080, 126081, 126082]
-Loaded 500 prompts from prompts.txt
-================================================================================
-LLaDA WATERMARKING METRICS TEST - PROMPT-BASED GENERATION
-================================================================================
-Testing 500 prompts × 1 gamma × 1 amplification × 1 step patterns × 1 seeds
-Parameters: gamma=[0.025], amplification=[100], step_to_watermark=[5], seeds=[1]
-================================================================================
-
---- Testing Prompt 1/1: What are the benefits of physical fitness?... ---
-Testing prompt 1, seed=1, gamma=0.025, amplification=100, steps=5
-  Full output: What
-  Generated text: 
-Physical fitness has numerous benefits such as improved cardiovascular health, increased muscle strength and endurance, better sleep quality, reduced stress and anxiety, and improved mental health. It can also help with weight management and disease prevention. ﻿using System;
-
-
-  Generated text with green tokens marked: 
-Physical fitness has numerous benefits such as improved cardiovascular health, increased muscle strength and endurance, better sleep quality,** reduced**** stress** and anxiety, and improved mental health. It can also help with weight management and disease prevention. ﻿using System;
-
-
-  Match %: 0.0455, Z-score: 0.8690, Perplexity: 24.75
-
-Results saved to watermark_results_step_param_sweep_same_prompt.csv
-
-====================================================================================================
-SUMMARY STATISTICS
-====================================================================================================
-Amplification 100: Avg Z-score: 0.8690, Avg Match %: 0.0455, Avg Perplexity: 24.75
-
-By Gamma:
-Gamma 0.025: Avg Z-score: 0.8690, Avg Match %: 0.0455
+Traceback (most recent call last):
+  File "/work/nvme/bemc/abagchi2/LLaDA/evaluate_with_gpt4.py", line 13, in <module>
+    from tqdm import tqdm
+ModuleNotFoundError: No module named 'tqdm'
