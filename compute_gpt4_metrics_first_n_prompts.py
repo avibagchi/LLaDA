@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
 Compute gpt4_evaluation_metrics for only the first N prompts of a GPT-4 eval JSON file.
-Also computes the percentage of prompts with z_score >= 4 (detectability).
+Also computes detectability: fraction of prompts where a chosen watermark stat
+(default z_score, or binomial_z_score via --watermark-detect-stat) is >= threshold.
 
 Input: JSON file like water-bench-results/json-outputs/gpt4-outputs/2000_rg_85_thresh_gpt4_eval.json
 Output: Prints (and optionally writes) gpt4_evaluation_metrics for the first N prompts,
@@ -61,14 +62,23 @@ def calculate_metrics(results: List[Dict[str, Any]]) -> Dict[str, Any]:
     }
 
 
-def detectability_pct(results: List[Dict[str, Any]], z_threshold: float = 4.0) -> float:
-    """Percentage of prompts with z_score >= z_threshold."""
+def detectability_pct(
+    results: List[Dict[str, Any]],
+    z_threshold: float = 4.0,
+    stat_key: str = "z_score",
+) -> float:
+    """Percentage of prompts with chosen watermark stat >= z_threshold."""
     if not results:
         return 0.0
     count = 0
     for r in results:
         wm = r.get("watermark_metrics", {})
-        z = wm.get("z_score") or wm.get("normalized_score")
+        if stat_key == "z_score":
+            z = wm.get("z_score")
+            if z is None:
+                z = wm.get("normalized_score")
+        else:
+            z = wm.get(stat_key)
         if z is not None and z >= z_threshold:
             count += 1
     return 100.0 * count / len(results)
@@ -97,6 +107,17 @@ def main():
         help="Z-score threshold for detectability. Default: 4",
     )
     parser.add_argument(
+        "--watermark-detect-stat",
+        type=str,
+        choices=["z_score", "binomial_z_score"],
+        default="z_score",
+        help=(
+            "Which watermark_metrics field to compare to --z-threshold. "
+            "Use binomial_z_score for Gloaguen/Bernoulli (standardized count z); "
+            "default z_score also falls back to normalized_score for Aaronson."
+        ),
+    )
+    parser.add_argument(
         "-o",
         "--output",
         type=str,
@@ -122,7 +143,11 @@ def main():
         return
 
     metrics = calculate_metrics(first_n)
-    pct = detectability_pct(first_n, z_threshold=args.z_threshold)
+    pct = detectability_pct(
+        first_n,
+        z_threshold=args.z_threshold,
+        stat_key=args.watermark_detect_stat,
+    )
 
     # Build output in same shape as gpt4_evaluation_metrics + detectability
     out = {
@@ -133,6 +158,7 @@ def main():
         "total_with_perplexity": metrics["total_with_perplexity"],
         "detectability_pct": round(pct, 2),
         "z_threshold": args.z_threshold,
+        "watermark_detect_stat": args.watermark_detect_stat,
     }
 
     print(f"File: {input_path.name}")
@@ -147,7 +173,10 @@ def main():
         "total_with_perplexity": metrics["total_with_perplexity"],
     }, indent=2))
     print()
-    print(f"Detectability (%% of prompts with z_score >= {args.z_threshold}): {pct:.2f}%")
+    print(
+        f"Detectability (%% of prompts with {args.watermark_detect_stat} >= {args.z_threshold}): "
+        f"{pct:.2f}%"
+    )
     print(f"  (detectability_pct: {out['detectability_pct']})")
 
     if args.output:

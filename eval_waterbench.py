@@ -318,12 +318,14 @@ def main():
             if det:
                 watermark_metrics = {
                     "z_score": det.get("z_score"),
+                    "binomial_z_score": det.get("binomial_z_score"),
                     "p_value": det.get("p_value"),
                     "scheme": "DiffusionKGW_Optimal_Gaussian",
                 }
             else:
                 watermark_metrics = {
                     "z_score": None,
+                    "binomial_z_score": None,
                     "p_value": None,
                     "note": "detect skipped (sequence too short for context window)",
                 }

@@ -35,7 +35,7 @@ export HF_DATASETS_TRUST_REMOTE_CODE=true
 WATERMARK_TYPE="gloaguen"  # Options: aaronson, green_list, gloaguen, none
 JSONL_FILE=""  # Will be generated from sampled prompts if not specified
 OUTPUT_FILE="gloaguen_1.json" # OUTPUT_FILE="run_gamma=0.9_delta=10_steps=100_waterbench_2-2_finance_qa.json"
-MAX_PROMPTS="5"  # Number of random prompts to sample from all water-bench files
+MAX_PROMPTS="100"  # Number of random prompts to sample from all water-bench files
 USE_ALL_WATERBENCH=true  # If true, sample from all water-bench files; if false, use specific JSONL_FILE
 RANDOM_SEED=42  # Seed for random sampling (for reproducibility), used 43 for ablations
 GEN_LENGTH=300
@@ -56,11 +56,11 @@ AMPLIFICATION=8
 GREEN_LIST_WATERMARK_STEPS="20"  # Empty means all steps, set to int (e.g., 100) to watermark steps <= N
 
 # Gloaguen et al. (Diffusion-KGW optimal Gaussian; OurWatermark in diffusion-lm-watermark)
-GLOAGUEN_DELTA=0
+GLOAGUEN_DELTA=4
 GLOAGUEN_CONV_KERNEL="-1"   # comma-separated offsets, e.g. -1 or -2,-1 (use = in CLI to avoid negative parsed as flag)
 GLOAGUEN_SEEDING_SCHEME="sumhash"
 GLOAGUEN_GREENLIST_TYPE="bernoulli"
-GLOAGUEN_GAMMA=0.1
+GLOAGUEN_GAMMA=0.25
 GLOAGUEN_TOPK=50
 GLOAGUEN_N_ITER=1
 GLOAGUEN_WATERMARK_STEPS="300"  # same semantics as green_list: steps 1..N; empty/None = all steps
