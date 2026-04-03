@@ -3,12 +3,16 @@
 Evaluate LLaDA model on WaterBench dataset with watermarking support.
 Generates JSON results with prompt, context, watermark metrics, perplexity, and expected outputs.
 """
-import random
+import sys
 import torch
 import argparse
 import json
 import datetime
 from pathlib import Path
+
+_DLM_WM_SRC = Path(__file__).resolve().parent.parent / "diffusion-lm-watermark" / "src"
+if _DLM_WM_SRC.is_dir() and str(_DLM_WM_SRC) not in sys.path:
+    sys.path.insert(0, str(_DLM_WM_SRC))
 from tqdm import tqdm
 from transformers import AutoTokenizer, AutoModel, AutoModelForCausalLM
 from generate import generate, calculate_aaronson_watermark_score, calculate_green_matches, get_special_token_ids
@@ -111,8 +115,8 @@ def main():
     
     # Watermarking parameters
     parser.add_argument('--watermark_type', type=str, default='aaronson', 
-                       choices=['aaronson', 'green_list', 'none'],
-                       help='Watermark type (aaronson, green_list, or none)')
+                       choices=['aaronson', 'green_list', 'gloaguen', 'none'],
+                       help='Watermark type (aaronson, green_list, gloaguen, or none)')
     parser.add_argument('--watermark_steps', type=int, default=None, 
                        help='Watermark up to this step (None = all steps)')
     parser.add_argument('--gamma', type=float, default=0.5, 
@@ -121,14 +125,25 @@ def main():
                        help='Amplification factor for green_list watermarking')
     parser.add_argument('--aaronson_seed', type=int, default=42, 
                        help='Seed for Aaronson watermarking')
-    parser.add_argument('--aaronson_wm_param_m', type=int, default=None, 
-                       help='Watermark param m: RNG seed = position mod m (thwarts prefix deletion). None = disabled.')
-    parser.add_argument('--aaronson_prefix_delete_max', type=str, default=None,
-                       help='Apply random prefix deletion before scoring: int (max tokens) or float in (0,1] (max fraction). None = no deletion.')
-    parser.add_argument('--aaronson_prefix_delete_seed', type=int, default=123,
-                       help='Seed for random prefix deletion (default: 123)')
+    # Gloaguen et al. (OurWatermark / DiffusionKGW optimal Gaussian) — see diffusion-lm-watermark
+    parser.add_argument('--gloaguen_delta', type=float, default=2.0, help='KL budget / booster strength')
+    parser.add_argument('--gloaguen_enforce_kl', action=argparse.BooleanOptionalAction, default=True,
+                       help='Enforce KL constraint in logit booster (default: true)')
+    parser.add_argument('--gloaguen_conv_kernel', type=str, default='-1',
+                       help='Comma-separated context offsets, e.g. -1 or -2,-1')
+    parser.add_argument('--gloaguen_seeding_scheme', type=str, default='sumhash',
+                       choices=['sumhash', 'minhash'], help='Hash of diffusion context')
+    parser.add_argument('--gloaguen_greenlist_type', type=str, default='bernoulli',
+                       choices=['bernoulli', 'gaussian', 'lognormal'], help='Greenlist randomization')
+    parser.add_argument('--gloaguen_gamma', type=float, default=0.25,
+                       help='Bernoulli greenlist rate (for bernoulli type)')
+    parser.add_argument('--gloaguen_topk', type=int, default=100, help='Top-k for energy approximation')
+    parser.add_argument('--gloaguen_n_iter', type=int, default=1, help='Fixed-point iterations')
     
     args = parser.parse_args()
+    args.gloaguen_conv_kernel = [int(x.strip()) for x in args.gloaguen_conv_kernel.split(',') if x.strip()]
+    if not args.gloaguen_conv_kernel:
+        args.gloaguen_conv_kernel = [-1]
     
     # Load WaterBench data
     print(f"Loading WaterBench data from {args.jsonl_file}...")
@@ -138,19 +153,6 @@ def main():
         waterbench_data = waterbench_data[:args.max_prompts]
     
     print(f"Processing {len(waterbench_data)} prompts")
-
-    # Parse prefix delete config (for Aaronson)
-    prefix_delete_max = None
-    prefix_delete_fraction = False
-    if args.aaronson_prefix_delete_max is not None:
-        try:
-            prefix_delete_max = int(args.aaronson_prefix_delete_max)
-        except ValueError:
-            prefix_delete_max = float(args.aaronson_prefix_delete_max)
-            if not (0 < prefix_delete_max <= 1):
-                raise ValueError("If float, aaronson_prefix_delete_max must be in (0, 1]")
-            prefix_delete_fraction = True
-        random.seed(args.aaronson_prefix_delete_seed)
     
     # Load model and tokenizer
     print(f"Loading model from {args.model_path}...")
@@ -163,6 +165,23 @@ def main():
     
     tokenizer = AutoTokenizer.from_pretrained(args.model_path, trust_remote_code=True)
     special_token_ids = get_special_token_ids(tokenizer)
+
+    gloaguen_wm = None
+    if args.watermark_type == 'gloaguen':
+        from dlm_watermark.watermarks.diffusion_watermark import OurWatermark
+        gparams = {"gamma": args.gloaguen_gamma} if args.gloaguen_greenlist_type == "bernoulli" else {}
+        gloaguen_wm = OurWatermark(
+            delta=args.gloaguen_delta,
+            enforce_kl=args.gloaguen_enforce_kl,
+            convolution_kernel=args.gloaguen_conv_kernel,
+            greenlist_type=args.gloaguen_greenlist_type,
+            greenlist_params=gparams,
+            topk=args.gloaguen_topk,
+            n_iter=args.gloaguen_n_iter,
+            seeding_scheme=args.gloaguen_seeding_scheme,
+            tokenizer=tokenizer,
+            device=str(model.device),
+        )
     
     # Load GPT-2 for perplexity evaluation (external judge)
     print("Loading GPT-2 for perplexity calculation (on CPU)...")
@@ -185,13 +204,17 @@ def main():
     if args.watermark_type == 'aaronson':
         print(f"  Watermark steps: {args.watermark_steps if args.watermark_steps else 'all'}")
         print(f"  Aaronson seed: {args.aaronson_seed}")
-        print(f"  Aaronson wm_param_m: {args.aaronson_wm_param_m if args.aaronson_wm_param_m else 'disabled'}")
-        if args.aaronson_prefix_delete_max:
-            print(f"  Aaronson prefix_delete_max: {args.aaronson_prefix_delete_max}")
         print(f"  Remasking strategy: original")
     elif args.watermark_type == 'green_list':
         print(f"  Gamma: {args.gamma}")
         print(f"  Amplification: {args.amplification}")
+    elif args.watermark_type == 'gloaguen':
+        print(f"  delta={args.gloaguen_delta}, enforce_kl={args.gloaguen_enforce_kl}")
+        print(f"  conv_kernel={args.gloaguen_conv_kernel}, seeding={args.gloaguen_seeding_scheme}")
+        print(f"  greenlist_type={args.gloaguen_greenlist_type}, gamma={args.gloaguen_gamma}")
+        print(f"  topk={args.gloaguen_topk}, n_iter={args.gloaguen_n_iter}")
+        ws = args.watermark_steps if args.watermark_steps is not None else 'all'
+        print(f"  watermark_steps={ws}")
     print(f"{'='*60}\n")
     
     # Process each prompt
@@ -218,6 +241,9 @@ def main():
         if args.watermark_type == 'none':
             watermark_type_gen = 'green_list'
             amplification_gen = 0.0
+        elif args.watermark_type == 'gloaguen':
+            watermark_type_gen = 'gloaguen'
+            amplification_gen = None
         else:
             watermark_type_gen = args.watermark_type
             amplification_gen = args.amplification if args.watermark_type == 'green_list' else None
@@ -238,28 +264,15 @@ def main():
                 gamma=args.gamma,
                 amplification=amplification_gen,
                 aaronson_seed=args.aaronson_seed,
-                aaronson_wm_param_m=args.aaronson_wm_param_m,
                 watermark_steps=args.watermark_steps,
                 vocab_size=args.vocab_size,
                 special_token_ids=special_token_ids,
-                aaronson_remasking_strategy='original'
+                aaronson_remasking_strategy='original',
+                gloaguen_watermark=gloaguen_wm,
             )
         
         # Extract generated tokens
         generated_tokens = generated[0, len(prompt_tokens):]
-        prefix_deleted = 0
-
-        # Apply random prefix deletion before scoring (Aaronson only)
-        if prefix_delete_max is not None and args.watermark_type in ('aaronson', 'none'):
-            L = generated_tokens.shape[0]
-            if prefix_delete_fraction:
-                max_k = min(L - 1, int(L * prefix_delete_max))
-            else:
-                max_k = min(prefix_delete_max, L - 1)
-            k = random.randint(0, max_k) if max_k > 0 else 0
-            if k > 0:
-                generated_tokens = generated_tokens[k:]
-                prefix_deleted = k
         generated_text = tokenizer.decode(generated_tokens, skip_special_tokens=True)
         
         # Calculate perplexity using GPT-2
@@ -269,23 +282,18 @@ def main():
         watermark_metrics = {}
         
         if args.watermark_type == 'aaronson':
-            score, actual_length, per_token_scores, best_shift = calculate_aaronson_watermark_score(
+            score, actual_length, per_token_scores = calculate_aaronson_watermark_score(
                 generated_tokens.unsqueeze(0),
                 vocab_size=args.vocab_size,
                 seed=args.aaronson_seed,
                 special_token_ids=special_token_ids,
-                position_offset=len(prompt_tokens),
-                wm_param_m=args.aaronson_wm_param_m
+                position_offset=len(prompt_tokens)
             )
             watermark_metrics = {
                 "aaronson_score": float(score),
                 "normalized_score": float(score / actual_length) if actual_length > 0 else 0.0,
                 "length": int(actual_length)
             }
-            if best_shift is not None:
-                watermark_metrics["best_shift"] = int(best_shift)
-            if prefix_deleted > 0:
-                watermark_metrics["prefix_deleted"] = prefix_deleted
         elif args.watermark_type == 'green_list':
             max_match_percent, actual_length, max_num_matches, best_start, match_arr = calculate_green_matches(
                 generated_tokens.unsqueeze(0), 
@@ -305,42 +313,50 @@ def main():
                 "match_percentage": float(max_match_percent),
                 "length": int(actual_length)
             }
+        elif args.watermark_type == 'gloaguen' and gloaguen_wm is not None:
+            det = gloaguen_wm.detect(generated[0])
+            if det:
+                watermark_metrics = {
+                    "z_score": det.get("z_score"),
+                    "p_value": det.get("p_value"),
+                    "scheme": "DiffusionKGW_Optimal_Gaussian",
+                }
+            else:
+                watermark_metrics = {
+                    "z_score": None,
+                    "p_value": None,
+                    "note": "detect skipped (sequence too short for context window)",
+                }
         elif args.watermark_type == 'none':
             # Calculate Aaronson score even when no watermark was applied
-            score, actual_length, per_token_scores, _ = calculate_aaronson_watermark_score(
+            score, actual_length, per_token_scores = calculate_aaronson_watermark_score(
                 generated_tokens.unsqueeze(0),
                 vocab_size=args.vocab_size,
                 seed=args.aaronson_seed,
                 special_token_ids=special_token_ids,
-                position_offset=len(prompt_tokens),
-                wm_param_m=args.aaronson_wm_param_m
+                position_offset=len(prompt_tokens)
             )
             watermark_metrics = {
                 "aaronson_score": float(score),
                 "normalized_score": float(score / actual_length) if actual_length > 0 else 0.0,
                 "length": int(actual_length)
             }
-            if prefix_deleted > 0:
-                watermark_metrics["prefix_deleted"] = prefix_deleted
         
-        # Store result (include token IDs for exact Aaronson re-scoring / prefix-deletion eval)
+        # Store result
         result = {
             "prompt_id": idx + 1,
             "context": entry.get('context', ''),
             "input": entry.get('input', ''),
             "prompt": prompt_text,
             "generated_text": generated_text,
-            "generated_token_ids": generated_tokens.tolist(),
             "expected_outputs": entry.get('outputs', []),
             "perplexity": perplexity,
             "watermark_type": args.watermark_type,
             "watermark_metrics": watermark_metrics,
             "generation_length": len(generated_tokens.tolist()),
             "dataset": entry.get('dataset', ''),
-            "_id": entry.get('_id', ''),
+            "_id": entry.get('_id', '')
         }
-        if prefix_deleted > 0:
-            result["prefix_deleted"] = prefix_deleted
         results.append(result)
     
     # Create output directory if it doesn't exist
@@ -377,8 +393,11 @@ def main():
             "gamma": args.gamma if args.watermark_type == 'green_list' else None,
             "amplification": args.amplification if args.watermark_type == 'green_list' else None,
             "aaronson_seed": args.aaronson_seed if args.watermark_type in ['aaronson', 'none'] else None,
-            "aaronson_wm_param_m": args.aaronson_wm_param_m if args.watermark_type in ['aaronson', 'none'] else None,
-            "aaronson_prefix_delete_max": args.aaronson_prefix_delete_max if args.watermark_type in ['aaronson', 'none'] else None,
+            "gloaguen": (
+                gloaguen_wm.get_key_params()
+                if args.watermark_type == 'gloaguen' and gloaguen_wm is not None
+                else None
+            ),
         },
         "total_prompts": len(results),
         "average_perplexity": avg_perplexity,

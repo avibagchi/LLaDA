@@ -32,10 +32,10 @@ export HF_ALLOW_CODE_EVAL=1
 export HF_DATASETS_TRUST_REMOTE_CODE=true
 
 # Parse command line arguments
-WATERMARK_TYPE="aaronson"  # Options: aaronson, green_list, none
+WATERMARK_TYPE="gloaguen"  # Options: aaronson, green_list, gloaguen, none
 JSONL_FILE=""  # Will be generated from sampled prompts if not specified
-OUTPUT_FILE="robust_500_m=50.json" # OUTPUT_FILE="run_gamma=0.9_delta=10_steps=100_waterbench_2-2_finance_qa.json"
-MAX_PROMPTS="500"  # Number of random prompts to sample from all water-bench files
+OUTPUT_FILE="gloaguen_1.json" # OUTPUT_FILE="run_gamma=0.9_delta=10_steps=100_waterbench_2-2_finance_qa.json"
+MAX_PROMPTS="5"  # Number of random prompts to sample from all water-bench files
 USE_ALL_WATERBENCH=true  # If true, sample from all water-bench files; if false, use specific JSONL_FILE
 RANDOM_SEED=42  # Seed for random sampling (for reproducibility), used 43 for ablations
 GEN_LENGTH=300
@@ -46,11 +46,6 @@ BLOCK_LENGTH=25
 # Aaronson watermarking parameters
 AARONSON_SEED=42
 WATERMARK_STEPS=300
-# Watermark param m: RNG seed = position mod m (thwarts prefix deletion). Empty = disabled.
-AARONSON_WM_PARAM_M="50"
-# Random prefix deletion before scoring: int (max tokens) or float (max fraction). Empty = no deletion.
-AARONSON_PREFIX_DELETE_MAX="100"
-AARONSON_PREFIX_DELETE_SEED=123
 
 # Green list watermarking parameters
 # [0.1, 0.5, 0.9]
@@ -58,7 +53,17 @@ GAMMA=0.1
 # [0.5, 1, 2, 5, 10]
 AMPLIFICATION=8
 # [100, 200, 300]
-GREEN_LIST_WATERMARK_STEPS="10"  # Empty means all steps, set to int (e.g., 100) to watermark steps <= N
+GREEN_LIST_WATERMARK_STEPS="20"  # Empty means all steps, set to int (e.g., 100) to watermark steps <= N
+
+# Gloaguen et al. (Diffusion-KGW optimal Gaussian; OurWatermark in diffusion-lm-watermark)
+GLOAGUEN_DELTA=0
+GLOAGUEN_CONV_KERNEL="-1"   # comma-separated offsets, e.g. -1 or -2,-1 (use = in CLI to avoid negative parsed as flag)
+GLOAGUEN_SEEDING_SCHEME="sumhash"
+GLOAGUEN_GREENLIST_TYPE="bernoulli"
+GLOAGUEN_GAMMA=0.1
+GLOAGUEN_TOPK=50
+GLOAGUEN_N_ITER=1
+GLOAGUEN_WATERMARK_STEPS="300"  # same semantics as green_list: steps 1..N; empty/None = all steps
 
 # Parse arguments
 while [[ $# -gt 0 ]]; do
@@ -116,18 +121,6 @@ while [[ $# -gt 0 ]]; do
             WATERMARK_STEPS="$2"
             shift 2
             ;;
-        --aaronson_wm_param_m)
-            AARONSON_WM_PARAM_M="$2"
-            shift 2
-            ;;
-        --aaronson_prefix_delete_max)
-            AARONSON_PREFIX_DELETE_MAX="$2"
-            shift 2
-            ;;
-        --aaronson_prefix_delete_seed)
-            AARONSON_PREFIX_DELETE_SEED="$2"
-            shift 2
-            ;;
         --gamma)
             GAMMA="$2"
             shift 2
@@ -140,12 +133,57 @@ while [[ $# -gt 0 ]]; do
             GREEN_LIST_WATERMARK_STEPS="$2"
             shift 2
             ;;
+        --gloaguen_delta)
+            GLOAGUEN_DELTA="$2"
+            shift 2
+            ;;
+        --gloaguen_conv_kernel)
+            GLOAGUEN_CONV_KERNEL="$2"
+            shift 2
+            ;;
+        --gloaguen_seeding_scheme)
+            GLOAGUEN_SEEDING_SCHEME="$2"
+            shift 2
+            ;;
+        --gloaguen_greenlist_type)
+            GLOAGUEN_GREENLIST_TYPE="$2"
+            shift 2
+            ;;
+        --gloaguen_gamma)
+            GLOAGUEN_GAMMA="$2"
+            shift 2
+            ;;
+        --gloaguen_topk)
+            GLOAGUEN_TOPK="$2"
+            shift 2
+            ;;
+        --gloaguen_n_iter)
+            GLOAGUEN_N_ITER="$2"
+            shift 2
+            ;;
+        --gloaguen_watermark_steps)
+            GLOAGUEN_WATERMARK_STEPS="$2"
+            shift 2
+            ;;
+        --no-gloaguen-enforce-kl)
+            GLOAGUEN_ENFORCE_KL="0"
+            shift
+            ;;
+        --gloaguen-enforce-kl)
+            GLOAGUEN_ENFORCE_KL="1"
+            shift
+            ;;
         *)
             echo "Unknown option: $1"
             exit 1
             ;;
     esac
 done
+
+# Default: enforce KL unless --no-gloaguen_enforce_kl was passed
+if [ -z "${GLOAGUEN_ENFORCE_KL:-}" ]; then
+    GLOAGUEN_ENFORCE_KL="1"
+fi
 
 # If using all water-bench files, create sampled JSONL file
 if [ "$USE_ALL_WATERBENCH" = true ]; then
@@ -179,7 +217,7 @@ if [ -z "$JSONL_FILE" ]; then
     echo "  --use_all_waterbench                         (sample from all water-bench files, default: true)"
     echo "  --max_prompts <N>                             (number of prompts to sample, default: 500)"
     echo "  --random_seed <N>                             (seed for random sampling, default: 42)"
-    echo "  --watermark_type <aaronson|green_list|none>  (default: green_list)"
+    echo "  --watermark_type <aaronson|green_list|gloaguen|none>"
     echo "  --output_file <path>                         (optional, auto-generated if not specified)"
     echo "  --gen_length <N>                             (default: 300)"
     echo "  --steps <N>                                   (default: 300)"
@@ -187,11 +225,19 @@ if [ -z "$JSONL_FILE" ]; then
     echo "  --block_length <N>                            (default: 25)"
     echo "  --aaronson_seed <N>                          (default: 42)"
     echo "  --watermark_steps <N>                        (default: 300, for aaronson; None for all steps)"
-    echo "  --aaronson_wm_param_m <N>                    (optional; enable m for prefix-deletion robustness)"
-    echo "  --aaronson_prefix_delete_max <N|float>       (optional; random prefix deletion before scoring)"
     echo "  --green_list_watermark_steps <N>              (default: 100, for green_list; set to N to watermark steps <= N)"
     echo "  --gamma <float>                              (default: 0.9, for green_list)"
     echo "  --amplification <float>                       (default: 10, for green_list)"
+    echo "  Gloaguen (Gloaguen et al.; diffusion-lm-watermark OurWatermark):"
+    echo "  --gloaguen_delta <float>                      (default: 2.0)"
+    echo "  --gloaguen_conv_kernel <str>                  (default: -1; use e.g. -2,-1)"
+    echo "  --gloaguen_seeding_scheme <sumhash|minhash>   (default: sumhash)"
+    echo "  --gloaguen_greenlist_type <bernoulli|gaussian|lognormal> (default: bernoulli)"
+    echo "  --gloaguen_gamma <float>                     (default: 0.25; bernoulli only)"
+    echo "  --gloaguen_topk <N>                           (default: 100)"
+    echo "  --gloaguen_n_iter <N>                         (default: 1)"
+    echo "  --gloaguen_watermark_steps <N>                (default: 10; empty string = all steps)"
+    echo "  --gloaguen-enforce-kl / --no-gloaguen-enforce-kl  (default: enforce on)"
     exit 1
 fi
 
@@ -220,15 +266,6 @@ echo "  block_length=$BLOCK_LENGTH"
 if [ "$WATERMARK_TYPE" = "aaronson" ]; then
     echo "  aaronson_seed=$AARONSON_SEED"
     echo "  watermark_steps=$WATERMARK_STEPS"
-    if [ -n "$AARONSON_WM_PARAM_M" ]; then
-        echo "  aaronson_wm_param_m=$AARONSON_WM_PARAM_M"
-    else
-        echo "  aaronson_wm_param_m=disabled"
-    fi
-    if [ -n "$AARONSON_PREFIX_DELETE_MAX" ]; then
-        echo "  aaronson_prefix_delete_max=$AARONSON_PREFIX_DELETE_MAX"
-        echo "  aaronson_prefix_delete_seed=$AARONSON_PREFIX_DELETE_SEED"
-    fi
     echo "  remasking_strategy=original"
 elif [ "$WATERMARK_TYPE" = "green_list" ]; then
     echo "  gamma=$GAMMA"
@@ -237,6 +274,16 @@ elif [ "$WATERMARK_TYPE" = "green_list" ]; then
         echo "  watermark_steps=$GREEN_LIST_WATERMARK_STEPS"
     else
         echo "  watermark_steps=all (all steps watermarked)"
+    fi
+elif [ "$WATERMARK_TYPE" = "gloaguen" ]; then
+    echo "  delta=$GLOAGUEN_DELTA enforce_kl=$GLOAGUEN_ENFORCE_KL"
+    echo "  conv_kernel=$GLOAGUEN_CONV_KERNEL seeding=$GLOAGUEN_SEEDING_SCHEME"
+    echo "  greenlist_type=$GLOAGUEN_GREENLIST_TYPE gamma=$GLOAGUEN_GAMMA"
+    echo "  topk=$GLOAGUEN_TOPK n_iter=$GLOAGUEN_N_ITER"
+    if [ -n "$GLOAGUEN_WATERMARK_STEPS" ] && [ "$GLOAGUEN_WATERMARK_STEPS" != "None" ]; then
+        echo "  watermark_steps=$GLOAGUEN_WATERMARK_STEPS"
+    else
+        echo "  watermark_steps=all"
     fi
 fi
 echo ""
@@ -266,16 +313,24 @@ if [ "$WATERMARK_TYPE" = "aaronson" ]; then
     if [ -n "$WATERMARK_STEPS" ] && [ "$WATERMARK_STEPS" != "None" ]; then
         CMD="$CMD --watermark_steps $WATERMARK_STEPS"
     fi
-    if [ -n "$AARONSON_WM_PARAM_M" ]; then
-        CMD="$CMD --aaronson_wm_param_m $AARONSON_WM_PARAM_M"
-    fi
-    if [ -n "$AARONSON_PREFIX_DELETE_MAX" ]; then
-        CMD="$CMD --aaronson_prefix_delete_max $AARONSON_PREFIX_DELETE_MAX --aaronson_prefix_delete_seed $AARONSON_PREFIX_DELETE_SEED"
-    fi
 elif [ "$WATERMARK_TYPE" = "green_list" ]; then
     CMD="$CMD --gamma $GAMMA --amplification $AMPLIFICATION"
     if [ -n "$GREEN_LIST_WATERMARK_STEPS" ] && [ "$GREEN_LIST_WATERMARK_STEPS" != "None" ]; then
         CMD="$CMD --watermark_steps $GREEN_LIST_WATERMARK_STEPS"
+    fi
+elif [ "$WATERMARK_TYPE" = "gloaguen" ]; then
+    CMD="$CMD --gloaguen_delta $GLOAGUEN_DELTA"
+    CMD="$CMD --gloaguen_conv_kernel $GLOAGUEN_CONV_KERNEL"
+    CMD="$CMD --gloaguen_seeding_scheme $GLOAGUEN_SEEDING_SCHEME"
+    CMD="$CMD --gloaguen_greenlist_type $GLOAGUEN_GREENLIST_TYPE"
+    CMD="$CMD --gloaguen_gamma $GLOAGUEN_GAMMA"
+    CMD="$CMD --gloaguen_topk $GLOAGUEN_TOPK"
+    CMD="$CMD --gloaguen_n_iter $GLOAGUEN_N_ITER"
+    if [ "$GLOAGUEN_ENFORCE_KL" = "0" ]; then
+        CMD="$CMD --no-gloaguen-enforce-kl"
+    fi
+    if [ -n "$GLOAGUEN_WATERMARK_STEPS" ] && [ "$GLOAGUEN_WATERMARK_STEPS" != "None" ]; then
+        CMD="$CMD --watermark_steps $GLOAGUEN_WATERMARK_STEPS"
     fi
 fi
 
