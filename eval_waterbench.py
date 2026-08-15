@@ -15,7 +15,8 @@ if _DLM_WM_SRC.is_dir() and str(_DLM_WM_SRC) not in sys.path:
     sys.path.insert(0, str(_DLM_WM_SRC))
 from tqdm import tqdm
 from transformers import AutoTokenizer, AutoModel, AutoModelForCausalLM
-from generate import generate, calculate_aaronson_watermark_score, calculate_green_matches, get_special_token_ids
+from generate import (generate, calculate_aaronson_watermark_score, calculate_green_matches,
+                       calculate_dmark_score, get_special_token_ids)
 import math
 
 
@@ -114,9 +115,17 @@ def main():
     parser.add_argument('--max_prompts', type=int, default=None, help='Limit number of prompts to process')
     
     # Watermarking parameters
-    parser.add_argument('--watermark_type', type=str, default='aaronson', 
-                       choices=['aaronson', 'green_list', 'gloaguen', 'none'],
-                       help='Watermark type (aaronson, green_list, gloaguen, or none)')
+    parser.add_argument('--watermark_type', type=str, default='aaronson',
+                       choices=['aaronson', 'green_list', 'gloaguen', 'dmark', 'none'],
+                       help='Watermark type (aaronson, green_list, gloaguen, dmark, or none)')
+    # DMark parameters
+    parser.add_argument('--dmark_variant', type=str, default='predictive_bidirectional',
+                       choices=['predictive', 'bidirectional', 'predictive_bidirectional'],
+                       help='DMark variant (default: predictive_bidirectional)')
+    parser.add_argument('--dmark_seed', type=int, default=42,
+                       help='Secret key for DMark watermarking (default: 42)')
+    parser.add_argument('--dmark_watermark_steps', type=int, default=None,
+                       help='DMark: watermark only the first N diffusion steps (None = all steps)')
     parser.add_argument('--watermark_steps', type=int, default=None, 
                        help='Watermark up to this step (None = all steps)')
     parser.add_argument('--gamma', type=float, default=0.5, 
@@ -215,6 +224,13 @@ def main():
         print(f"  topk={args.gloaguen_topk}, n_iter={args.gloaguen_n_iter}")
         ws = args.watermark_steps if args.watermark_steps is not None else 'all'
         print(f"  watermark_steps={ws}")
+    elif args.watermark_type == 'dmark':
+        ws = args.dmark_watermark_steps if args.dmark_watermark_steps is not None else 'all'
+        print(f"  variant: {args.dmark_variant}")
+        print(f"  gamma: {args.gamma}")
+        print(f"  delta (amplification): {args.amplification}")
+        print(f"  dmark_seed: {args.dmark_seed}")
+        print(f"  watermark_steps: {ws}")
     print(f"{'='*60}\n")
     
     # Process each prompt
@@ -241,13 +257,20 @@ def main():
         if args.watermark_type == 'none':
             watermark_type_gen = 'green_list'
             amplification_gen = 0.0
+            wm_steps_gen = None
         elif args.watermark_type == 'gloaguen':
             watermark_type_gen = 'gloaguen'
             amplification_gen = None
+            wm_steps_gen = args.watermark_steps
+        elif args.watermark_type == 'dmark':
+            watermark_type_gen = 'dmark'
+            amplification_gen = args.amplification
+            wm_steps_gen = args.dmark_watermark_steps
         else:
             watermark_type_gen = args.watermark_type
             amplification_gen = args.amplification if args.watermark_type == 'green_list' else None
-        
+            wm_steps_gen = args.watermark_steps
+
         # Generate
         with torch.no_grad():
             generated = generate(
@@ -264,11 +287,13 @@ def main():
                 gamma=args.gamma,
                 amplification=amplification_gen,
                 aaronson_seed=args.aaronson_seed,
-                watermark_steps=args.watermark_steps,
+                watermark_steps=wm_steps_gen,
                 vocab_size=args.vocab_size,
                 special_token_ids=special_token_ids,
                 aaronson_remasking_strategy='original',
                 gloaguen_watermark=gloaguen_wm,
+                dmark_variant=args.dmark_variant,
+                dmark_seed=args.dmark_seed,
             )
         
         # Extract generated tokens
@@ -329,6 +354,20 @@ def main():
                     "p_value": None,
                     "note": "detect skipped (sequence too short for context window)",
                 }
+        elif args.watermark_type == 'dmark':
+            z_score, valid_len = calculate_dmark_score(
+                generated_tokens.unsqueeze(0),
+                secret_key=args.dmark_seed,
+                gamma=args.gamma,
+                vocab_size=args.vocab_size,
+                variant=args.dmark_variant,
+                mask_id=args.mask_id,
+            )
+            watermark_metrics = {
+                "z_score": float(z_score),
+                "length": int(valid_len),
+                "variant": args.dmark_variant,
+            }
         elif args.watermark_type == 'none':
             # Calculate Aaronson score even when no watermark was applied
             score, actual_length, per_token_scores = calculate_aaronson_watermark_score(
@@ -400,6 +439,11 @@ def main():
                 if args.watermark_type == 'gloaguen' and gloaguen_wm is not None
                 else None
             ),
+            "dmark_variant": args.dmark_variant if args.watermark_type == 'dmark' else None,
+            "dmark_seed": args.dmark_seed if args.watermark_type == 'dmark' else None,
+            "dmark_gamma": args.gamma if args.watermark_type == 'dmark' else None,
+            "dmark_delta": args.amplification if args.watermark_type == 'dmark' else None,
+            "dmark_watermark_steps": args.dmark_watermark_steps if args.watermark_type == 'dmark' else None,
         },
         "total_prompts": len(results),
         "average_perplexity": avg_perplexity,

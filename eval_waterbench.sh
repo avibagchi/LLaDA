@@ -65,6 +65,13 @@ GLOAGUEN_TOPK=50
 GLOAGUEN_N_ITER=1
 GLOAGUEN_WATERMARK_STEPS="300"  # same semantics as green_list: steps 1..N; empty/None = all steps
 
+# DMark watermarking parameters (Wu et al., 2025)
+DMARK_VARIANT="predictive_bidirectional"   # predictive | bidirectional | predictive_bidirectional
+DMARK_SEED=42
+DMARK_GAMMA=0.5
+DMARK_DELTA=2
+DMARK_WATERMARK_STEPS=""  # empty = all steps
+
 # Parse arguments
 while [[ $# -gt 0 ]]; do
     case $1 in
@@ -172,6 +179,26 @@ while [[ $# -gt 0 ]]; do
         --gloaguen-enforce-kl)
             GLOAGUEN_ENFORCE_KL="1"
             shift
+            ;;
+        --dmark_variant)
+            DMARK_VARIANT="$2"
+            shift 2
+            ;;
+        --dmark_seed)
+            DMARK_SEED="$2"
+            shift 2
+            ;;
+        --dmark_gamma)
+            DMARK_GAMMA="$2"
+            shift 2
+            ;;
+        --dmark_delta)
+            DMARK_DELTA="$2"
+            shift 2
+            ;;
+        --dmark_watermark_steps)
+            DMARK_WATERMARK_STEPS="$2"
+            shift 2
             ;;
         *)
             echo "Unknown option: $1"
@@ -285,6 +312,14 @@ elif [ "$WATERMARK_TYPE" = "gloaguen" ]; then
     else
         echo "  watermark_steps=all"
     fi
+elif [ "$WATERMARK_TYPE" = "dmark" ]; then
+    echo "  variant=$DMARK_VARIANT"
+    echo "  gamma=$DMARK_GAMMA  delta=$DMARK_DELTA  seed=$DMARK_SEED"
+    if [ -n "$DMARK_WATERMARK_STEPS" ] && [ "$DMARK_WATERMARK_STEPS" != "None" ]; then
+        echo "  watermark_steps=$DMARK_WATERMARK_STEPS"
+    else
+        echo "  watermark_steps=all"
+    fi
 fi
 echo ""
 
@@ -331,6 +366,14 @@ elif [ "$WATERMARK_TYPE" = "gloaguen" ]; then
     fi
     if [ -n "$GLOAGUEN_WATERMARK_STEPS" ] && [ "$GLOAGUEN_WATERMARK_STEPS" != "None" ]; then
         CMD="$CMD --watermark_steps $GLOAGUEN_WATERMARK_STEPS"
+    fi
+elif [ "$WATERMARK_TYPE" = "dmark" ]; then
+    CMD="$CMD --dmark_variant $DMARK_VARIANT"
+    CMD="$CMD --dmark_seed $DMARK_SEED"
+    CMD="$CMD --gamma $DMARK_GAMMA"
+    CMD="$CMD --amplification $DMARK_DELTA"
+    if [ -n "$DMARK_WATERMARK_STEPS" ] && [ "$DMARK_WATERMARK_STEPS" != "None" ]; then
+        CMD="$CMD --dmark_watermark_steps $DMARK_WATERMARK_STEPS"
     fi
 fi
 

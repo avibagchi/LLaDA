@@ -371,6 +371,203 @@ def calculate_aaronson_watermark_score(generated_tokens, vocab_size=126464, seed
     return watermark_score, actual_length, per_token_scores
 
 
+# ---------------------------------------------------------------------------
+# DMark: Order-Agnostic Watermarking (Wu et al., 2025)
+# ---------------------------------------------------------------------------
+_DMARK_C1 = 2654435761   # Knuth multiplicative hash constant
+_DMARK_C2 = 1013904223   # LCG additive constant
+_DMARK_C3 = 1664525      # LCG multiplicative constant
+_DMARK_MIX = 0x45d9f3b   # Wang hash multiplier
+
+
+def _dmark_hash_score_scalar(secret_key, context_token, target_token):
+    """
+    Scalar pseudo-random score in [0,1) for a (context, target) pair.
+    target is 'forward-green' iff score < gamma.
+    Must match the vectorized version exactly.
+    """
+    h = (int(secret_key) * _DMARK_C1) ^ (int(context_token) * _DMARK_C2) ^ (int(target_token) * _DMARK_C3)
+    h = h & 0xFFFFFFFF
+    h = (((h >> 16) ^ h) * _DMARK_MIX) & 0xFFFFFFFF
+    h = (((h >> 16) ^ h) * _DMARK_MIX) & 0xFFFFFFFF
+    h = (h >> 16) ^ h
+    return (h & 0x7FFFFFFF) / 2147483647.0
+
+
+def _dmark_forward_green_mask(secret_key, context_token, vocab_size, gamma, device):
+    """
+    Forward green mask G_i(context): token v is green iff score(key, context, v) < gamma.
+    Returns [vocab_size] bool tensor.
+    """
+    key = int(secret_key) & 0xFFFFFFFF
+    ctx = int(context_token) & 0xFFFFFFFF
+    base = (key * _DMARK_C1 ^ ctx * _DMARK_C2) & 0xFFFFFFFF
+    all_v = torch.arange(vocab_size, dtype=torch.int64, device=device)
+    h = (base ^ (all_v * _DMARK_C3)) & 0xFFFFFFFF
+    h = (((h >> 16) ^ h) * _DMARK_MIX) & 0xFFFFFFFF
+    h = (((h >> 16) ^ h) * _DMARK_MIX) & 0xFFFFFFFF
+    h = (h >> 16) ^ h
+    scores = (h & 0x7FFFFFFF).float() / 2147483647.0
+    return scores < gamma
+
+
+def _dmark_backward_green_mask(secret_key, target_token, vocab_size, gamma, device):
+    """
+    Backward green mask G'_i(target): candidate v is backward-green iff
+    target ∈ forward_green(key, v), i.e. score(key, v, target) < gamma.
+    Returns [vocab_size] bool tensor.
+    """
+    key = int(secret_key) & 0xFFFFFFFF
+    tgt = int(target_token) & 0xFFFFFFFF
+    all_v = torch.arange(vocab_size, dtype=torch.int64, device=device)
+    base_v = (key * _DMARK_C1 ^ all_v * _DMARK_C2) & 0xFFFFFFFF
+    h = (base_v ^ (tgt * _DMARK_C3)) & 0xFFFFFFFF
+    h = (((h >> 16) ^ h) * _DMARK_MIX) & 0xFFFFFFFF
+    h = (((h >> 16) ^ h) * _DMARK_MIX) & 0xFFFFFFFF
+    h = (h >> 16) ^ h
+    scores = (h & 0x7FFFFFFF).float() / 2147483647.0
+    return scores < gamma
+
+
+def apply_dmark_watermark(logits, x, block_mask, secret_key, gamma, delta,
+                          vocab_size, variant, mask_id):
+    """
+    Apply DMark logit bias for all positions flagged in block_mask.
+
+    variant: 'predictive' | 'bidirectional' | 'predictive_bidirectional'
+    block_mask: [1, seq_len] bool — True at positions to watermark (masked & in current block)
+    """
+    if delta <= 0:
+        return logits
+
+    modified = logits.clone()
+    seq_len = logits.shape[1]
+    device = logits.device
+
+    fwd_cache = {}   # context_token  -> [vocab_size] bool
+    bwd_cache = {}   # target_token   -> [vocab_size] bool
+
+    use_fwd = variant in ('predictive', 'bidirectional', 'predictive_bidirectional')
+    use_bwd = variant in ('bidirectional', 'predictive_bidirectional')
+    predict_missing = variant in ('predictive', 'predictive_bidirectional')
+
+    for pos in range(seq_len):
+        if not block_mask[0, pos]:
+            continue
+
+        fwd_ctx = None
+        bwd_ctx = None
+
+        if use_fwd and pos > 0:
+            prev = x[0, pos - 1].item()
+            if prev != mask_id:
+                fwd_ctx = prev
+            elif predict_missing:
+                fwd_ctx = torch.argmax(logits[0, pos - 1]).item()
+
+        if use_bwd and pos < seq_len - 1:
+            nxt = x[0, pos + 1].item()
+            if nxt != mask_id:
+                bwd_ctx = nxt
+            elif variant == 'predictive_bidirectional':
+                bwd_ctx = torch.argmax(logits[0, pos + 1]).item()
+
+        if fwd_ctx is None and bwd_ctx is None:
+            continue
+
+        bias = torch.zeros(vocab_size, device=device)
+
+        if fwd_ctx is not None:
+            if fwd_ctx not in fwd_cache:
+                fwd_cache[fwd_ctx] = _dmark_forward_green_mask(
+                    secret_key, fwd_ctx, vocab_size, gamma, device)
+            bias = bias + delta * fwd_cache[fwd_ctx].float()
+
+        if bwd_ctx is not None:
+            if bwd_ctx not in bwd_cache:
+                bwd_cache[bwd_ctx] = _dmark_backward_green_mask(
+                    secret_key, bwd_ctx, vocab_size, gamma, device)
+            bias = bias + delta * bwd_cache[bwd_ctx].float()
+
+        modified[0, pos] = modified[0, pos] + bias
+
+    return modified
+
+
+def calculate_dmark_score(generated_tokens, secret_key=42, gamma=0.5, vocab_size=126464,
+                          variant='predictive_bidirectional', mask_id=126336):
+    """
+    Calculate DMark watermark z-score for generated text.
+
+    Returns: (z_score, valid_positions)
+    Under the null (no watermark), z ~ N(0,1) and threshold z >= 4 gives ~0.003% FPR.
+    """
+    tokens = generated_tokens[0]
+    actual_end = len(tokens)
+    for i, t in enumerate(tokens):
+        if t.item() in [50256, 2, 126081]:
+            actual_end = i
+            break
+
+    SPECIAL = {50256, 2, 126081, mask_id}
+
+    use_fwd = variant in ('predictive', 'bidirectional', 'predictive_bidirectional')
+    use_bwd = variant in ('bidirectional', 'predictive_bidirectional')
+
+    count_green = 0
+    valid_positions = 0
+
+    for i in range(actual_end):
+        tok = tokens[i].item()
+        if tok in SPECIAL:
+            continue
+
+        fwd_ctx = None
+        bwd_ctx = None
+
+        if use_fwd and i > 0 and tokens[i - 1].item() not in SPECIAL:
+            fwd_ctx = tokens[i - 1].item()
+
+        if use_bwd and i < actual_end - 1 and tokens[i + 1].item() not in SPECIAL:
+            bwd_ctx = tokens[i + 1].item()
+
+        if fwd_ctx is None and bwd_ctx is None:
+            continue
+
+        valid_positions += 1
+        is_green = False
+
+        if fwd_ctx is not None:
+            if _dmark_hash_score_scalar(secret_key, fwd_ctx, tok) < gamma:
+                is_green = True
+
+        if bwd_ctx is not None:
+            # tok is backward-green iff score(key, tok, bwd_ctx) < gamma
+            if _dmark_hash_score_scalar(secret_key, tok, bwd_ctx) < gamma:
+                is_green = True
+
+        if is_green:
+            count_green += 1
+
+    if valid_positions == 0:
+        return 0.0, 0
+
+    # Expected green fraction under null:
+    # forward-only: gamma; bidirectional (OR): 2*gamma - gamma^2
+    if use_bwd:
+        gamma_eff = 2.0 * gamma - gamma * gamma
+    else:
+        gamma_eff = gamma
+
+    expected = gamma_eff * valid_positions
+    std = math.sqrt(gamma_eff * (1.0 - gamma_eff) * valid_positions + 1e-10)
+    z_score = (count_green - expected) / std
+    return z_score, valid_positions
+
+
+# ---------------------------------------------------------------------------
+
+
 def get_num_transfer_tokens(mask_index, steps):
     '''
     In the reverse process, the interval [0, 1] is uniformly discretized into steps intervals.
@@ -416,11 +613,12 @@ def _should_watermark(i, watermark_steps):
 
 @ torch.no_grad()
 def generate(model, prompt, steps=128, gen_length=128, block_length=128, temperature=0.,
-             cfg_scale=0., remasking='low_confidence', mask_id=126336, 
-             gamma=0.5, amplification=0.0, vocab_size=126464, watermark_steps=None, 
+             cfg_scale=0., remasking='low_confidence', mask_id=126336,
+             gamma=0.5, amplification=0.0, vocab_size=126464, watermark_steps=None,
              special_token_ids=None, watermark_type='green_list', aaronson_seed=42,
              aaronson_remasking_strategy='original', aaronson_tau_wm=0.2, aaronson_tau_orig=0.01, aaronson_lambda=0.7,
-             gloaguen_watermark=None):
+             gloaguen_watermark=None,
+             dmark_variant='predictive_bidirectional', dmark_seed=42):
     '''
     Args:
         model: Mask predictor.
@@ -563,6 +761,19 @@ def generate(model, prompt, steps=128, gen_length=128, block_length=128, tempera
                         sampling_logits, current_block_mask, vocab_size, 
                         position_offset=0, seed=aaronson_seed,
                         special_token_ids=special_token_ids
+                    )
+
+            elif watermark_type == 'dmark':
+                if _should_watermark(i, watermark_steps):
+                    current_block_start = prompt.shape[1] + num_block * block_length
+                    current_block_end = prompt.shape[1] + (num_block + 1) * block_length
+                    current_block_mask = torch.zeros_like(x, dtype=torch.bool)
+                    current_block_mask[:, current_block_start:current_block_end] = True
+                    current_block_mask = current_block_mask & mask_index
+                    sampling_logits = apply_dmark_watermark(
+                        sampling_logits, x, current_block_mask,
+                        secret_key=dmark_seed, gamma=gamma, delta=amplification,
+                        vocab_size=vocab_size, variant=dmark_variant, mask_id=mask_id
                     )
 
             # Use sampling_logits for Gumbel noise and argmax (for sampling)
