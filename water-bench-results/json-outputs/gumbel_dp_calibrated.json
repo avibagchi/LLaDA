@@ -1,0 +1,805 @@
+{
+  "timestamp": "2026-08-21T16:15:33.922591",
+  "config": {
+    "jsonl_file": "water-bench-sampled_100_seed43.jsonl",
+    "output_dir": "water-bench-results/json-outputs",
+    "model_path": "GSAI-ML/LLaDA-8B-Instruct",
+    "device": "cuda:1",
+    "watermark_seed": 42,
+    "gen_length": 64,
+    "steps": 64,
+    "temperature": 0.5,
+    "block_length": 32,
+    "mask_id": 126336,
+    "vocab_size": 126464,
+    "watermark_steps": 200,
+    "n_samples": 5,
+    "n_null_samples": 5,
+    "n_null_edit_draws": 3,
+    "fpr_target": 0.01,
+    "edit_seed": 99,
+    "null_edit_seed": 1337
+  },
+  "epsilon_values": [
+    0.0,
+    0.1,
+    0.2,
+    0.3
+  ],
+  "edit_types": [
+    "sub",
+    "del",
+    "ins",
+    "mixed"
+  ],
+  "k_multipliers": [
+    0.0,
+    0.5,
+    1.0,
+    1.5,
+    2.0
+  ],
+  "fpr_target": 0.01,
+  "summary": {
+    "sub": {
+      "eps=0.00": {
+        "k_mult=0.0": {
+          "wm_mean": 0.9611,
+          "null_mean": 1.0155,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.0988,
+          "det_rate_fixed": 0.0,
+          "det_rate_calibrated": 0.0,
+          "n_null_trials": 5
+        },
+        "k_mult=0.5": {
+          "wm_mean": 0.9611,
+          "null_mean": 1.0155,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.0988,
+          "det_rate_fixed": 0.0,
+          "det_rate_calibrated": 0.0,
+          "n_null_trials": 5
+        },
+        "k_mult=1.0": {
+          "wm_mean": 0.9611,
+          "null_mean": 1.0155,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.0988,
+          "det_rate_fixed": 0.0,
+          "det_rate_calibrated": 0.0,
+          "n_null_trials": 5
+        },
+        "k_mult=1.5": {
+          "wm_mean": 0.9611,
+          "null_mean": 1.0155,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.0988,
+          "det_rate_fixed": 0.0,
+          "det_rate_calibrated": 0.0,
+          "n_null_trials": 5
+        },
+        "k_mult=2.0": {
+          "wm_mean": 0.9611,
+          "null_mean": 1.0155,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.0988,
+          "det_rate_fixed": 0.0,
+          "det_rate_calibrated": 0.0,
+          "n_null_trials": 5
+        }
+      },
+      "eps=0.10": {
+        "k_mult=0.0": {
+          "wm_mean": 0.9793,
+          "null_mean": 1.0038,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.116,
+          "det_rate_fixed": 0.0,
+          "det_rate_calibrated": 0.0,
+          "n_null_trials": 15
+        },
+        "k_mult=0.5": {
+          "wm_mean": 0.9793,
+          "null_mean": 1.0038,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.116,
+          "det_rate_fixed": 0.0,
+          "det_rate_calibrated": 0.0,
+          "n_null_trials": 15
+        },
+        "k_mult=1.0": {
+          "wm_mean": 0.9793,
+          "null_mean": 1.0038,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.116,
+          "det_rate_fixed": 0.0,
+          "det_rate_calibrated": 0.0,
+          "n_null_trials": 15
+        },
+        "k_mult=1.5": {
+          "wm_mean": 0.9793,
+          "null_mean": 1.0038,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.116,
+          "det_rate_fixed": 0.0,
+          "det_rate_calibrated": 0.0,
+          "n_null_trials": 15
+        },
+        "k_mult=2.0": {
+          "wm_mean": 0.9793,
+          "null_mean": 1.0038,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.116,
+          "det_rate_fixed": 0.0,
+          "det_rate_calibrated": 0.0,
+          "n_null_trials": 15
+        }
+      },
+      "eps=0.20": {
+        "k_mult=0.0": {
+          "wm_mean": 0.9596,
+          "null_mean": 0.9907,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.1999,
+          "det_rate_fixed": 0.0,
+          "det_rate_calibrated": 0.0,
+          "n_null_trials": 15
+        },
+        "k_mult=0.5": {
+          "wm_mean": 0.9596,
+          "null_mean": 0.9907,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.1999,
+          "det_rate_fixed": 0.0,
+          "det_rate_calibrated": 0.0,
+          "n_null_trials": 15
+        },
+        "k_mult=1.0": {
+          "wm_mean": 0.9596,
+          "null_mean": 0.9907,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.1999,
+          "det_rate_fixed": 0.0,
+          "det_rate_calibrated": 0.0,
+          "n_null_trials": 15
+        },
+        "k_mult=1.5": {
+          "wm_mean": 0.9596,
+          "null_mean": 0.9907,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.1999,
+          "det_rate_fixed": 0.0,
+          "det_rate_calibrated": 0.0,
+          "n_null_trials": 15
+        },
+        "k_mult=2.0": {
+          "wm_mean": 0.9596,
+          "null_mean": 0.9907,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.1999,
+          "det_rate_fixed": 0.0,
+          "det_rate_calibrated": 0.0,
+          "n_null_trials": 15
+        }
+      },
+      "eps=0.30": {
+        "k_mult=0.0": {
+          "wm_mean": 1.0297,
+          "null_mean": 1.0316,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.2255,
+          "det_rate_fixed": 0.2,
+          "det_rate_calibrated": 0.0,
+          "n_null_trials": 15
+        },
+        "k_mult=0.5": {
+          "wm_mean": 1.0297,
+          "null_mean": 1.0316,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.2255,
+          "det_rate_fixed": 0.2,
+          "det_rate_calibrated": 0.0,
+          "n_null_trials": 15
+        },
+        "k_mult=1.0": {
+          "wm_mean": 1.0297,
+          "null_mean": 1.0316,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.2255,
+          "det_rate_fixed": 0.2,
+          "det_rate_calibrated": 0.0,
+          "n_null_trials": 15
+        },
+        "k_mult=1.5": {
+          "wm_mean": 1.0297,
+          "null_mean": 1.0316,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.2255,
+          "det_rate_fixed": 0.2,
+          "det_rate_calibrated": 0.0,
+          "n_null_trials": 15
+        },
+        "k_mult=2.0": {
+          "wm_mean": 1.0297,
+          "null_mean": 1.0316,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.2255,
+          "det_rate_fixed": 0.2,
+          "det_rate_calibrated": 0.0,
+          "n_null_trials": 15
+        }
+      }
+    },
+    "del": {
+      "eps=0.00": {
+        "k_mult=0.0": {
+          "wm_mean": 0.9611,
+          "null_mean": 1.0155,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.0988,
+          "det_rate_fixed": 0.0,
+          "det_rate_calibrated": 0.0,
+          "n_null_trials": 5
+        },
+        "k_mult=0.5": {
+          "wm_mean": 0.9611,
+          "null_mean": 1.0155,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.0988,
+          "det_rate_fixed": 0.0,
+          "det_rate_calibrated": 0.0,
+          "n_null_trials": 5
+        },
+        "k_mult=1.0": {
+          "wm_mean": 0.9611,
+          "null_mean": 1.0155,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.0988,
+          "det_rate_fixed": 0.0,
+          "det_rate_calibrated": 0.0,
+          "n_null_trials": 5
+        },
+        "k_mult=1.5": {
+          "wm_mean": 0.9611,
+          "null_mean": 1.0155,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.0988,
+          "det_rate_fixed": 0.0,
+          "det_rate_calibrated": 0.0,
+          "n_null_trials": 5
+        },
+        "k_mult=2.0": {
+          "wm_mean": 0.9611,
+          "null_mean": 1.0155,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.0988,
+          "det_rate_fixed": 0.0,
+          "det_rate_calibrated": 0.0,
+          "n_null_trials": 5
+        }
+      },
+      "eps=0.10": {
+        "k_mult=0.0": {
+          "wm_mean": null,
+          "null_mean": null,
+          "tau_fixed": 1.19,
+          "tau_calibrated": null,
+          "det_rate_fixed": null,
+          "det_rate_calibrated": null,
+          "n_null_trials": 0
+        },
+        "k_mult=0.5": {
+          "wm_mean": null,
+          "null_mean": null,
+          "tau_fixed": 1.19,
+          "tau_calibrated": null,
+          "det_rate_fixed": null,
+          "det_rate_calibrated": null,
+          "n_null_trials": 0
+        },
+        "k_mult=1.0": {
+          "wm_mean": 1.5107,
+          "null_mean": 1.4951,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.6752,
+          "det_rate_fixed": 1.0,
+          "det_rate_calibrated": 0.2,
+          "n_null_trials": 15
+        },
+        "k_mult=1.5": {
+          "wm_mean": 1.6754,
+          "null_mean": 1.6156,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.7741,
+          "det_rate_fixed": 1.0,
+          "det_rate_calibrated": 0.2,
+          "n_null_trials": 15
+        },
+        "k_mult=2.0": {
+          "wm_mean": 1.9008,
+          "null_mean": 1.8131,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.9212,
+          "det_rate_fixed": 1.0,
+          "det_rate_calibrated": 0.4,
+          "n_null_trials": 15
+        }
+      },
+      "eps=0.20": {
+        "k_mult=0.0": {
+          "wm_mean": null,
+          "null_mean": null,
+          "tau_fixed": 1.19,
+          "tau_calibrated": null,
+          "det_rate_fixed": null,
+          "det_rate_calibrated": null,
+          "n_null_trials": 0
+        },
+        "k_mult=0.5": {
+          "wm_mean": null,
+          "null_mean": null,
+          "tau_fixed": 1.19,
+          "tau_calibrated": null,
+          "det_rate_fixed": null,
+          "det_rate_calibrated": null,
+          "n_null_trials": 0
+        },
+        "k_mult=1.0": {
+          "wm_mean": 1.8595,
+          "null_mean": 1.7804,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.9443,
+          "det_rate_fixed": 1.0,
+          "det_rate_calibrated": 0.4,
+          "n_null_trials": 15
+        },
+        "k_mult=1.5": {
+          "wm_mean": 2.1561,
+          "null_mean": 2.0715,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 2.2201,
+          "det_rate_fixed": 1.0,
+          "det_rate_calibrated": 0.4,
+          "n_null_trials": 15
+        },
+        "k_mult=2.0": {
+          "wm_mean": 2.4201,
+          "null_mean": 2.2859,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 2.4022,
+          "det_rate_fixed": 1.0,
+          "det_rate_calibrated": 0.4,
+          "n_null_trials": 15
+        }
+      },
+      "eps=0.30": {
+        "k_mult=0.0": {
+          "wm_mean": null,
+          "null_mean": null,
+          "tau_fixed": 1.19,
+          "tau_calibrated": null,
+          "det_rate_fixed": null,
+          "det_rate_calibrated": null,
+          "n_null_trials": 0
+        },
+        "k_mult=0.5": {
+          "wm_mean": null,
+          "null_mean": null,
+          "tau_fixed": 1.19,
+          "tau_calibrated": null,
+          "det_rate_fixed": null,
+          "det_rate_calibrated": null,
+          "n_null_trials": 0
+        },
+        "k_mult=1.0": {
+          "wm_mean": 2.1224,
+          "null_mean": 1.9608,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 2.233,
+          "det_rate_fixed": 1.0,
+          "det_rate_calibrated": 0.2,
+          "n_null_trials": 15
+        },
+        "k_mult=1.5": {
+          "wm_mean": 2.5615,
+          "null_mean": 2.373,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 2.6121,
+          "det_rate_fixed": 1.0,
+          "det_rate_calibrated": 0.4,
+          "n_null_trials": 15
+        },
+        "k_mult=2.0": {
+          "wm_mean": 2.9045,
+          "null_mean": 2.7423,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 3.0067,
+          "det_rate_fixed": 1.0,
+          "det_rate_calibrated": 0.2,
+          "n_null_trials": 15
+        }
+      }
+    },
+    "ins": {
+      "eps=0.00": {
+        "k_mult=0.0": {
+          "wm_mean": 0.9611,
+          "null_mean": 1.0155,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.0988,
+          "det_rate_fixed": 0.0,
+          "det_rate_calibrated": 0.0,
+          "n_null_trials": 5
+        },
+        "k_mult=0.5": {
+          "wm_mean": 0.9611,
+          "null_mean": 1.0155,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.0988,
+          "det_rate_fixed": 0.0,
+          "det_rate_calibrated": 0.0,
+          "n_null_trials": 5
+        },
+        "k_mult=1.0": {
+          "wm_mean": 0.9611,
+          "null_mean": 1.0155,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.0988,
+          "det_rate_fixed": 0.0,
+          "det_rate_calibrated": 0.0,
+          "n_null_trials": 5
+        },
+        "k_mult=1.5": {
+          "wm_mean": 0.9611,
+          "null_mean": 1.0155,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.0988,
+          "det_rate_fixed": 0.0,
+          "det_rate_calibrated": 0.0,
+          "n_null_trials": 5
+        },
+        "k_mult=2.0": {
+          "wm_mean": 0.9611,
+          "null_mean": 1.0155,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.0988,
+          "det_rate_fixed": 0.0,
+          "det_rate_calibrated": 0.0,
+          "n_null_trials": 5
+        }
+      },
+      "eps=0.10": {
+        "k_mult=0.0": {
+          "wm_mean": null,
+          "null_mean": null,
+          "tau_fixed": 1.19,
+          "tau_calibrated": null,
+          "det_rate_fixed": null,
+          "det_rate_calibrated": null,
+          "n_null_trials": 0
+        },
+        "k_mult=0.5": {
+          "wm_mean": null,
+          "null_mean": null,
+          "tau_fixed": 1.19,
+          "tau_calibrated": null,
+          "det_rate_fixed": null,
+          "det_rate_calibrated": null,
+          "n_null_trials": 0
+        },
+        "k_mult=1.0": {
+          "wm_mean": 1.5527,
+          "null_mean": 1.4717,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.6593,
+          "det_rate_fixed": 1.0,
+          "det_rate_calibrated": 0.2,
+          "n_null_trials": 15
+        },
+        "k_mult=1.5": {
+          "wm_mean": 1.6754,
+          "null_mean": 1.6213,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.7581,
+          "det_rate_fixed": 1.0,
+          "det_rate_calibrated": 0.2,
+          "n_null_trials": 15
+        },
+        "k_mult=2.0": {
+          "wm_mean": 1.8716,
+          "null_mean": 1.8065,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.9312,
+          "det_rate_fixed": 1.0,
+          "det_rate_calibrated": 0.2,
+          "n_null_trials": 15
+        }
+      },
+      "eps=0.20": {
+        "k_mult=0.0": {
+          "wm_mean": null,
+          "null_mean": null,
+          "tau_fixed": 1.19,
+          "tau_calibrated": null,
+          "det_rate_fixed": null,
+          "det_rate_calibrated": null,
+          "n_null_trials": 0
+        },
+        "k_mult=0.5": {
+          "wm_mean": null,
+          "null_mean": null,
+          "tau_fixed": 1.19,
+          "tau_calibrated": null,
+          "det_rate_fixed": null,
+          "det_rate_calibrated": null,
+          "n_null_trials": 0
+        },
+        "k_mult=1.0": {
+          "wm_mean": 1.7828,
+          "null_mean": 1.7197,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.8723,
+          "det_rate_fixed": 1.0,
+          "det_rate_calibrated": 0.2,
+          "n_null_trials": 15
+        },
+        "k_mult=1.5": {
+          "wm_mean": 2.0868,
+          "null_mean": 1.9775,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 2.094,
+          "det_rate_fixed": 1.0,
+          "det_rate_calibrated": 0.4,
+          "n_null_trials": 15
+        },
+        "k_mult=2.0": {
+          "wm_mean": 2.2898,
+          "null_mean": 2.1627,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 2.2934,
+          "det_rate_fixed": 1.0,
+          "det_rate_calibrated": 0.4,
+          "n_null_trials": 15
+        }
+      },
+      "eps=0.30": {
+        "k_mult=0.0": {
+          "wm_mean": null,
+          "null_mean": null,
+          "tau_fixed": 1.19,
+          "tau_calibrated": null,
+          "det_rate_fixed": null,
+          "det_rate_calibrated": null,
+          "n_null_trials": 0
+        },
+        "k_mult=0.5": {
+          "wm_mean": null,
+          "null_mean": null,
+          "tau_fixed": 1.19,
+          "tau_calibrated": null,
+          "det_rate_fixed": null,
+          "det_rate_calibrated": null,
+          "n_null_trials": 0
+        },
+        "k_mult=1.0": {
+          "wm_mean": 1.9258,
+          "null_mean": 1.8445,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 2.0577,
+          "det_rate_fixed": 1.0,
+          "det_rate_calibrated": 0.2,
+          "n_null_trials": 15
+        },
+        "k_mult=1.5": {
+          "wm_mean": 2.3075,
+          "null_mean": 2.1614,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 2.29,
+          "det_rate_fixed": 1.0,
+          "det_rate_calibrated": 0.4,
+          "n_null_trials": 15
+        },
+        "k_mult=2.0": {
+          "wm_mean": 2.6308,
+          "null_mean": 2.4501,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 2.5882,
+          "det_rate_fixed": 1.0,
+          "det_rate_calibrated": 0.6,
+          "n_null_trials": 15
+        }
+      }
+    },
+    "mixed": {
+      "eps=0.00": {
+        "k_mult=0.0": {
+          "wm_mean": 0.9611,
+          "null_mean": 1.0155,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.0988,
+          "det_rate_fixed": 0.0,
+          "det_rate_calibrated": 0.0,
+          "n_null_trials": 5
+        },
+        "k_mult=0.5": {
+          "wm_mean": 0.9611,
+          "null_mean": 1.0155,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.0988,
+          "det_rate_fixed": 0.0,
+          "det_rate_calibrated": 0.0,
+          "n_null_trials": 5
+        },
+        "k_mult=1.0": {
+          "wm_mean": 0.9611,
+          "null_mean": 1.0155,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.0988,
+          "det_rate_fixed": 0.0,
+          "det_rate_calibrated": 0.0,
+          "n_null_trials": 5
+        },
+        "k_mult=1.5": {
+          "wm_mean": 0.9611,
+          "null_mean": 1.0155,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.0988,
+          "det_rate_fixed": 0.0,
+          "det_rate_calibrated": 0.0,
+          "n_null_trials": 5
+        },
+        "k_mult=2.0": {
+          "wm_mean": 0.9611,
+          "null_mean": 1.0155,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.0988,
+          "det_rate_fixed": 0.0,
+          "det_rate_calibrated": 0.0,
+          "n_null_trials": 5
+        }
+      },
+      "eps=0.10": {
+        "k_mult=0.0": {
+          "wm_mean": 1.0252,
+          "null_mean": 1.0447,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.2219,
+          "det_rate_fixed": 0.0,
+          "det_rate_calibrated": 0.0,
+          "n_null_trials": 15
+        },
+        "k_mult=0.5": {
+          "wm_mean": 1.2663,
+          "null_mean": 1.2923,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.524,
+          "det_rate_fixed": 0.6,
+          "det_rate_calibrated": 0.0,
+          "n_null_trials": 15
+        },
+        "k_mult=1.0": {
+          "wm_mean": 1.4905,
+          "null_mean": 1.4599,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.6787,
+          "det_rate_fixed": 1.0,
+          "det_rate_calibrated": 0.2,
+          "n_null_trials": 15
+        },
+        "k_mult=1.5": {
+          "wm_mean": 1.6311,
+          "null_mean": 1.5829,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.7999,
+          "det_rate_fixed": 1.0,
+          "det_rate_calibrated": 0.4,
+          "n_null_trials": 15
+        },
+        "k_mult=2.0": {
+          "wm_mean": 1.7548,
+          "null_mean": 1.6852,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.8884,
+          "det_rate_fixed": 1.0,
+          "det_rate_calibrated": 0.4,
+          "n_null_trials": 15
+        }
+      },
+      "eps=0.20": {
+        "k_mult=0.0": {
+          "wm_mean": 0.9695,
+          "null_mean": 1.0658,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.1883,
+          "det_rate_fixed": 0.0,
+          "det_rate_calibrated": 0.0,
+          "n_null_trials": 15
+        },
+        "k_mult=0.5": {
+          "wm_mean": 1.3555,
+          "null_mean": 1.4443,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.6178,
+          "det_rate_fixed": 1.0,
+          "det_rate_calibrated": 0.0,
+          "n_null_trials": 15
+        },
+        "k_mult=1.0": {
+          "wm_mean": 1.6645,
+          "null_mean": 1.6388,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.7877,
+          "det_rate_fixed": 1.0,
+          "det_rate_calibrated": 0.2,
+          "n_null_trials": 15
+        },
+        "k_mult=1.5": {
+          "wm_mean": 1.8646,
+          "null_mean": 1.8176,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.9758,
+          "det_rate_fixed": 1.0,
+          "det_rate_calibrated": 0.2,
+          "n_null_trials": 15
+        },
+        "k_mult=2.0": {
+          "wm_mean": 2.0326,
+          "null_mean": 1.9585,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 2.1211,
+          "det_rate_fixed": 1.0,
+          "det_rate_calibrated": 0.2,
+          "n_null_trials": 15
+        }
+      },
+      "eps=0.30": {
+        "k_mult=0.0": {
+          "wm_mean": 0.9685,
+          "null_mean": 1.0315,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.2389,
+          "det_rate_fixed": 0.0,
+          "det_rate_calibrated": 0.0,
+          "n_null_trials": 15
+        },
+        "k_mult=0.5": {
+          "wm_mean": 1.5963,
+          "null_mean": 1.5573,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 1.7153,
+          "det_rate_fixed": 1.0,
+          "det_rate_calibrated": 0.0,
+          "n_null_trials": 15
+        },
+        "k_mult=1.0": {
+          "wm_mean": 1.8473,
+          "null_mean": 1.8355,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 2.0007,
+          "det_rate_fixed": 1.0,
+          "det_rate_calibrated": 0.0,
+          "n_null_trials": 15
+        },
+        "k_mult=1.5": {
+          "wm_mean": 2.085,
+          "null_mean": 2.0547,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 2.2571,
+          "det_rate_fixed": 1.0,
+          "det_rate_calibrated": 0.0,
+          "n_null_trials": 15
+        },
+        "k_mult=2.0": {
+          "wm_mean": 2.2864,
+          "null_mean": 2.2448,
+          "tau_fixed": 1.19,
+          "tau_calibrated": 2.4375,
+          "det_rate_fixed": 1.0,
+          "det_rate_calibrated": 0.0,
+          "n_null_trials": 15
+        }
+      }
+    }
+  }
+}
