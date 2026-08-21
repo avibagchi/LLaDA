@@ -566,6 +566,285 @@ def calculate_dmark_score(generated_tokens, secret_key=42, gamma=0.5, vocab_size
 
 
 # ---------------------------------------------------------------------------
+# CDMArk: CDMA-style holographic encoding (adapted to zero-bit, arXiv:2412.02217)
+# ---------------------------------------------------------------------------
+_CDMARK_SIGNAL_CACHE: dict = {}
+
+
+def get_cdmark_signal_vectors(vocab_size: int, m: int, seed: int, device):
+    """Build CDMArk signal matrix V ∈ R^{vocab_size × m} via QR orthogonalization."""
+    cache_key = (vocab_size, m, seed, str(device))
+    if cache_key in _CDMARK_SIGNAL_CACHE:
+        return _CDMARK_SIGNAL_CACHE[cache_key]
+    rng = torch.Generator()
+    rng.manual_seed(seed)
+    G = torch.randn(vocab_size, m, generator=rng, dtype=torch.float32)
+    G_prime = G - G.mean(dim=0, keepdim=True)
+    if m == 1:
+        norm = G_prime[:, 0].norm()
+        Q = G_prime / (norm + 1e-10)
+    else:
+        Q, _ = torch.linalg.qr(G_prime)
+    V = Q * (vocab_size ** 0.5)
+    V = V.to(device)
+    _CDMARK_SIGNAL_CACHE[cache_key] = V
+    return V
+
+
+def apply_cdmark_watermark(logits, block_mask, secret_key, delta, vocab_size, m=1):
+    """
+    CDMArk generation: logit bias = delta * (V[w] @ s) for each token w.
+    Zero-bit (m=1): s = [1], so bias = delta * V[:,0].
+    """
+    if delta <= 0:
+        return logits
+    device = logits.device
+    V = get_cdmark_signal_vectors(vocab_size, m, int(secret_key), device)
+    s = V.new_zeros(m)
+    s[0] = 1.0
+    bias = ((V @ s) * delta).to(logits.dtype)   # [vocab_size], match bfloat16
+    modified = logits.clone()
+    pos_mask = block_mask[0]         # [seq_len]
+    modified[0, pos_mask] = modified[0, pos_mask] + bias
+    return modified
+
+
+def calculate_cdmark_score(generated_tokens, secret_key=42, vocab_size=126464, m=1, mask_id=126336):
+    """
+    CDMArk detection (zero-bit).  z = sum(V[x_i,0]) / sqrt(N) ~ N(0,1) under null.
+    Returns (z_score, valid_positions).
+    """
+    tokens = generated_tokens[0]
+    SPECIAL = {50256, 2, 126081, mask_id}
+    device = tokens.device
+    V = get_cdmark_signal_vectors(vocab_size, m, int(secret_key), device)
+    signal = 0.0
+    count = 0
+    for tok in tokens:
+        t = tok.item()
+        if t in SPECIAL:
+            break
+        if t < vocab_size:
+            signal += V[t, 0].item()
+            count += 1
+    if count == 0:
+        return 0.0, 0
+    return float(signal / (count ** 0.5 + 1e-10)), count
+
+
+# ---------------------------------------------------------------------------
+# dgMARK: Decoding-Guided Watermarking (Yoo et al., 2024, arXiv:2411.xxxxx)
+# ---------------------------------------------------------------------------
+
+def _dgmark_parity_match(x0, secret_key, device, prompt_offset=0):
+    """
+    Returns [batch, seq_len] bool: True where predicted token matches position parity.
+    G_i = {v : hash(secret_key, v) % 2 == i % 2}
+    prompt_offset: subtract so parity is relative to generated sequence start,
+    matching detection which uses positions 0..n-1 within the generated tokens.
+    """
+    v = x0.long()
+    _, seq_len = v.shape
+    key_c1 = int(int(secret_key) * _DMARK_C1) & 0xFFFFFFFF
+    h = (key_c1 ^ (v * _DMARK_C3)) & 0xFFFFFFFF
+    h = (((h >> 16) ^ h) * _DMARK_MIX) & 0xFFFFFFFF
+    h = (((h >> 16) ^ h) * _DMARK_MIX) & 0xFFFFFFFF
+    h = (h >> 16) ^ h
+    token_parity = h % 2
+    pos = torch.arange(seq_len, device=device).unsqueeze(0) - prompt_offset
+    return token_parity == (pos % 2)
+
+
+def calculate_dgmark_score(generated_tokens, secret_key=42, vocab_size=126464, mask_id=126336):
+    """
+    dgMARK detection: z = (G - n/2) / sqrt(n/4).
+    G = count of positions where y_i ∈ G_i (parity match).
+    Returns (z_score, valid_positions).
+    """
+    tokens = generated_tokens[0]
+    SPECIAL = {50256, 2, 126081, mask_id}
+    key_c1 = int(int(secret_key) * _DMARK_C1) & 0xFFFFFFFF
+    count = 0
+    matches = 0
+    for i, tok in enumerate(tokens):
+        t = tok.item()
+        if t in SPECIAL:
+            break
+        count += 1
+        h = (key_c1 ^ (int(t) * _DMARK_C3)) & 0xFFFFFFFF
+        h = (((h >> 16) ^ h) * _DMARK_MIX) & 0xFFFFFFFF
+        h = (((h >> 16) ^ h) * _DMARK_MIX) & 0xFFFFFFFF
+        h = (h >> 16) ^ h
+        if (h % 2) == (i % 2):
+            matches += 1
+    if count == 0:
+        return 0.0, 0
+    expected = count / 2.0
+    std = math.sqrt(count / 4.0 + 1e-10)
+    return float((matches - expected) / std), count
+
+
+# ---------------------------------------------------------------------------
+# LR-DWM: Left-Right Diffusion Watermarking (Hou et al., 2025)
+# ---------------------------------------------------------------------------
+_LRDWM_KEY_MIX = 0x4B5D3A2E   # separates k_L and k_R derived from the same seed
+
+
+def apply_lrdwm_watermark(logits, x, block_mask, secret_key, gamma, delta, vocab_size, mask_id):
+    """
+    LR-DWM generation: bias logits using left green list (k_L) and right green list (k_R).
+    Uses only ACTUALLY revealed neighbors — no predictions, unlike DMark.
+    k_L = secret_key,  k_R = secret_key ^ _LRDWM_KEY_MIX.
+    """
+    if delta <= 0:
+        return logits
+    k_L = int(secret_key)
+    k_R = int(secret_key) ^ _LRDWM_KEY_MIX
+    modified = logits.clone()
+    seq_len = logits.shape[1]
+    device = logits.device
+    fwd_cache: dict = {}
+    bwd_cache: dict = {}
+    for pos in range(seq_len):
+        if not block_mask[0, pos]:
+            continue
+        fwd_ctx = None
+        bwd_ctx = None
+        if pos > 0:
+            prev = x[0, pos - 1].item()
+            if prev != mask_id:
+                fwd_ctx = prev
+        if pos < seq_len - 1:
+            nxt = x[0, pos + 1].item()
+            if nxt != mask_id:
+                bwd_ctx = nxt
+        if fwd_ctx is None and bwd_ctx is None:
+            continue
+        bias = torch.zeros(vocab_size, device=device)
+        if fwd_ctx is not None:
+            ck = (k_L, fwd_ctx)
+            if ck not in fwd_cache:
+                fwd_cache[ck] = _dmark_forward_green_mask(k_L, fwd_ctx, vocab_size, gamma, device)
+            bias = bias + delta * fwd_cache[ck].float()
+        if bwd_ctx is not None:
+            ck = (k_R, bwd_ctx)
+            if ck not in bwd_cache:
+                bwd_cache[ck] = _dmark_backward_green_mask(k_R, bwd_ctx, vocab_size, gamma, device)
+            bias = bias + delta * bwd_cache[ck].float()
+        modified[0, pos] = modified[0, pos] + bias
+    return modified
+
+
+def calculate_lrdwm_score(generated_tokens, secret_key=42, gamma=0.5, vocab_size=126464, mask_id=126336):
+    """
+    LR-DWM detection: s_i = m_L + m_R - 1 for interior positions with both neighbors.
+    Z = sum(s_i) / (sqrt(0.5) * sqrt(T)).  Returns (z_score, valid_positions).
+    """
+    tokens = generated_tokens[0]
+    k_L = int(secret_key)
+    k_R = int(secret_key) ^ _LRDWM_KEY_MIX
+    SPECIAL = {50256, 2, 126081, mask_id}
+    actual_end = len(tokens)
+    for i, t in enumerate(tokens):
+        if t.item() in SPECIAL:
+            actual_end = i
+            break
+    total_score = 0.0
+    count = 0
+    for i in range(1, actual_end - 1):
+        tok = tokens[i].item()
+        if tok in SPECIAL:
+            continue
+        left = tokens[i - 1].item()
+        right = tokens[i + 1].item()
+        if left in SPECIAL or right in SPECIAL:
+            continue
+        m_L = 1 if _dmark_hash_score_scalar(k_L, left, tok) < gamma else 0
+        m_R = 1 if _dmark_hash_score_scalar(k_R, tok, right) < gamma else 0
+        total_score += m_L + m_R - 1
+        count += 1
+    if count == 0:
+        return 0.0, 0
+    sigma = math.sqrt(0.5)
+    return float(total_score / (sigma * math.sqrt(count) + 1e-10)), count
+
+
+# ---------------------------------------------------------------------------
+# UMR: Unbiased Multi-bit Watermarking (Zhang et al., 2025, zero-bit adapted)
+# ---------------------------------------------------------------------------
+
+def apply_umr_watermark(logits, x, block_mask, secret_key, gamma, delta, vocab_size, mask_id):
+    """
+    UMR generation (zero-bit adaptation).
+    Unbiased multiplicative modulation: E[P_w] = P (no quality loss in expectation).
+    Stability constraint: only watermark if left neighbor is revealed.
+    P_w(v) = P(v)*(1+delta) if v ∈ green_list, else P(v)*(1 - delta*tau/(1-tau)).
+    """
+    if delta <= 0:
+        return logits
+    modified = logits.clone()
+    seq_len = logits.shape[1]
+    device = logits.device
+    fwd_cache: dict = {}
+    for pos in range(seq_len):
+        if not block_mask[0, pos]:
+            continue
+        if pos == 0:
+            continue
+        prev = x[0, pos - 1].item()
+        if prev == mask_id:
+            continue
+        if prev not in fwd_cache:
+            fwd_cache[prev] = _dmark_forward_green_mask(secret_key, prev, vocab_size, gamma, device)
+        green_mask = fwd_cache[prev]
+        probs = F.softmax(modified[0, pos].float(), dim=-1)
+        tau = probs[green_mask].sum().item()
+        if tau <= 0.0 or tau >= 1.0:
+            continue
+        delta_prime = float(delta) * tau / (1.0 - tau)
+        if delta_prime >= 1.0:
+            delta_prime = 1.0 - 1e-6
+        boost = torch.ones(vocab_size, dtype=torch.float32, device=device)
+        boost[green_mask] = 1.0 + float(delta)
+        boost[~green_mask] = 1.0 - delta_prime
+        new_probs = probs * boost
+        new_probs = new_probs / (new_probs.sum() + 1e-10)
+        modified[0, pos] = torch.log(new_probs + 1e-10).to(logits.dtype)
+    return modified
+
+
+def calculate_umr_score(generated_tokens, secret_key=42, gamma=0.5, vocab_size=126464, mask_id=126336):
+    """
+    UMR detection (zero-bit): forward KGW z-score over stable (left-neighbor-revealed) positions.
+    Returns (z_score, valid_positions).
+    """
+    tokens = generated_tokens[0]
+    SPECIAL = {50256, 2, 126081, mask_id}
+    actual_end = len(tokens)
+    for i, t in enumerate(tokens):
+        if t.item() in SPECIAL:
+            actual_end = i
+            break
+    count_green = 0
+    valid_positions = 0
+    for i in range(1, actual_end):
+        tok = tokens[i].item()
+        if tok in SPECIAL:
+            continue
+        prev = tokens[i - 1].item()
+        if prev in SPECIAL:
+            continue
+        valid_positions += 1
+        if _dmark_hash_score_scalar(int(secret_key), prev, tok) < gamma:
+            count_green += 1
+    if valid_positions == 0:
+        return 0.0, 0
+    expected = gamma * valid_positions
+    std = math.sqrt(gamma * (1.0 - gamma) * valid_positions + 1e-10)
+    return float((count_green - expected) / std), valid_positions
+
+
+# ---------------------------------------------------------------------------
 
 
 def get_num_transfer_tokens(mask_index, steps):
@@ -618,7 +897,11 @@ def generate(model, prompt, steps=128, gen_length=128, block_length=128, tempera
              special_token_ids=None, watermark_type='green_list', aaronson_seed=42,
              aaronson_remasking_strategy='original', aaronson_tau_wm=0.2, aaronson_tau_orig=0.01, aaronson_lambda=0.7,
              gloaguen_watermark=None,
-             dmark_variant='predictive_bidirectional', dmark_seed=42):
+             dmark_variant='predictive_bidirectional', dmark_seed=42,
+             cdmark_seed=42, cdmark_m=1,
+             dgmark_seed=42,
+             lrdwm_seed=42,
+             umr_seed=42):
     '''
     Args:
         model: Mask predictor.
@@ -776,6 +1059,45 @@ def generate(model, prompt, steps=128, gen_length=128, block_length=128, tempera
                         vocab_size=vocab_size, variant=dmark_variant, mask_id=mask_id
                     )
 
+            elif watermark_type == 'cdmark':
+                if _should_watermark(i, watermark_steps):
+                    current_block_start = prompt.shape[1] + num_block * block_length
+                    current_block_end = prompt.shape[1] + (num_block + 1) * block_length
+                    current_block_mask = torch.zeros_like(x, dtype=torch.bool)
+                    current_block_mask[:, current_block_start:current_block_end] = True
+                    current_block_mask = current_block_mask & mask_index
+                    sampling_logits = apply_cdmark_watermark(
+                        sampling_logits, current_block_mask,
+                        secret_key=cdmark_seed, delta=amplification,
+                        vocab_size=vocab_size, m=cdmark_m
+                    )
+
+            elif watermark_type == 'lrdwm':
+                if _should_watermark(i, watermark_steps):
+                    current_block_start = prompt.shape[1] + num_block * block_length
+                    current_block_end = prompt.shape[1] + (num_block + 1) * block_length
+                    current_block_mask = torch.zeros_like(x, dtype=torch.bool)
+                    current_block_mask[:, current_block_start:current_block_end] = True
+                    current_block_mask = current_block_mask & mask_index
+                    sampling_logits = apply_lrdwm_watermark(
+                        sampling_logits, x, current_block_mask,
+                        secret_key=lrdwm_seed, gamma=gamma, delta=amplification,
+                        vocab_size=vocab_size, mask_id=mask_id
+                    )
+
+            elif watermark_type == 'umr':
+                if _should_watermark(i, watermark_steps):
+                    current_block_start = prompt.shape[1] + num_block * block_length
+                    current_block_end = prompt.shape[1] + (num_block + 1) * block_length
+                    current_block_mask = torch.zeros_like(x, dtype=torch.bool)
+                    current_block_mask[:, current_block_start:current_block_end] = True
+                    current_block_mask = current_block_mask & mask_index
+                    sampling_logits = apply_umr_watermark(
+                        sampling_logits, x, current_block_mask,
+                        secret_key=umr_seed, gamma=gamma, delta=amplification,
+                        vocab_size=vocab_size, mask_id=mask_id
+                    )
+
             # Use sampling_logits for Gumbel noise and argmax (for sampling)
             logits_with_noise = add_gumbel_noise(sampling_logits, temperature=temperature)
             x0 = torch.argmax(logits_with_noise, dim=-1) # b, l
@@ -827,6 +1149,17 @@ def generate(model, prompt, steps=128, gen_length=128, block_length=128, tempera
 
             x0 = torch.where(mask_index, x0, x)
             confidence = torch.where(mask_index, x0_p, -np.inf)
+
+            # dgMARK: steer unmasking order by boosting parity-matching positions
+            if watermark_type == 'dgmark' and _should_watermark(i, watermark_steps):
+                dgmark_block_start = prompt.shape[1] + num_block * block_length
+                dgmark_block_end = prompt.shape[1] + (num_block + 1) * block_length
+                dgmark_block_mask = torch.zeros_like(x, dtype=torch.bool)
+                dgmark_block_mask[:, dgmark_block_start:dgmark_block_end] = True
+                dgmark_block_mask = dgmark_block_mask & mask_index
+                parity_match = _dgmark_parity_match(x0, dgmark_seed, x0.device, prompt_offset=prompt.shape[1])
+                boost_mask = parity_match & dgmark_block_mask
+                confidence = torch.where(boost_mask, confidence + 1e4, confidence)
 
             transfer_index = torch.zeros_like(x0, dtype=torch.bool, device=x0.device)
             for j in range(confidence.shape[0]):

@@ -72,6 +72,29 @@ DMARK_GAMMA=0.5
 DMARK_DELTA=2
 DMARK_WATERMARK_STEPS=""  # empty = all steps
 
+# CDMArk watermarking parameters (zero-bit adaptation)
+CDMARK_SEED=42
+CDMARK_M=1
+CDMARK_GAMMA=0.5
+CDMARK_DELTA=2
+CDMARK_WATERMARK_STEPS=""
+
+# dgMARK watermarking parameters
+DGMARK_SEED=42
+DGMARK_WATERMARK_STEPS=""
+
+# LR-DWM watermarking parameters
+LRDWM_SEED=42
+LRDWM_GAMMA=0.5
+LRDWM_DELTA=2
+LRDWM_WATERMARK_STEPS=""
+
+# UMR watermarking parameters (zero-bit adaptation)
+UMR_SEED=42
+UMR_GAMMA=0.5
+UMR_DELTA=2
+UMR_WATERMARK_STEPS=""
+
 # Parse arguments
 while [[ $# -gt 0 ]]; do
     case $1 in
@@ -200,6 +223,66 @@ while [[ $# -gt 0 ]]; do
             DMARK_WATERMARK_STEPS="$2"
             shift 2
             ;;
+        --cdmark_seed)
+            CDMARK_SEED="$2"
+            shift 2
+            ;;
+        --cdmark_m)
+            CDMARK_M="$2"
+            shift 2
+            ;;
+        --cdmark_gamma)
+            CDMARK_GAMMA="$2"
+            shift 2
+            ;;
+        --cdmark_delta)
+            CDMARK_DELTA="$2"
+            shift 2
+            ;;
+        --cdmark_watermark_steps)
+            CDMARK_WATERMARK_STEPS="$2"
+            shift 2
+            ;;
+        --dgmark_seed)
+            DGMARK_SEED="$2"
+            shift 2
+            ;;
+        --dgmark_watermark_steps)
+            DGMARK_WATERMARK_STEPS="$2"
+            shift 2
+            ;;
+        --lrdwm_seed)
+            LRDWM_SEED="$2"
+            shift 2
+            ;;
+        --lrdwm_gamma)
+            LRDWM_GAMMA="$2"
+            shift 2
+            ;;
+        --lrdwm_delta)
+            LRDWM_DELTA="$2"
+            shift 2
+            ;;
+        --lrdwm_watermark_steps)
+            LRDWM_WATERMARK_STEPS="$2"
+            shift 2
+            ;;
+        --umr_seed)
+            UMR_SEED="$2"
+            shift 2
+            ;;
+        --umr_gamma)
+            UMR_GAMMA="$2"
+            shift 2
+            ;;
+        --umr_delta)
+            UMR_DELTA="$2"
+            shift 2
+            ;;
+        --umr_watermark_steps)
+            UMR_WATERMARK_STEPS="$2"
+            shift 2
+            ;;
         *)
             echo "Unknown option: $1"
             exit 1
@@ -320,6 +403,18 @@ elif [ "$WATERMARK_TYPE" = "dmark" ]; then
     else
         echo "  watermark_steps=all"
     fi
+elif [ "$WATERMARK_TYPE" = "cdmark" ]; then
+    echo "  seed=$CDMARK_SEED  m=$CDMARK_M  gamma=$CDMARK_GAMMA  delta=$CDMARK_DELTA"
+    [ -n "$CDMARK_WATERMARK_STEPS" ] && echo "  watermark_steps=$CDMARK_WATERMARK_STEPS" || echo "  watermark_steps=all"
+elif [ "$WATERMARK_TYPE" = "dgmark" ]; then
+    echo "  seed=$DGMARK_SEED"
+    [ -n "$DGMARK_WATERMARK_STEPS" ] && echo "  watermark_steps=$DGMARK_WATERMARK_STEPS" || echo "  watermark_steps=all"
+elif [ "$WATERMARK_TYPE" = "lrdwm" ]; then
+    echo "  seed=$LRDWM_SEED  gamma=$LRDWM_GAMMA  delta=$LRDWM_DELTA"
+    [ -n "$LRDWM_WATERMARK_STEPS" ] && echo "  watermark_steps=$LRDWM_WATERMARK_STEPS" || echo "  watermark_steps=all"
+elif [ "$WATERMARK_TYPE" = "umr" ]; then
+    echo "  seed=$UMR_SEED  gamma=$UMR_GAMMA  delta=$UMR_DELTA"
+    [ -n "$UMR_WATERMARK_STEPS" ] && echo "  watermark_steps=$UMR_WATERMARK_STEPS" || echo "  watermark_steps=all"
 fi
 echo ""
 
@@ -374,6 +469,29 @@ elif [ "$WATERMARK_TYPE" = "dmark" ]; then
     CMD="$CMD --amplification $DMARK_DELTA"
     if [ -n "$DMARK_WATERMARK_STEPS" ] && [ "$DMARK_WATERMARK_STEPS" != "None" ]; then
         CMD="$CMD --dmark_watermark_steps $DMARK_WATERMARK_STEPS"
+    fi
+elif [ "$WATERMARK_TYPE" = "cdmark" ]; then
+    CMD="$CMD --cdmark_seed $CDMARK_SEED --cdmark_m $CDMARK_M"
+    CMD="$CMD --gamma $CDMARK_GAMMA --amplification $CDMARK_DELTA"
+    if [ -n "$CDMARK_WATERMARK_STEPS" ] && [ "$CDMARK_WATERMARK_STEPS" != "None" ]; then
+        CMD="$CMD --cdmark_watermark_steps $CDMARK_WATERMARK_STEPS"
+    fi
+elif [ "$WATERMARK_TYPE" = "dgmark" ]; then
+    CMD="$CMD --dgmark_seed $DGMARK_SEED"
+    if [ -n "$DGMARK_WATERMARK_STEPS" ] && [ "$DGMARK_WATERMARK_STEPS" != "None" ]; then
+        CMD="$CMD --dgmark_watermark_steps $DGMARK_WATERMARK_STEPS"
+    fi
+elif [ "$WATERMARK_TYPE" = "lrdwm" ]; then
+    CMD="$CMD --lrdwm_seed $LRDWM_SEED"
+    CMD="$CMD --gamma $LRDWM_GAMMA --amplification $LRDWM_DELTA"
+    if [ -n "$LRDWM_WATERMARK_STEPS" ] && [ "$LRDWM_WATERMARK_STEPS" != "None" ]; then
+        CMD="$CMD --lrdwm_watermark_steps $LRDWM_WATERMARK_STEPS"
+    fi
+elif [ "$WATERMARK_TYPE" = "umr" ]; then
+    CMD="$CMD --umr_seed $UMR_SEED"
+    CMD="$CMD --gamma $UMR_GAMMA --amplification $UMR_DELTA"
+    if [ -n "$UMR_WATERMARK_STEPS" ] && [ "$UMR_WATERMARK_STEPS" != "None" ]; then
+        CMD="$CMD --umr_watermark_steps $UMR_WATERMARK_STEPS"
     fi
 fi
 

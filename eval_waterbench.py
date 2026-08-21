@@ -16,7 +16,8 @@ if _DLM_WM_SRC.is_dir() and str(_DLM_WM_SRC) not in sys.path:
 from tqdm import tqdm
 from transformers import AutoTokenizer, AutoModel, AutoModelForCausalLM
 from generate import (generate, calculate_aaronson_watermark_score, calculate_green_matches,
-                       calculate_dmark_score, get_special_token_ids)
+                       calculate_dmark_score, calculate_cdmark_score, calculate_dgmark_score,
+                       calculate_lrdwm_score, calculate_umr_score, get_special_token_ids)
 import math
 
 
@@ -116,8 +117,9 @@ def main():
     
     # Watermarking parameters
     parser.add_argument('--watermark_type', type=str, default='aaronson',
-                       choices=['aaronson', 'green_list', 'gloaguen', 'dmark', 'none'],
-                       help='Watermark type (aaronson, green_list, gloaguen, dmark, or none)')
+                       choices=['aaronson', 'green_list', 'gloaguen', 'dmark',
+                                'cdmark', 'dgmark', 'lrdwm', 'umr', 'none'],
+                       help='Watermark type')
     # DMark parameters
     parser.add_argument('--dmark_variant', type=str, default='predictive_bidirectional',
                        choices=['predictive', 'bidirectional', 'predictive_bidirectional'],
@@ -126,6 +128,28 @@ def main():
                        help='Secret key for DMark watermarking (default: 42)')
     parser.add_argument('--dmark_watermark_steps', type=int, default=None,
                        help='DMark: watermark only the first N diffusion steps (None = all steps)')
+    # CDMArk parameters
+    parser.add_argument('--cdmark_seed', type=int, default=42,
+                       help='Secret key for CDMArk signal vectors (default: 42)')
+    parser.add_argument('--cdmark_m', type=int, default=1,
+                       help='Signal dimension for CDMArk; 1 = zero-bit mode (default: 1)')
+    parser.add_argument('--cdmark_watermark_steps', type=int, default=None,
+                       help='CDMArk: watermark only the first N diffusion steps (None = all)')
+    # dgMARK parameters
+    parser.add_argument('--dgmark_seed', type=int, default=42,
+                       help='Secret key for dgMARK parity hash (default: 42)')
+    parser.add_argument('--dgmark_watermark_steps', type=int, default=None,
+                       help='dgMARK: watermark only the first N diffusion steps (None = all)')
+    # LR-DWM parameters
+    parser.add_argument('--lrdwm_seed', type=int, default=42,
+                       help='Secret key for LR-DWM (k_L = seed, k_R = seed XOR constant, default: 42)')
+    parser.add_argument('--lrdwm_watermark_steps', type=int, default=None,
+                       help='LR-DWM: watermark only the first N diffusion steps (None = all)')
+    # UMR parameters
+    parser.add_argument('--umr_seed', type=int, default=42,
+                       help='Secret key for UMR watermarking (default: 42)')
+    parser.add_argument('--umr_watermark_steps', type=int, default=None,
+                       help='UMR: watermark only the first N diffusion steps (None = all)')
     parser.add_argument('--watermark_steps', type=int, default=None, 
                        help='Watermark up to this step (None = all steps)')
     parser.add_argument('--gamma', type=float, default=0.5, 
@@ -266,6 +290,22 @@ def main():
             watermark_type_gen = 'dmark'
             amplification_gen = args.amplification
             wm_steps_gen = args.dmark_watermark_steps
+        elif args.watermark_type == 'cdmark':
+            watermark_type_gen = 'cdmark'
+            amplification_gen = args.amplification
+            wm_steps_gen = args.cdmark_watermark_steps
+        elif args.watermark_type == 'dgmark':
+            watermark_type_gen = 'dgmark'
+            amplification_gen = args.amplification
+            wm_steps_gen = args.dgmark_watermark_steps
+        elif args.watermark_type == 'lrdwm':
+            watermark_type_gen = 'lrdwm'
+            amplification_gen = args.amplification
+            wm_steps_gen = args.lrdwm_watermark_steps
+        elif args.watermark_type == 'umr':
+            watermark_type_gen = 'umr'
+            amplification_gen = args.amplification
+            wm_steps_gen = args.umr_watermark_steps
         else:
             watermark_type_gen = args.watermark_type
             amplification_gen = args.amplification if args.watermark_type == 'green_list' else None
@@ -294,6 +334,11 @@ def main():
                 gloaguen_watermark=gloaguen_wm,
                 dmark_variant=args.dmark_variant,
                 dmark_seed=args.dmark_seed,
+                cdmark_seed=args.cdmark_seed,
+                cdmark_m=args.cdmark_m,
+                dgmark_seed=args.dgmark_seed,
+                lrdwm_seed=args.lrdwm_seed,
+                umr_seed=args.umr_seed,
             )
         
         # Extract generated tokens
@@ -368,6 +413,41 @@ def main():
                 "length": int(valid_len),
                 "variant": args.dmark_variant,
             }
+        elif args.watermark_type == 'cdmark':
+            z_score, valid_len = calculate_cdmark_score(
+                generated_tokens.unsqueeze(0),
+                secret_key=args.cdmark_seed,
+                vocab_size=args.vocab_size,
+                m=args.cdmark_m,
+                mask_id=args.mask_id,
+            )
+            watermark_metrics = {"z_score": float(z_score), "length": int(valid_len)}
+        elif args.watermark_type == 'dgmark':
+            z_score, valid_len = calculate_dgmark_score(
+                generated_tokens.unsqueeze(0),
+                secret_key=args.dgmark_seed,
+                vocab_size=args.vocab_size,
+                mask_id=args.mask_id,
+            )
+            watermark_metrics = {"z_score": float(z_score), "length": int(valid_len)}
+        elif args.watermark_type == 'lrdwm':
+            z_score, valid_len = calculate_lrdwm_score(
+                generated_tokens.unsqueeze(0),
+                secret_key=args.lrdwm_seed,
+                gamma=args.gamma,
+                vocab_size=args.vocab_size,
+                mask_id=args.mask_id,
+            )
+            watermark_metrics = {"z_score": float(z_score), "length": int(valid_len)}
+        elif args.watermark_type == 'umr':
+            z_score, valid_len = calculate_umr_score(
+                generated_tokens.unsqueeze(0),
+                secret_key=args.umr_seed,
+                gamma=args.gamma,
+                vocab_size=args.vocab_size,
+                mask_id=args.mask_id,
+            )
+            watermark_metrics = {"z_score": float(z_score), "length": int(valid_len)}
         elif args.watermark_type == 'none':
             # Calculate Aaronson score even when no watermark was applied
             score, actual_length, per_token_scores = calculate_aaronson_watermark_score(
@@ -444,6 +524,21 @@ def main():
             "dmark_gamma": args.gamma if args.watermark_type == 'dmark' else None,
             "dmark_delta": args.amplification if args.watermark_type == 'dmark' else None,
             "dmark_watermark_steps": args.dmark_watermark_steps if args.watermark_type == 'dmark' else None,
+            "cdmark_seed": args.cdmark_seed if args.watermark_type == 'cdmark' else None,
+            "cdmark_m": args.cdmark_m if args.watermark_type == 'cdmark' else None,
+            "cdmark_gamma": args.gamma if args.watermark_type == 'cdmark' else None,
+            "cdmark_delta": args.amplification if args.watermark_type == 'cdmark' else None,
+            "cdmark_watermark_steps": args.cdmark_watermark_steps if args.watermark_type == 'cdmark' else None,
+            "dgmark_seed": args.dgmark_seed if args.watermark_type == 'dgmark' else None,
+            "dgmark_watermark_steps": args.dgmark_watermark_steps if args.watermark_type == 'dgmark' else None,
+            "lrdwm_seed": args.lrdwm_seed if args.watermark_type == 'lrdwm' else None,
+            "lrdwm_gamma": args.gamma if args.watermark_type == 'lrdwm' else None,
+            "lrdwm_delta": args.amplification if args.watermark_type == 'lrdwm' else None,
+            "lrdwm_watermark_steps": args.lrdwm_watermark_steps if args.watermark_type == 'lrdwm' else None,
+            "umr_seed": args.umr_seed if args.watermark_type == 'umr' else None,
+            "umr_gamma": args.gamma if args.watermark_type == 'umr' else None,
+            "umr_delta": args.amplification if args.watermark_type == 'umr' else None,
+            "umr_watermark_steps": args.umr_watermark_steps if args.watermark_type == 'umr' else None,
         },
         "total_prompts": len(results),
         "average_perplexity": avg_perplexity,
