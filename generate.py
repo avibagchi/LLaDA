@@ -779,12 +779,16 @@ def apply_umr_watermark(logits, x, block_mask, secret_key, gamma, delta, vocab_s
     Unbiased multiplicative modulation: E[P_w] = P (no quality loss in expectation).
     Stability constraint: only watermark if left neighbor is revealed.
     P_w(v) = P(v)*(1+delta) if v ∈ green_list, else P(v)*(1 - delta*tau/(1-tau)).
+
+    Returns (modified_logits, not_watermarked) where not_watermarked is a bool mask
+    of block positions that were skipped due to unstable context (for R-remasking).
     """
-    if delta <= 0:
-        return logits
-    modified = logits.clone()
     seq_len = logits.shape[1]
     device = logits.device
+    not_watermarked = torch.zeros(logits.shape[0], seq_len, dtype=torch.bool, device=device)
+    if delta <= 0:
+        return logits, not_watermarked
+    modified = logits.clone()
     fwd_cache: dict = {}
     for pos in range(seq_len):
         if not block_mask[0, pos]:
@@ -793,6 +797,7 @@ def apply_umr_watermark(logits, x, block_mask, secret_key, gamma, delta, vocab_s
             continue
         prev = x[0, pos - 1].item()
         if prev == mask_id:
+            not_watermarked[0, pos] = True  # unstable — candidate for R-remasking
             continue
         if prev not in fwd_cache:
             fwd_cache[prev] = _dmark_forward_green_mask(secret_key, prev, vocab_size, gamma, device)
@@ -810,7 +815,7 @@ def apply_umr_watermark(logits, x, block_mask, secret_key, gamma, delta, vocab_s
         new_probs = probs * boost
         new_probs = new_probs / (new_probs.sum() + 1e-10)
         modified[0, pos] = torch.log(new_probs + 1e-10).to(logits.dtype)
-    return modified
+    return modified, not_watermarked
 
 
 def calculate_umr_score(generated_tokens, secret_key=42, gamma=0.5, vocab_size=126464, mask_id=126336):
@@ -953,10 +958,28 @@ def generate(model, prompt, steps=128, gen_length=128, block_length=128, tempera
         full_seq_length = prompt.shape[1] + gen_length
         green_mask = generate_green_mask(full_seq_length, vocab_size, gamma, model.device)
 
+    # UMR Regret-based Remasking (R-remasking): tracks committed positions that
+    # were generated without watermark (unstable context) and re-masks them once
+    # their context stabilizes (Yang et al., ACL 2026, Algorithm 4-5).
+    umr_candidates = torch.zeros_like(x, dtype=torch.bool) if watermark_type == 'umr' else None
+
     for num_block in range(num_blocks):
         block_mask_index = (x[:, prompt.shape[1] + num_block * block_length: prompt.shape[1] + (num_block + 1) * block_length:] == mask_id)
         num_transfer_tokens = get_num_transfer_tokens(block_mask_index, steps)
         for i in range(steps):
+            # UMR R-remasking: before this step, force-remask candidates whose left or
+            # right neighbor is now committed (stable context), giving them a second
+            # watermarking chance this step.
+            if umr_candidates is not None and umr_candidates.any():
+                left_ok = torch.zeros_like(x, dtype=torch.bool)
+                right_ok = torch.zeros_like(x, dtype=torch.bool)
+                left_ok[:, 1:] = (x[:, :-1] != mask_id)
+                right_ok[:, :-1] = (x[:, 1:] != mask_id)
+                to_remask = umr_candidates & (left_ok | right_ok) & (x != mask_id)
+                if to_remask.any():
+                    x[to_remask] = mask_id
+                    umr_candidates[to_remask] = False
+
             mask_index = (x == mask_id)
             if cfg_scale > 0.:
                 un_x = x.clone()
@@ -971,10 +994,11 @@ def generate(model, prompt, steps=128, gen_length=128, block_length=128, tempera
             # Separate sampling and remasking logits (like diffusion-lm-watermark)
             # Keep original logits for remasking confidence calculation
             remasking_logits = logits.clone()
-            
+
             # Apply watermark to create sampling logits
             aaronson_choices = None  # Will hold watermarked token choices for Aaronson
             aaronson_wm_confidences = None  # Will hold watermark confidences for Aaronson
+            umr_not_watermarked = None  # Positions skipped by UMR due to unstable context
             sampling_logits = logits.clone()  # Start with original logits
             
             if watermark_type == 'green_list' and amplification > 0 and green_mask is not None:
@@ -1092,7 +1116,7 @@ def generate(model, prompt, steps=128, gen_length=128, block_length=128, tempera
                     current_block_mask = torch.zeros_like(x, dtype=torch.bool)
                     current_block_mask[:, current_block_start:current_block_end] = True
                     current_block_mask = current_block_mask & mask_index
-                    sampling_logits = apply_umr_watermark(
+                    sampling_logits, umr_not_watermarked = apply_umr_watermark(
                         sampling_logits, x, current_block_mask,
                         secret_key=umr_seed, gamma=gamma, delta=amplification,
                         vocab_size=vocab_size, mask_id=mask_id
@@ -1166,5 +1190,10 @@ def generate(model, prompt, steps=128, gen_length=128, block_length=128, tempera
                 _, select_index = torch.topk(confidence[j], k=num_transfer_tokens[j, i])
                 transfer_index[j, select_index] = True
             x[transfer_index] = x0[transfer_index]
+
+            # UMR R-remasking: positions committed this step without watermark
+            # (unstable context at the time of generation) become regret candidates.
+            if umr_candidates is not None and umr_not_watermarked is not None:
+                umr_candidates |= transfer_index & umr_not_watermarked
 
     return x

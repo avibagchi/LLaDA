@@ -338,6 +338,52 @@ def main():
     print(f"Generated {len(samples)} samples\n")
 
     # ------------------------------------------------------------------
+    # Phase 1b: generate unwatermarked sequences and score them
+    # ------------------------------------------------------------------
+    print("=== Phase 1b: Generating unwatermarked sequences ===")
+    # Maps sample_id -> T_0 score under the watermark key (null baseline)
+    unwatermarked_scores = {}
+
+    for idx, (entry, prompt_toks) in enumerate(zip(entries, prompt_tokens_list)):
+        if prompt_toks is None:
+            continue
+        prompt_tensor = torch.tensor([prompt_toks]).to(args.device)
+        with torch.no_grad():
+            out = generate(
+                model=model,
+                prompt=prompt_tensor,
+                steps=args.steps,
+                gen_length=args.gen_length,
+                block_length=args.block_length,
+                temperature=args.temperature,
+                remasking="low_confidence",
+                mask_id=args.mask_id,
+                watermark_type=None,
+                vocab_size=args.vocab_size,
+                special_token_ids=special_token_ids,
+            )
+        gen_toks = out[0, len(prompt_toks):]
+        actual_len = gen_toks.shape[0]
+        for j, t in enumerate(gen_toks):
+            if t.item() in eos_ids:
+                actual_len = j
+                break
+        uw_tokens = gen_toks[:actual_len].tolist()
+        L_uw = len(uw_tokens)
+        if L_uw > 0:
+            uw_mat = compute_score_matrix(
+                uw_tokens, L_uw, args.watermark_seed, len(prompt_toks), args.vocab_size
+            )
+            uw_tk = dp_detect(uw_mat, L_uw, L_uw, 0)
+            unwatermarked_scores[idx] = uw_tk.get(0, float("-inf"))
+        else:
+            unwatermarked_scores[idx] = float("-inf")
+        if (idx + 1) % 10 == 0:
+            print(f"  {idx + 1}/{len(entries)}")
+
+    print(f"Scored {len(unwatermarked_scores)} unwatermarked samples\n")
+
+    # ------------------------------------------------------------------
     # Phase 2: DP robustness ablation
     # ------------------------------------------------------------------
     print("=== Phase 2: DP robustness ablation ===")
@@ -352,9 +398,21 @@ def main():
         # (position_offset = prompt_len matches generation, which uses absolute pos)
         L_key = len(orig_tokens)
 
+        # Baseline: standard (k=0) score on unedited watermarked text
+        baseline_mat = compute_score_matrix(
+            orig_tokens, L_key, args.watermark_seed, prompt_len, args.vocab_size
+        )
+        baseline_tk = dp_detect(baseline_mat, L_key, L_key, 0)
+        baseline_score = baseline_tk.get(0, float("-inf"))
+
+        uw_score = unwatermarked_scores.get(sid, float("-inf"))
+
         sample_rec = {
             "sample_id": sid,
             "original_length": L_key,
+            "baseline_score": round(baseline_score, 6) if baseline_score > -1e30 else None,
+            "baseline_detected": baseline_score > DETECTION_THRESHOLD if baseline_score > -1e30 else False,
+            "unwatermarked_score": round(uw_score, 6) if uw_score > -1e30 else None,
             "edits": {},
         }
 
@@ -387,11 +445,13 @@ def main():
                     k_val = int(round(mult * n_shift))
                     k_clamped = min(k_val, k_max_budget)
                     score = tk_all.get(k_clamped, float("-inf"))
+                    beats_uw = (score > uw_score) if (score > -1e30 and uw_score > -1e30) else False
                     k_results[f"k_mult={mult:.1f}"] = {
                         "k_budget": k_clamped,
                         "n_shift_edits": n_shift,
                         "dp_score": round(score, 6) if score > -1e30 else None,
                         "detected": score > DETECTION_THRESHOLD if score > -1e30 else False,
+                        "beats_unwatermarked": beats_uw,
                     }
 
                 eps_key = f"eps={epsilon:.2f}"
@@ -408,7 +468,15 @@ def main():
     # ------------------------------------------------------------------
     # Summarize
     # ------------------------------------------------------------------
+    # Aggregate unwatermarked scores
+    uw_scores_all = [r["unwatermarked_score"] for r in all_results if r.get("unwatermarked_score") is not None]
+    avg_uw = sum(uw_scores_all) / len(uw_scores_all) if uw_scores_all else None
+    uw_detected = sum(1 for s in uw_scores_all if s > DETECTION_THRESHOLD)
     print("\n=== Summary (detection rate @ tau=1.19) ===")
+    if avg_uw is not None:
+        print(f"  {'unwmk':6s}  (null baseline)              "
+              f"det={uw_detected}/{len(uw_scores_all)} ({100*uw_detected/len(uw_scores_all):.1f}%)"
+              f"  avg_score={avg_uw:.3f}")
     summary = {}
     for edit_type in EDIT_TYPES:
         summary[edit_type] = {}
@@ -418,11 +486,14 @@ def main():
             for mult in K_MULTIPLIERS:
                 mk = f"k_mult={mult:.1f}"
                 detected = 0
+                beats_uw = 0
                 scores = []
                 for r in all_results:
                     rec = r["edits"].get(edit_type, {}).get(eps_key, {}).get("k_results", {}).get(mk, {})
                     if rec.get("detected", False):
                         detected += 1
+                    if rec.get("beats_unwatermarked", False):
+                        beats_uw += 1
                     if rec.get("dp_score") is not None:
                         scores.append(rec["dp_score"])
                 det_rate = detected / len(all_results) if all_results else 0
@@ -431,11 +502,13 @@ def main():
                     "detection_rate": round(det_rate, 4),
                     "avg_score": round(avg_sc, 4) if avg_sc is not None else None,
                     "n_detected": detected,
+                    "n_beats_unwatermarked": beats_uw,
                     "n_total": len(all_results),
                 }
                 print(
                     f"  {edit_type:6s}  {eps_key}  {mk}  "
                     f"det={detected}/{len(all_results)} ({det_rate*100:.1f}%)"
+                    f"  beats_uw={beats_uw}/{len(all_results)}"
                     + (f"  avg_score={avg_sc:.3f}" if avg_sc else "")
                 )
 
