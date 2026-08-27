@@ -738,7 +738,8 @@ def apply_lrdwm_watermark(logits, x, block_mask, secret_key, gamma, delta, vocab
 def calculate_lrdwm_score(generated_tokens, secret_key=42, gamma=0.5, vocab_size=126464, mask_id=126336):
     """
     LR-DWM detection: s_i = m_L + m_R - 1 for interior positions with both neighbors.
-    Z = sum(s_i) / (sqrt(0.5) * sqrt(T)).  Returns (z_score, valid_positions).
+    Under the null, E[s_i] = 2*gamma - 1 and Var[s_i] = 2*gamma*(1-gamma);
+    Z = (sum(s_i) - T*E[s_i]) / sqrt(T*Var[s_i]).  Returns (z_score, valid_positions).
     """
     tokens = generated_tokens[0]
     k_L = int(secret_key)
@@ -765,8 +766,10 @@ def calculate_lrdwm_score(generated_tokens, secret_key=42, gamma=0.5, vocab_size
         count += 1
     if count == 0:
         return 0.0, 0
-    sigma = math.sqrt(0.5)
-    return float(total_score / (sigma * math.sqrt(count) + 1e-10)), count
+    mean = (2.0 * gamma - 1.0) * count
+    var = 2.0 * gamma * (1.0 - gamma)
+    z_score = (total_score - mean) / (math.sqrt(var * count) + 1e-10)
+    return float(z_score), count
 
 
 # ---------------------------------------------------------------------------

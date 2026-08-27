@@ -31,6 +31,7 @@ import math
 import argparse
 import datetime
 from pathlib import Path
+from tqdm import tqdm
 from transformers import AutoTokenizer, AutoModel, AutoModelForCausalLM
 
 from generate import (
@@ -54,8 +55,9 @@ WATERMARKED_CONFIGS = [
     ("dmark",   0.1,  4.0, 300,  "b=0.15/0.10"),
     ("dmark",   0.25, 4.0,  80,  "b=0.05"),
     ("dmark",   0.5,  8.0, 160,  "b=0.01"),
-    # LR-DWM (all betas share one config)
-    ("lrdwm",   0.9,  4.0, 300,  "all-b"),
+    # LR-DWM: only beta=0.15 is achievable after the z-score normalization fix
+    # (see calculate_lrdwm_score) -- no swept config clears beta=0.10/0.05/0.01.
+    ("lrdwm",   0.5,  8.0, 160,  "b=0.15"),
 ]
 
 # For soundness: unique (method, gamma) combos needed on no-watermark text
@@ -65,6 +67,7 @@ SOUNDNESS_DETECTORS = [
     ("dmark",   0.1),
     ("dmark",   0.25),
     ("dmark",   0.5),
+    ("lrdwm",   0.5),
     ("lrdwm",   0.9),
 ]
 
@@ -160,7 +163,9 @@ def run_config(
 
     seed = 42
     results = []
-    for idx, (entry, prompt_tokens) in enumerate(zip(entries, prompt_tokens_list)):
+    pbar = tqdm(list(enumerate(zip(entries, prompt_tokens_list))),
+                desc=f"{method} γ={gamma} δ={delta} t={tend}")
+    for idx, (entry, prompt_tokens) in pbar:
         if prompt_tokens is None:
             continue
         prompt_tensor = torch.tensor([prompt_tokens]).to(args.device)
@@ -211,9 +216,8 @@ def run_config(
             "_id": entry.get("_id", ""),
         })
 
-        if (idx + 1) % 100 == 0:
-            detected = sum(1 for r in results if r["watermark_metrics"]["z_score"] >= 4.0)
-            print(f"    {idx+1}/{len(entries)}: detected={detected}/{len(results)}")
+        detected = sum(1 for r in results if r["watermark_metrics"]["z_score"] >= 4.0)
+        pbar.set_postfix(detected=f"{detected}/{len(results)}")
 
     ppls = [r["perplexity"] for r in results if r["perplexity"] is not None]
     detected = sum(1 for r in results if r["watermark_metrics"]["z_score"] >= 4.0)
@@ -243,7 +247,8 @@ def run_config(
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(output_data, f, indent=2, ensure_ascii=False)
 
-    print(f"  completeness={completeness:.3f}  avg_ppl={avg_ppl:.1f if avg_ppl else 'N/A'}")
+    ppl_str = f"{avg_ppl:.1f}" if avg_ppl else "N/A"
+    print(f"  completeness={completeness:.3f}  avg_ppl={ppl_str}")
     return output_data
 
 
@@ -341,7 +346,8 @@ def run_no_watermark(
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(output_data, f, indent=2, ensure_ascii=False)
 
-    print(f"  avg_ppl={avg_ppl:.1f if avg_ppl else 'N/A'}")
+    ppl_str = f"{avg_ppl:.1f}" if avg_ppl else "N/A"
+    print(f"  avg_ppl={ppl_str}")
     print("  Soundness (P(z<4) on clean text):")
     for k, v in soundness.items():
         print(f"    {k}: {v:.4f}" if v is not None else f"    {k}: N/A")

@@ -28,8 +28,8 @@
       "perplexity": 7.105873107910156,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 16.97056274831714,
-        "length": 225
+        "z_score": -0.03149703941694226,
+        "length": 224
       },
       "generation_length": 300,
       "dataset": "longform_qa",
@@ -46,8 +46,8 @@
       "perplexity": 13.374898910522461,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 19.77669955051717,
-        "length": 297
+        "z_score": 0.43839729947494527,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -64,8 +64,8 @@
       "perplexity": 6.404124736785889,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 19.366394580589425,
-        "length": 297
+        "z_score": -0.24659848095465914,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "konwledge_understanding",
@@ -82,8 +82,8 @@
       "perplexity": 2.5387625694274902,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 17.807235694864005,
-        "length": 297
+        "z_score": -2.849582446587156,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -100,8 +100,8 @@
       "perplexity": 6.37949275970459,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 18.874028616676135,
-        "length": 297
+        "z_score": -1.0685934174701845,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -118,8 +118,8 @@
       "perplexity": 9.492555618286133,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 13.434627223289954,
-        "length": 139
+        "z_score": 0.12038585308335262,
+        "length": 138
       },
       "generation_length": 300,
       "dataset": "finance_qa",
@@ -138,8 +138,8 @@
       "perplexity": 8.231341361999512,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 18.066543664857942,
-        "length": 255
+        "z_score": 0.11831420125372955,
+        "length": 254
       },
       "generation_length": 300,
       "dataset": "longform_qa",
@@ -156,8 +156,8 @@
       "perplexity": 5.569828987121582,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 18.92404612935503,
-        "length": 251
+        "z_score": 1.6397831834754015,
+        "length": 250
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -174,8 +174,8 @@
       "perplexity": 3.3449923992156982,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 20.187004520444912,
-        "length": 297
+        "z_score": 1.1233930799045497,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "finance_qa",
@@ -192,8 +192,8 @@
       "perplexity": 10.288809776306152,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 18.463723646748395,
-        "length": 297
+        "z_score": -1.7535891978997888,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -210,8 +210,8 @@
       "perplexity": 9.788362503051758,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 11.423659658645862,
-        "length": 116
+        "z_score": -1.0989674556354905,
+        "length": 115
       },
       "generation_length": 300,
       "dataset": "finance_qa",
@@ -230,8 +230,8 @@
       "perplexity": 6.31551456451416,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 19.69463855653162,
-        "length": 297
+        "z_score": 0.3013981433890244,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "longform_qa",
@@ -248,8 +248,8 @@
       "perplexity": 15.716999053955078,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 11.716898663138425,
-        "length": 126
+        "z_score": -1.68654808538758,
+        "length": 125
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -266,8 +266,8 @@
       "perplexity": 12.240954399108887,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 18.463723646748395,
-        "length": 297
+        "z_score": -1.7535891978997888,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -284,8 +284,8 @@
       "perplexity": 6.03989315032959,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 18.79196762269059,
-        "length": 297
+        "z_score": -1.2055925735561053,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -302,8 +302,8 @@
       "perplexity": 10.749757766723633,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 19.858760544502715,
-        "length": 297
+        "z_score": 0.5753964555608662,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -320,8 +320,8 @@
       "perplexity": 5.024745464324951,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 19.448455574574975,
-        "length": 297
+        "z_score": -0.10959932486873826,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "finance_qa",
@@ -338,8 +338,8 @@
       "perplexity": 12.323790550231934,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 10.057728109944117,
-        "length": 76
+        "z_score": 0.27216552696850127,
+        "length": 75
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -356,8 +356,8 @@
       "perplexity": 4.1595282554626465,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 16.416095424052433,
-        "length": 254
+        "z_score": -2.726599243402504,
+        "length": 253
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -374,8 +374,8 @@
       "perplexity": 5.17013692855835,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 18.463723646748395,
-        "length": 297
+        "z_score": -1.7535891978997888,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -392,8 +392,8 @@
       "perplexity": 13.48044204711914,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 13.499311277024171,
-        "length": 121
+        "z_score": 1.7213259316107041,
+        "length": 120
       },
       "generation_length": 300,
       "dataset": "konwledge_understanding",
@@ -412,8 +412,8 @@
       "perplexity": 9.022737503051758,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 18.79196762269059,
-        "length": 297
+        "z_score": -1.2055925735561053,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "longform_qa",
@@ -430,8 +430,8 @@
       "perplexity": 6.908772945404053,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 19.448455574574975,
-        "length": 297
+        "z_score": -0.10959932486873826,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "konwledge_understanding",
@@ -448,8 +448,8 @@
       "perplexity": 7.297787666320801,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 19.69463855653162,
-        "length": 297
+        "z_score": 0.3013981433890244,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "konwledge_understanding",
@@ -466,8 +466,8 @@
       "perplexity": 7.174258232116699,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 19.940821538488265,
-        "length": 297
+        "z_score": 0.712395611646787,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -484,8 +484,8 @@
       "perplexity": 17.80206871032715,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 12.15648879306184,
-        "length": 91
+        "z_score": 2.2360679774442342,
+        "length": 90
       },
       "generation_length": 300,
       "dataset": "konwledge_understanding",
@@ -504,8 +504,8 @@
       "perplexity": 9.879448890686035,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 20.022882532473815,
-        "length": 297
+        "z_score": 0.849394767732708,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "longform_qa",
@@ -522,8 +522,8 @@
       "perplexity": 12.121700286865234,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 8.895322397795608,
-        "length": 71
+        "z_score": -1.126872339606276,
+        "length": 70
       },
       "generation_length": 300,
       "dataset": "konwledge_understanding",
@@ -540,8 +540,8 @@
       "perplexity": 6.795533180236816,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 18.381662652762845,
-        "length": 297
+        "z_score": -1.921236262356411,
+        "length": 295
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -558,8 +558,8 @@
       "perplexity": 3.8932125568389893,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 18.463723646748395,
-        "length": 297
+        "z_score": -1.7535891978997888,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -576,8 +576,8 @@
       "perplexity": 6.853320598602295,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 18.156871977135893,
-        "length": 250
+        "z_score": 0.4182366672787564,
+        "length": 249
       },
       "generation_length": 300,
       "dataset": "konwledge_understanding",
@@ -594,8 +594,8 @@
       "perplexity": 6.990121364593506,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 20.35112650841601,
-        "length": 297
+        "z_score": 1.3973913920763914,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -612,8 +612,8 @@
       "perplexity": 8.905633926391602,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 19.612577562546072,
-        "length": 297
+        "z_score": 0.3013981433890244,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "finance_qa",
@@ -630,8 +630,8 @@
       "perplexity": 14.606070518493652,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 11.441269809936902,
-        "length": 113
+        "z_score": -1.0245014273081448,
+        "length": 112
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -648,8 +648,8 @@
       "perplexity": 13.616279602050781,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 19.33524217846059,
-        "length": 283
+        "z_score": 0.4772194219309927,
+        "length": 282
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -666,8 +666,8 @@
       "perplexity": 5.525297164916992,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 21.33585843624259,
-        "length": 297
+        "z_score": 3.041381265107442,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -684,8 +684,8 @@
       "perplexity": 16.410160064697266,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 10.400417044303413,
-        "length": 83
+        "z_score": 0.10411584125635848,
+        "length": 82
       },
       "generation_length": 300,
       "dataset": "konwledge_understanding",
@@ -702,8 +702,8 @@
       "perplexity": 13.417384147644043,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 14.832829147126255,
-        "length": 156
+        "z_score": 1.1359236684726244,
+        "length": 155
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -722,8 +722,8 @@
       "perplexity": 10.39658260345459,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 14.914716909261484,
-        "length": 205
+        "z_score": -2.178324594512739,
+        "length": 204
       },
       "generation_length": 300,
       "dataset": "longform_qa",
@@ -742,8 +742,8 @@
       "perplexity": 8.377066612243652,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 16.39512122537536,
-        "length": 210
+        "z_score": 0.13043093014307564,
+        "length": 209
       },
       "generation_length": 300,
       "dataset": "longform_qa",
@@ -760,8 +760,8 @@
       "perplexity": 6.677847862243652,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 19.69463855653162,
-        "length": 297
+        "z_score": 0.3013981433890244,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -780,8 +780,8 @@
       "perplexity": 12.03402042388916,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 11.00838162565416,
-        "length": 103
+        "z_score": -0.8401680503972002,
+        "length": 102
       },
       "generation_length": 300,
       "dataset": "longform_qa",
@@ -798,8 +798,8 @@
       "perplexity": 12.366639137268066,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 10.955537847139478,
-        "length": 84
+        "z_score": 1.190097472718919,
+        "length": 83
       },
       "generation_length": 300,
       "dataset": "konwledge_understanding",
@@ -816,8 +816,8 @@
       "perplexity": 12.307497024536133,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 10.798027717766068,
-        "length": 77
+        "z_score": 1.6762880183058904,
+        "length": 76
       },
       "generation_length": 300,
       "dataset": "konwledge_understanding",
@@ -834,8 +834,8 @@
       "perplexity": 16.668384552001953,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 17.9713576828351,
-        "length": 297
+        "z_score": -2.575584134415314,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -852,8 +852,8 @@
       "perplexity": 7.427713394165039,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 20.022882532473815,
-        "length": 297
+        "z_score": 0.849394767732708,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -872,8 +872,8 @@
       "perplexity": 7.986263751983643,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 19.53051656856052,
-        "length": 297
+        "z_score": 0.02739983121718262,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "longform_qa",
@@ -890,8 +890,8 @@
       "perplexity": 6.960797309875488,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 19.448455574574975,
-        "length": 297
+        "z_score": -0.10959932486873826,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -908,8 +908,8 @@
       "perplexity": 9.433194160461426,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 10.998533626440205,
-        "length": 93
+        "z_score": 0.09829463743418056,
+        "length": 92
       },
       "generation_length": 300,
       "dataset": "finance_qa",
@@ -926,8 +926,8 @@
       "perplexity": 10.40095329284668,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 18.52540583826827,
-        "length": 257
+        "z_score": 0.9684959969439736,
+        "length": 258
       },
       "generation_length": 300,
       "dataset": "konwledge_understanding",
@@ -944,8 +944,8 @@
       "perplexity": 9.239941596984863,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 17.20156155123558,
-        "length": 207
+        "z_score": 1.5108382264937699,
+        "length": 206
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -962,8 +962,8 @@
       "perplexity": 5.779521465301514,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 17.314869730950715,
-        "length": 297
+        "z_score": -3.5345782270167603,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "finance_qa",
@@ -980,8 +980,8 @@
       "perplexity": 5.79606294631958,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 20.515248496387105,
-        "length": 297
+        "z_score": 1.6713897042482333,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "finance_qa",
@@ -998,8 +998,8 @@
       "perplexity": 10.116364479064941,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 20.104943526459362,
-        "length": 297
+        "z_score": 0.9863939238186288,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "finance_qa",
@@ -1018,8 +1018,8 @@
       "perplexity": 10.230672836303711,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 18.874028616676135,
-        "length": 297
+        "z_score": -0.9315942613842636,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "longform_qa",
@@ -1036,8 +1036,8 @@
       "perplexity": 17.526765823364258,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 8.24195514176452,
-        "length": 57
+        "z_score": -0.5669467094959851,
+        "length": 56
       },
       "generation_length": 300,
       "dataset": "finance_qa",
@@ -1054,8 +1054,8 @@
       "perplexity": 23.873414993286133,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 19.940821538488265,
-        "length": 297
+        "z_score": 0.712395611646787,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -1072,8 +1072,8 @@
       "perplexity": 3.6019887924194336,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 19.53051656856052,
-        "length": 297
+        "z_score": 0.02739983121718262,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "finance_qa",
@@ -1090,8 +1090,8 @@
       "perplexity": 12.66178035736084,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 20.515248496387105,
-        "length": 297
+        "z_score": 1.6713897042482333,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -1108,8 +1108,8 @@
       "perplexity": 9.216090202331543,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 21.582041418199232,
-        "length": 297
+        "z_score": 3.2716515253629037,
+        "length": 294
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -1126,8 +1126,8 @@
       "perplexity": 8.105668067932129,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 16.608988246147895,
-        "length": 212
+        "z_score": 0.19471695340133283,
+        "length": 211
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -1144,8 +1144,8 @@
       "perplexity": 6.923122406005859,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 18.381662652762845,
-        "length": 297
+        "z_score": -1.7535891978997888,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "finance_qa",
@@ -1162,8 +1162,8 @@
       "perplexity": 4.207869529724121,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 18.70990662870504,
-        "length": 297
+        "z_score": -1.3425917296420262,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -1180,8 +1180,8 @@
       "perplexity": 20.119728088378906,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 10.37749043310157,
-        "length": 91
+        "z_score": -0.7453559924814114,
+        "length": 90
       },
       "generation_length": 300,
       "dataset": "konwledge_understanding",
@@ -1198,8 +1198,8 @@
       "perplexity": 23.198238372802734,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 10.775989570145525,
-        "length": 82
+        "z_score": 0.8380524813843315,
+        "length": 81
       },
       "generation_length": 300,
       "dataset": "konwledge_understanding",
@@ -1218,8 +1218,8 @@
       "perplexity": 8.554340362548828,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 14.379918333473544,
-        "length": 156
+        "z_score": 0.37864122282420815,
+        "length": 155
       },
       "generation_length": 300,
       "dataset": "longform_qa",
@@ -1236,8 +1236,8 @@
       "perplexity": 9.813894271850586,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 19.940821538488265,
-        "length": 297
+        "z_score": 0.712395611646787,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -1256,8 +1256,8 @@
       "perplexity": 6.655351638793945,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 19.448455574574975,
-        "length": 297
+        "z_score": -0.10959932486873826,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "longform_qa",
@@ -1274,8 +1274,8 @@
       "perplexity": 14.251729011535645,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 12.624999999842185,
-        "length": 128
+        "z_score": -0.33464309606668724,
+        "length": 127
       },
       "generation_length": 300,
       "dataset": "finance_qa",
@@ -1292,8 +1292,8 @@
       "perplexity": 4.161702632904053,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 18.874028616676135,
-        "length": 297
+        "z_score": -1.0685934174701845,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -1310,8 +1310,8 @@
       "perplexity": 20.2185001373291,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 11.784767029567943,
-        "length": 109
+        "z_score": -0.09072184232324657,
+        "length": 108
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -1328,8 +1328,8 @@
       "perplexity": 10.480989456176758,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 10.119288512378814,
-        "length": 80
+        "z_score": -0.05303715227697629,
+        "length": 79
       },
       "generation_length": 300,
       "dataset": "konwledge_understanding",
@@ -1346,8 +1346,8 @@
       "perplexity": 6.323152542114258,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 18.627845634719492,
-        "length": 297
+        "z_score": -1.4795908857279472,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "finance_qa",
@@ -1364,8 +1364,8 @@
       "perplexity": 11.550288200378418,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 19.448455574574975,
-        "length": 297
+        "z_score": -0.10959932486873826,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "finance_qa",
@@ -1384,8 +1384,8 @@
       "perplexity": 8.347864151000977,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 17.396930724936265,
-        "length": 297
+        "z_score": -3.5345782270167603,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "longform_qa",
@@ -1402,8 +1402,8 @@
       "perplexity": 9.613811492919922,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 21.417919430228135,
-        "length": 297
+        "z_score": 3.178380421193363,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -1420,8 +1420,8 @@
       "perplexity": 9.201513290405273,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 20.35112650841601,
-        "length": 297
+        "z_score": 1.3973913920763914,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "finance_qa",
@@ -1438,8 +1438,8 @@
       "perplexity": 15.312100410461426,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 12.450604156246499,
-        "length": 114
+        "z_score": 0.7982281262675869,
+        "length": 113
       },
       "generation_length": 300,
       "dataset": "konwledge_understanding",
@@ -1456,8 +1456,8 @@
       "perplexity": 29.902177810668945,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 2.8867513457814624,
-        "length": 6
+        "z_score": 0.0,
+        "length": 5
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -1474,8 +1474,8 @@
       "perplexity": 8.363641738891602,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 19.65702359224142,
-        "length": 281
+        "z_score": 1.1268723396221492,
+        "length": 280
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -1492,8 +1492,8 @@
       "perplexity": 6.634982585906982,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 19.448455574574975,
-        "length": 297
+        "z_score": -0.10959932486873826,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -1512,8 +1512,8 @@
       "perplexity": 5.946169853210449,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 17.889296688849555,
-        "length": 297
+        "z_score": -2.712583290501235,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "longform_qa",
@@ -1530,8 +1530,8 @@
       "perplexity": 12.107203483581543,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 19.69463855653162,
-        "length": 297
+        "z_score": 0.43839729947494527,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -1548,8 +1548,8 @@
       "perplexity": 10.37905502319336,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 19.858760544502715,
-        "length": 297
+        "z_score": 0.5753964555608662,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -1566,8 +1566,8 @@
       "perplexity": 3.3909378051757812,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 19.69463855653162,
-        "length": 297
+        "z_score": 0.3013981433890244,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "finance_qa",
@@ -1586,8 +1586,8 @@
       "perplexity": 6.24617862701416,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 19.858760544502715,
-        "length": 297
+        "z_score": 0.5753964555608662,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "longform_qa",
@@ -1604,8 +1604,8 @@
       "perplexity": 12.62431526184082,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 19.28433358660388,
-        "length": 297
+        "z_score": -0.38359763704058003,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -1622,8 +1622,8 @@
       "perplexity": 7.879401206970215,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 18.86420303173116,
-        "length": 282
+        "z_score": -0.2530947243622016,
+        "length": 281
       },
       "generation_length": 300,
       "dataset": "konwledge_understanding",
@@ -1640,8 +1640,8 @@
       "perplexity": 5.893936634063721,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 19.120211598632782,
-        "length": 297
+        "z_score": -0.5205967931265009,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "finance_qa",
@@ -1660,8 +1660,8 @@
       "perplexity": 7.018186092376709,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 18.1354796708062,
-        "length": 297
+        "z_score": -2.3015858222434726,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "longform_qa",
@@ -1678,8 +1678,8 @@
       "perplexity": 5.827982425689697,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 20.35112650841601,
-        "length": 297
+        "z_score": 1.3973913920763914,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "finance_qa",
@@ -1696,8 +1696,8 @@
       "perplexity": 25.567062377929688,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 8.771855820892176,
-        "length": 55
+        "z_score": 0.5773502691711063,
+        "length": 54
       },
       "generation_length": 300,
       "dataset": "konwledge_understanding",
@@ -1714,8 +1714,8 @@
       "perplexity": 7.029287815093994,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 19.612577562546072,
-        "length": 297
+        "z_score": 0.1643989873031035,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -1732,8 +1732,8 @@
       "perplexity": 8.551567077636719,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 20.104943526459362,
-        "length": 297
+        "z_score": 0.9863939238186288,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -1750,8 +1750,8 @@
       "perplexity": 6.366016864776611,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 17.62434087557758,
-        "length": 230
+        "z_score": 0.747630901613949,
+        "length": 229
       },
       "generation_length": 300,
       "dataset": "konwledge_understanding",
@@ -1768,8 +1768,8 @@
       "perplexity": 18.17704963684082,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 20.187004520444912,
-        "length": 297
+        "z_score": 1.1233930799045497,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -1786,8 +1786,8 @@
       "perplexity": 6.248180389404297,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 21.007614460300395,
-        "length": 297
+        "z_score": 2.4933846407637588,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -1804,8 +1804,8 @@
       "perplexity": 5.384503364562988,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 20.104943526459362,
-        "length": 297
+        "z_score": 0.9863939238186288,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -1822,8 +1822,8 @@
       "perplexity": 10.620025634765625,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 19.120211598632782,
-        "length": 297
+        "z_score": -0.6575959492124218,
+        "length": 296
       },
       "generation_length": 300,
       "dataset": "alpacafarm",
@@ -1842,12 +1842,13 @@
       "perplexity": 8.082478523254395,
       "watermark_type": "lrdwm",
       "watermark_metrics": {
-        "z_score": 19.573329855420123,
-        "length": 269
+        "z_score": 1.6701456227665825,
+        "length": 268
       },
       "generation_length": 300,
       "dataset": "longform_qa",
       "_id": "dd5d2f7d32c189dea9697273fa04a56626f0aa0e0c219d5801e24948444d811b"
     }
-  ]
+  ],
+  "z_score_fix_applied": true
 }
