@@ -44,6 +44,7 @@ import os
 os.environ.setdefault("HF_HUB_OFFLINE", "1")
 os.environ.setdefault("TRANSFORMERS_OFFLINE", "1")
 
+import sys
 import math
 import json
 import random
@@ -51,6 +52,10 @@ import argparse
 import datetime
 import torch
 from pathlib import Path
+
+_DLM_WM_SRC = Path(__file__).resolve().parent.parent / "diffusion-lm-watermark" / "src"
+if _DLM_WM_SRC.is_dir() and str(_DLM_WM_SRC) not in sys.path:
+    sys.path.insert(0, str(_DLM_WM_SRC))
 from transformers import AutoTokenizer, AutoModel
 
 from generate import (
@@ -60,9 +65,10 @@ from generate import (
 from run_mixed_comparison import load_jsonl, format_prompt, trim_eos, apply_mixed_edits
 
 BEST_CONFIGS = {
-    "cdmark": dict(gamma=0.90, delta=2.0, tend=40),
-    "dmark":  dict(gamma=0.10, delta=4.0, tend=300),
-    "lrdwm":  dict(gamma=0.50, delta=8.0, tend=160),
+    "cdmark":   dict(gamma=0.90, delta=2.0,  tend=40),
+    "dmark":    dict(gamma=0.10, delta=4.0,  tend=300),
+    "lrdwm":    dict(gamma=0.50, delta=8.0,  tend=160),
+    "gloaguen": dict(gamma=0.10, delta=8.0,  tend=300),
 }
 EDIT_TYPES = ["del", "ins", "sub", "mixed"]
 EDIT_TYPE_LABELS = {"del": "Deletion", "ins": "Insertion", "sub": "Substitution", "mixed": "Mixed"}
@@ -83,7 +89,8 @@ def eps_for_edit_type(edit_type, eps):
     raise ValueError(f"Unknown edit_type: {edit_type}")
 
 
-def compute_score(method, gamma, tokens_list, seed, vocab_size, mask_id, device):
+def compute_score(method, gamma, tokens_list, seed, vocab_size, mask_id, device,
+                  gloaguen_wm=None):
     if not tokens_list:
         return 0.0, 0
     t = torch.tensor(tokens_list, dtype=torch.long, device=device).unsqueeze(0)
@@ -94,13 +101,18 @@ def compute_score(method, gamma, tokens_list, seed, vocab_size, mask_id, device)
                                       variant="predictive_bidirectional", mask_id=mask_id)
     elif method == "lrdwm":
         z, n = calculate_lrdwm_score(t, secret_key=seed, gamma=gamma, vocab_size=vocab_size, mask_id=mask_id)
+    elif method == "gloaguen":
+        result = gloaguen_wm.detect(t[0])
+        z = float(result.get("binomial_z_score", result.get("z_score", 0.0)))
+        n = len(tokens_list)
     else:
         raise ValueError(f"Unknown method: {method}")
     return float(z), int(n)
 
 
 def generate_corpus(model, tokenizer, entries, prompt_tokens_list, args, special_token_ids,
-                     watermark_type, gamma=None, delta=None, tend=None, seed=None, label=""):
+                     watermark_type, gamma=None, delta=None, tend=None, seed=None, label="",
+                     gloaguen_wm=None):
     print(f"\n=== Generating {len(entries)} '{label}' sequences ===")
     samples = []
     for idx, (entry, ptoks) in enumerate(zip(entries, prompt_tokens_list)):
@@ -123,6 +135,9 @@ def generate_corpus(model, tokenizer, entries, prompt_tokens_list, args, special
         elif watermark_type == "lrdwm":
             gen_kwargs.update(watermark_type="lrdwm", gamma=gamma, amplification=delta,
                                lrdwm_seed=seed, watermark_steps=tend)
+        elif watermark_type == "gloaguen":
+            gen_kwargs.update(watermark_type="gloaguen", watermark_steps=tend,
+                               gloaguen_watermark=gloaguen_wm)
         elif watermark_type is None:
             gen_kwargs.update(watermark_type=None)
         with torch.no_grad():
@@ -136,7 +151,7 @@ def generate_corpus(model, tokenizer, entries, prompt_tokens_list, args, special
 
 
 def run_grid_for_method(method, wm_samples, uw_samples, gamma, seed, vocab_size, mask_id,
-                         edit_seed, device):
+                         edit_seed, device, gloaguen_wm=None):
     n = min(len(wm_samples), len(uw_samples))
     rows = []
     for edit_type in EDIT_TYPES:
@@ -149,8 +164,10 @@ def run_grid_for_method(method, wm_samples, uw_samples, gamma, seed, vocab_size,
                 uw_tok = uw_samples[i]["tokens"]
                 wm_edit, *_ = apply_mixed_edits(wm_tok, eps_sub, eps_del, eps_ins, rng, vocab_size, mask_id)
                 uw_edit, *_ = apply_mixed_edits(uw_tok, eps_sub, eps_del, eps_ins, rng, vocab_size, mask_id)
-                z_wm, _ = compute_score(method, gamma, wm_edit, seed, vocab_size, mask_id, device)
-                z_uw, _ = compute_score(method, gamma, uw_edit, seed, vocab_size, mask_id, device)
+                z_wm, _ = compute_score(method, gamma, wm_edit, seed, vocab_size, mask_id, device,
+                                        gloaguen_wm=gloaguen_wm)
+                z_uw, _ = compute_score(method, gamma, uw_edit, seed, vocab_size, mask_id, device,
+                                        gloaguen_wm=gloaguen_wm)
                 wm_dets.append(z_wm >= Z_THRESH)
                 uw_dets.append(z_uw >= Z_THRESH)
             completeness = sum(wm_dets) / len(wm_dets) if wm_dets else float("nan")
@@ -185,6 +202,9 @@ def main():
     parser.add_argument("--mask_id", type=int, default=126336)
     parser.add_argument("--n_samples", type=int, default=100)
     parser.add_argument("--edit_seed", type=int, default=99)
+    parser.add_argument("--methods", nargs="+", default=list(BEST_CONFIGS.keys()),
+                        choices=list(BEST_CONFIGS.keys()),
+                        help="Which methods to run (default: all)")
     args = parser.parse_args()
 
     out_dir = Path(args.output_dir)
@@ -205,22 +225,43 @@ def main():
         prompt_tokens_list.append(tokenizer(text)["input_ids"] if text else None)
     print(f"Loaded {len(entries)} prompts")
 
+    gloaguen_wm = None
+    if "gloaguen" in args.methods:
+        from dlm_watermark.watermarks.diffusion_watermark import OurWatermark
+        gloaguen_cfg = BEST_CONFIGS["gloaguen"]
+        gloaguen_wm = OurWatermark(
+            delta=gloaguen_cfg["delta"],
+            enforce_kl=True,
+            topk=100,
+            n_iter=1,
+            seeding_scheme="sumhash",
+            tokenizer=tokenizer,
+            device=args.device,
+        )
+        print(f"Instantiated Gloaguen watermark (delta={gloaguen_cfg['delta']})")
+
     uw_samples = generate_corpus(model, tokenizer, entries, prompt_tokens_list, args,
                                   special_token_ids, watermark_type=None, label="no-watermark")
 
     wm_corpora = {}
     for method, cfg in BEST_CONFIGS.items():
+        if method not in args.methods:
+            continue
         wm_corpora[method] = generate_corpus(
             model, tokenizer, entries, prompt_tokens_list, args, special_token_ids,
             watermark_type=method, gamma=cfg["gamma"], delta=cfg["delta"], tend=cfg["tend"],
             seed=args.seed, label=f"{method} (gamma={cfg['gamma']} delta={cfg['delta']} tend={cfg['tend']})",
+            gloaguen_wm=gloaguen_wm,
         )
 
     all_results = {}
     for method, cfg in BEST_CONFIGS.items():
+        if method not in args.methods:
+            continue
         rows = run_grid_for_method(
             method, wm_corpora[method], uw_samples, cfg["gamma"], args.seed,
             args.vocab_size, args.mask_id, args.edit_seed, args.device,
+            gloaguen_wm=gloaguen_wm,
         )
         all_results[method] = {"config": cfg, "rows": rows}
         print_method_table(method, rows)

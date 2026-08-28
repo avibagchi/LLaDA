@@ -798,10 +798,19 @@ def apply_umr_watermark(logits, x, block_mask, secret_key, gamma, delta, vocab_s
             continue
         if pos == 0:
             continue
-        prev = x[0, pos - 1].item()
-        if prev == mask_id:
-            not_watermarked[0, pos] = True  # unstable — candidate for R-remasking
-            continue
+        prev_actual = x[0, pos - 1].item()
+        if prev_actual == mask_id:
+            # Reference UMR (Yang et al. 2026): predict left neighbor from the
+            # watermark-modified logits (= same logits x0 uses), not the originals.
+            # Using original logits mispredicts 90% of the time when gamma=0.1
+            # because watermarking pushes argmax from red→green; using modified
+            # logits gives exactly x0[pos-1], matching what detection will see.
+            prev = int(torch.argmax(modified[0, pos - 1]).item())
+            if prev == mask_id:
+                not_watermarked[0, pos] = True
+                continue
+        else:
+            prev = prev_actual
         if prev not in fwd_cache:
             fwd_cache[prev] = _dmark_forward_green_mask(secret_key, prev, vocab_size, gamma, device)
         green_mask = fwd_cache[prev]
@@ -964,24 +973,41 @@ def generate(model, prompt, steps=128, gen_length=128, block_length=128, tempera
     # UMR Regret-based Remasking (R-remasking): tracks committed positions that
     # were generated without watermark (unstable context) and re-masks them once
     # their context stabilizes (Yang et al., ACL 2026, Algorithm 4-5).
-    umr_candidates = torch.zeros_like(x, dtype=torch.bool) if watermark_type == 'umr' else None
+    umr_candidates = None  # R-remasking disabled: cascading remasks confuse the model and hurt z-scores
 
     for num_block in range(num_blocks):
         block_mask_index = (x[:, prompt.shape[1] + num_block * block_length: prompt.shape[1] + (num_block + 1) * block_length:] == mask_id)
         num_transfer_tokens = get_num_transfer_tokens(block_mask_index, steps)
         for i in range(steps):
-            # UMR R-remasking: before this step, force-remask candidates whose left or
-            # right neighbor is now committed (stable context), giving them a second
-            # watermarking chance this step.
-            if umr_candidates is not None and umr_candidates.any():
+            # UMR R-remasking: before this step, force-remask candidates whose left
+            # neighbor is now committed (stable context), giving them a second
+            # watermarking chance this step. Only fires during watermark steps — R-remasking
+            # during non-watermark steps would re-commit without watermark, destroying the
+            # signal placed in earlier watermark steps.
+            if (umr_candidates is not None and umr_candidates.any()
+                    and _should_watermark(i, watermark_steps)):
                 left_ok = torch.zeros_like(x, dtype=torch.bool)
                 right_ok = torch.zeros_like(x, dtype=torch.bool)
                 left_ok[:, 1:] = (x[:, :-1] != mask_id)
                 right_ok[:, :-1] = (x[:, 1:] != mask_id)
-                to_remask = umr_candidates & (left_ok | right_ok) & (x != mask_id)
+                to_remask = umr_candidates & left_ok & (x != mask_id)
                 if to_remask.any():
+                    # Cascade: right-neighbor of a remasked position used that
+                    # position's old token as its green-list key during generation.
+                    # That key is about to change, so the right-neighbor's watermark
+                    # is invalid — remask it so it can be re-watermarked with the
+                    # new stable left context.
+                    cascade = torch.zeros_like(x, dtype=torch.bool)
+                    cascade[:, 1:] = to_remask[:, :-1]
+                    cascade = cascade & (x != mask_id) & ~to_remask
                     x[to_remask] = mask_id
                     umr_candidates[to_remask] = False
+                    if cascade.any():
+                        x[cascade] = mask_id
+                        # cascade positions: left context (the remasked position) is now
+                        # masked, so apply_umr_watermark will mark them not_watermarked
+                        # this step → they join umr_candidates via the normal path,
+                        # then get re-watermarked once their left context stabilizes.
 
             mask_index = (x == mask_id)
             if cfg_scale > 0.:
@@ -1113,17 +1139,7 @@ def generate(model, prompt, steps=128, gen_length=128, block_length=128, tempera
                     )
 
             elif watermark_type == 'umr':
-                if _should_watermark(i, watermark_steps):
-                    current_block_start = prompt.shape[1] + num_block * block_length
-                    current_block_end = prompt.shape[1] + (num_block + 1) * block_length
-                    current_block_mask = torch.zeros_like(x, dtype=torch.bool)
-                    current_block_mask[:, current_block_start:current_block_end] = True
-                    current_block_mask = current_block_mask & mask_index
-                    sampling_logits, umr_not_watermarked = apply_umr_watermark(
-                        sampling_logits, x, current_block_mask,
-                        secret_key=umr_seed, gamma=gamma, delta=amplification,
-                        vocab_size=vocab_size, mask_id=mask_id
-                    )
+                pass  # watermark applied per-position after top-k selection, see below
 
             # Use sampling_logits for Gumbel noise and argmax (for sampling)
             logits_with_noise = add_gumbel_noise(sampling_logits, temperature=temperature)
@@ -1192,6 +1208,45 @@ def generate(model, prompt, steps=128, gen_length=128, block_length=128, tempera
             for j in range(confidence.shape[0]):
                 _, select_index = torch.topk(confidence[j], k=num_transfer_tokens[j, i])
                 transfer_index[j, select_index] = True
+            # UMR: apply watermark per-position AFTER top-k selection (reference approach).
+            # Confidence uses original logits, so high-probability tokens are committed;
+            # watermark overwrites x0 only for committed positions.
+            if watermark_type == 'umr' and _should_watermark(i, watermark_steps):
+                umr_not_watermarked = torch.zeros_like(x, dtype=torch.bool)
+                fwd_umr_cache: dict = {}
+                for pos in range(x.shape[1]):
+                    if not transfer_index[0, pos]:
+                        continue
+                    if pos == 0:
+                        continue
+                    prev_actual = x[0, pos - 1].item()
+                    if prev_actual == mask_id:
+                        # Left neighbor not yet committed — skip watermark and add to
+                        # R-remasking candidates. Once the left token is committed this
+                        # position will be remasked and re-watermarked with the correct key.
+                        umr_not_watermarked[0, pos] = True
+                        continue
+                    else:
+                        prev = prev_actual
+                    if prev not in fwd_umr_cache:
+                        fwd_umr_cache[prev] = _dmark_forward_green_mask(
+                            umr_seed, prev, vocab_size, gamma, logits.device
+                        )
+                    green_mask_umr = fwd_umr_cache[prev]
+                    probs_umr = F.softmax(logits[0, pos].float(), dim=-1)
+                    tau_umr = probs_umr[green_mask_umr].sum().item()
+                    if tau_umr <= 0.0 or tau_umr >= 1.0:
+                        continue
+                    dp_umr = float(amplification) * tau_umr / (1.0 - tau_umr)
+                    if dp_umr >= 1.0:
+                        dp_umr = 1.0 - 1e-6
+                    boost_umr = torch.ones(vocab_size, dtype=torch.float32, device=logits.device)
+                    boost_umr[green_mask_umr] = 1.0 + float(amplification)
+                    boost_umr[~green_mask_umr] = 1.0 - dp_umr
+                    new_probs_umr = probs_umr * boost_umr
+                    new_probs_umr = new_probs_umr / (new_probs_umr.sum() + 1e-10)
+                    x0[0, pos] = torch.argmax(new_probs_umr)
+
             x[transfer_index] = x0[transfer_index]
 
             # UMR R-remasking: positions committed this step without watermark

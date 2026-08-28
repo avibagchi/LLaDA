@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-08-24T20:53:40.983263",
+  "timestamp": "2026-08-27T18:07:45.672916",
   "config": {
     "jsonl_file": "water-bench-sampled_100_seed43.jsonl",
     "output_dir": "water-bench-results/json-outputs",
@@ -13,7 +13,10 @@
     "vocab_size": 126464,
     "mask_id": 126336,
     "n_samples": 100,
-    "edit_seed": 99
+    "edit_seed": 99,
+    "methods": [
+      "lrdwm"
+    ]
   },
   "best_configs": {
     "cdmark": {
@@ -34,248 +37,6 @@
   },
   "z_thresh": 4.0,
   "results": {
-    "cdmark": {
-      "config": {
-        "gamma": 0.9,
-        "delta": 2.0,
-        "tend": 40
-      },
-      "rows": [
-        {
-          "edit_type": "del",
-          "eps": 0.05,
-          "completeness": 0.86,
-          "soundness": 0.03,
-          "n": 100
-        },
-        {
-          "edit_type": "del",
-          "eps": 0.1,
-          "completeness": 0.83,
-          "soundness": 0.01,
-          "n": 100
-        },
-        {
-          "edit_type": "del",
-          "eps": 0.2,
-          "completeness": 0.85,
-          "soundness": 0.03,
-          "n": 100
-        },
-        {
-          "edit_type": "del",
-          "eps": 0.3,
-          "completeness": 0.79,
-          "soundness": 0.02,
-          "n": 100
-        },
-        {
-          "edit_type": "ins",
-          "eps": 0.05,
-          "completeness": 0.86,
-          "soundness": 0.04,
-          "n": 100
-        },
-        {
-          "edit_type": "ins",
-          "eps": 0.1,
-          "completeness": 0.83,
-          "soundness": 0.03,
-          "n": 100
-        },
-        {
-          "edit_type": "ins",
-          "eps": 0.2,
-          "completeness": 0.82,
-          "soundness": 0.0,
-          "n": 100
-        },
-        {
-          "edit_type": "ins",
-          "eps": 0.3,
-          "completeness": 0.8,
-          "soundness": 0.01,
-          "n": 100
-        },
-        {
-          "edit_type": "sub",
-          "eps": 0.05,
-          "completeness": 0.86,
-          "soundness": 0.02,
-          "n": 100
-        },
-        {
-          "edit_type": "sub",
-          "eps": 0.1,
-          "completeness": 0.82,
-          "soundness": 0.03,
-          "n": 100
-        },
-        {
-          "edit_type": "sub",
-          "eps": 0.2,
-          "completeness": 0.7,
-          "soundness": 0.01,
-          "n": 100
-        },
-        {
-          "edit_type": "sub",
-          "eps": 0.3,
-          "completeness": 0.65,
-          "soundness": 0.01,
-          "n": 100
-        },
-        {
-          "edit_type": "mixed",
-          "eps": 0.05,
-          "completeness": 0.81,
-          "soundness": 0.02,
-          "n": 100
-        },
-        {
-          "edit_type": "mixed",
-          "eps": 0.1,
-          "completeness": 0.72,
-          "soundness": 0.0,
-          "n": 100
-        },
-        {
-          "edit_type": "mixed",
-          "eps": 0.2,
-          "completeness": 0.58,
-          "soundness": 0.0,
-          "n": 100
-        },
-        {
-          "edit_type": "mixed",
-          "eps": 0.3,
-          "completeness": 0.4,
-          "soundness": 0.0,
-          "n": 100
-        }
-      ]
-    },
-    "dmark": {
-      "config": {
-        "gamma": 0.1,
-        "delta": 4.0,
-        "tend": 300
-      },
-      "rows": [
-        {
-          "edit_type": "del",
-          "eps": 0.05,
-          "completeness": 0.85,
-          "soundness": 0.02,
-          "n": 100
-        },
-        {
-          "edit_type": "del",
-          "eps": 0.1,
-          "completeness": 0.87,
-          "soundness": 0.0,
-          "n": 100
-        },
-        {
-          "edit_type": "del",
-          "eps": 0.2,
-          "completeness": 0.83,
-          "soundness": 0.01,
-          "n": 100
-        },
-        {
-          "edit_type": "del",
-          "eps": 0.3,
-          "completeness": 0.76,
-          "soundness": 0.0,
-          "n": 100
-        },
-        {
-          "edit_type": "ins",
-          "eps": 0.05,
-          "completeness": 0.86,
-          "soundness": 0.02,
-          "n": 100
-        },
-        {
-          "edit_type": "ins",
-          "eps": 0.1,
-          "completeness": 0.89,
-          "soundness": 0.02,
-          "n": 100
-        },
-        {
-          "edit_type": "ins",
-          "eps": 0.2,
-          "completeness": 0.85,
-          "soundness": 0.0,
-          "n": 100
-        },
-        {
-          "edit_type": "ins",
-          "eps": 0.3,
-          "completeness": 0.83,
-          "soundness": 0.0,
-          "n": 100
-        },
-        {
-          "edit_type": "sub",
-          "eps": 0.05,
-          "completeness": 0.87,
-          "soundness": 0.02,
-          "n": 100
-        },
-        {
-          "edit_type": "sub",
-          "eps": 0.1,
-          "completeness": 0.83,
-          "soundness": 0.0,
-          "n": 100
-        },
-        {
-          "edit_type": "sub",
-          "eps": 0.2,
-          "completeness": 0.76,
-          "soundness": 0.01,
-          "n": 100
-        },
-        {
-          "edit_type": "sub",
-          "eps": 0.3,
-          "completeness": 0.68,
-          "soundness": 0.01,
-          "n": 100
-        },
-        {
-          "edit_type": "mixed",
-          "eps": 0.05,
-          "completeness": 0.84,
-          "soundness": 0.0,
-          "n": 100
-        },
-        {
-          "edit_type": "mixed",
-          "eps": 0.1,
-          "completeness": 0.74,
-          "soundness": 0.0,
-          "n": 100
-        },
-        {
-          "edit_type": "mixed",
-          "eps": 0.2,
-          "completeness": 0.44,
-          "soundness": 0.0,
-          "n": 100
-        },
-        {
-          "edit_type": "mixed",
-          "eps": 0.3,
-          "completeness": 0.18,
-          "soundness": 0.0,
-          "n": 100
-        }
-      ]
-    },
     "lrdwm": {
       "config": {
         "gamma": 0.5,
@@ -286,74 +47,74 @@
         {
           "edit_type": "del",
           "eps": 0.05,
-          "completeness": 0.85,
-          "soundness": 0.0,
-          "n": 100
-        },
-        {
-          "edit_type": "del",
-          "eps": 0.1,
-          "completeness": 0.81,
-          "soundness": 0.0,
-          "n": 100
-        },
-        {
-          "edit_type": "del",
-          "eps": 0.2,
-          "completeness": 0.69,
-          "soundness": 0.0,
-          "n": 100
-        },
-        {
-          "edit_type": "del",
-          "eps": 0.3,
-          "completeness": 0.6,
-          "soundness": 0.0,
-          "n": 100
-        },
-        {
-          "edit_type": "ins",
-          "eps": 0.05,
           "completeness": 0.83,
           "soundness": 0.0,
           "n": 100
         },
         {
-          "edit_type": "ins",
+          "edit_type": "del",
           "eps": 0.1,
-          "completeness": 0.82,
-          "soundness": 0.0,
-          "n": 100
-        },
-        {
-          "edit_type": "ins",
-          "eps": 0.2,
-          "completeness": 0.73,
+          "completeness": 0.8,
           "soundness": 0.01,
           "n": 100
         },
         {
-          "edit_type": "ins",
-          "eps": 0.3,
-          "completeness": 0.64,
+          "edit_type": "del",
+          "eps": 0.2,
+          "completeness": 0.74,
           "soundness": 0.0,
           "n": 100
         },
         {
-          "edit_type": "sub",
+          "edit_type": "del",
+          "eps": 0.3,
+          "completeness": 0.57,
+          "soundness": 0.0,
+          "n": 100
+        },
+        {
+          "edit_type": "ins",
           "eps": 0.05,
           "completeness": 0.82,
-          "soundness": 0.01,
+          "soundness": 0.0,
           "n": 100
         },
         {
-          "edit_type": "sub",
+          "edit_type": "ins",
           "eps": 0.1,
           "completeness": 0.81,
           "soundness": 0.0,
           "n": 100
         },
         {
+          "edit_type": "ins",
+          "eps": 0.2,
+          "completeness": 0.68,
+          "soundness": 0.01,
+          "n": 100
+        },
+        {
+          "edit_type": "ins",
+          "eps": 0.3,
+          "completeness": 0.7,
+          "soundness": 0.0,
+          "n": 100
+        },
+        {
+          "edit_type": "sub",
+          "eps": 0.05,
+          "completeness": 0.82,
+          "soundness": 0.0,
+          "n": 100
+        },
+        {
+          "edit_type": "sub",
+          "eps": 0.1,
+          "completeness": 0.76,
+          "soundness": 0.0,
+          "n": 100
+        },
+        {
           "edit_type": "sub",
           "eps": 0.2,
           "completeness": 0.64,
@@ -363,28 +124,28 @@
         {
           "edit_type": "sub",
           "eps": 0.3,
-          "completeness": 0.5,
+          "completeness": 0.47,
           "soundness": 0.0,
           "n": 100
         },
         {
           "edit_type": "mixed",
           "eps": 0.05,
-          "completeness": 0.72,
+          "completeness": 0.77,
           "soundness": 0.0,
           "n": 100
         },
         {
           "edit_type": "mixed",
           "eps": 0.1,
-          "completeness": 0.62,
+          "completeness": 0.59,
           "soundness": 0.0,
           "n": 100
         },
         {
           "edit_type": "mixed",
           "eps": 0.2,
-          "completeness": 0.21,
+          "completeness": 0.15,
           "soundness": 0.0,
           "n": 100
         },

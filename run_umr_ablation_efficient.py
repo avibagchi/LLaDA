@@ -90,7 +90,7 @@ def run_combination(model, tokenizer, entries, prompt_tokens_list,
                     gen_length, steps, temperature, block_length,
                     mask_id, vocab_size, device):
     results = []
-    for idx, (entry, prompt_tokens) in enumerate(zip(entries, prompt_tokens_list)):
+    for idx, (entry, prompt_tokens) in enumerate(tqdm(list(zip(entries, prompt_tokens_list)), desc="prompts", leave=False)):
         if prompt_tokens is None:
             continue
         prompt_tensor = torch.tensor([prompt_tokens]).to(device)
@@ -188,7 +188,7 @@ def main():
         print(f"Running {len(combos)} combinations")
 
     total = len(combos)
-    for combo_idx, (gamma, delta, tend) in enumerate(combos):
+    for combo_idx, (gamma, delta, tend) in enumerate(tqdm(combos, desc="configs")):
         out_name = f"umr_gamma={gamma}_delta={delta}_tend={tend}_sampled_100.json"
         out_path = output_dir / out_name
         print(f"\n[{combo_idx+1}/{total}] γ={gamma} δ={delta} t_end={tend} → {out_name}")
